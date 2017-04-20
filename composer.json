@@ -1,0 +1,42 @@
+{
+  "name": "povils/phpmnd",
+  "type": "application",
+  "description": "A tool to detect Magic numbers in codebase",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Povilas Susinskas",
+      "email": "povilassusinskas@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/povils/phpmnd/issues"
+  },
+  "config": {
+    "platform": {
+      "php": "5.6.0"
+    }
+  },
+  "require": {
+    "php": "^5.6|^7.0",
+    "symfony/console": "^2.4 || ^3.0",
+    "symfony/finder": "^2.2 || ^3.0",
+    "nikic/php-parser": "^3.0",
+    "jakub-onderka/php-console-highlighter": "^0.3.2",
+    "phpunit/php-timer": "^1.0.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.5 || ^5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Povils\\PHPMND\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Povils\\PHPMND\\Tests\\": "tests/"
+    }
+  },
+  "bin": ["phpmnd"]
+}
