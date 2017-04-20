@@ -67,4 +67,47 @@ Then make sure you have the global Composer binaries directory in your ``PATH``.
     
 ## Usage Example
 
+Basic usage:
 
+```
+$ phpmnd wordpress --ignore-numbers=2,-1 --exclude=tests --progress --extensions=default_parameter,assign
+```
+
+The ``--ignore-numbers`` option will exclude numbers code analysis.
+
+The ``--exclude`` option will  exclude a directory from code analysis (must be relative to source) (multiple values allowed)
+
+The ``--progress`` option will display progress bar.
+
+The ``--extensions`` option lets you extend code analysis (extensions must be separated by a comma):
+
+**By default it analyses conditions, return statements and switch cases.**
+
+Choose from the list of available extensions:
+
+* **argument**
+	```php
+		round($number, 4);
+	```
+* **array**
+ 	```php
+		$array = [200, 201];
+	```
+* **assign**
+    ```php
+		$var = 10;
+	```
+* **default_parameter**
+    ```php
+		function foo($default = 3);
+	```
+* **operation**
+    ```php
+		$bar = $foo * 20;
+	```
+* **property**
+    ```php
+		private $bar = 10;
+	```
+ 
+ I would recommend clean up code using default extension before using these extensions.
