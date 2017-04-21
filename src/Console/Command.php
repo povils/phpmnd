@@ -79,7 +79,7 @@ class Command extends BaseCommand
             exit(1);
         }
 
-       $progressBar = null;
+        $progressBar = null;
         if ($input->getOption('progress')) {
             $progressBar = new ProgressBar($output, $finder->count());
             $progressBar->start();
