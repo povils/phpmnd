@@ -79,6 +79,7 @@ class Command extends BaseCommand
             exit(1);
         }
 
+       $progressBar = null;
         if ($input->getOption('progress')) {
             $progressBar = new ProgressBar($output, $finder->count());
             $progressBar->start();
@@ -145,7 +146,7 @@ class Command extends BaseCommand
     private function castToNumber($value)
     {
         if (is_numeric($value)) {
-            $value += 0; // '2' => (int) 2 ; '2.' => (float) 2.0
+            $value += 0; // '2' -> (int) 2, '2.' -> (float) 2.0
         }
 
         return $value;
