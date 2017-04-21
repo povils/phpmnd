@@ -3,9 +3,11 @@
 namespace Povils\PHPMND\Visitor;
 
 use PhpParser\Node;
+use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
+use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Povils\PHPMND\Extension\Extension;
 use Povils\PHPMND\FileReport;
@@ -49,6 +51,10 @@ class DetectorVisitor extends NodeVisitorAbstract
      */
     public function enterNode(Node $node)
     {
+        if ($node instanceof Const_) {
+            return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+        }
+
         /** @var LNumber $node */
         if (($node instanceof LNumber || $node instanceof DNumber) && false === $this->ignoreNumber($node)) {
             foreach ($this->extensions as $extension) {

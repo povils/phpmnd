@@ -141,6 +141,14 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
             ],
             $fileReport->getEntries()
         );
+
+       $this->assertNotContains(
+          [
+             'line' => 40,
+             'value' => 21,
+          ],
+          $fileReport->getEntries()
+       );
     }
 
     public function testDetectWithIgnoreNumber()

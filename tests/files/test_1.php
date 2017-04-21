@@ -36,4 +36,6 @@ class TEST_1
 
       $value = $input * 15;
    }
+
+   const TEST_2 = 20 * 21;
 }

@@ -12,6 +12,11 @@ use PhpParser\Node\Expr\BinaryOp\Pow;
 use PhpParser\Node\Expr\BinaryOp\ShiftLeft;
 use PhpParser\Node\Expr\BinaryOp\ShiftRight;
 
+/**
+ * Class OperationExtension
+ *
+ * @package Povils\PHPMND\Extension
+ */
 class OperationExtension implements Extension
 {
     /**

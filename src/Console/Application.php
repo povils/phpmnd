@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Application extends BaseApplication
 {
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.1';
 
     public function __construct()
     {
