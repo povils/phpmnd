@@ -33,8 +33,8 @@ class Printer
      */
     public function printData(OutputInterface $output)
     {
-        $seperator = str_repeat('-', self::LINE_LENGTH);
-        $output->writeln(PHP_EOL . $seperator . PHP_EOL);
+        $separator = str_repeat('-', self::LINE_LENGTH);
+        $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
         foreach ($this->fileReports as $fileReport) {
             foreach ($fileReport->getEntries() as $entry) {
@@ -48,7 +48,7 @@ class Printer
                 $highlighter = new Highlighter(new ConsoleColor());
                 $output->writeln($highlighter->getCodeSnippet($fileReport->getFile()->getContents(), $entry['line'], 0, 0));
             }
-            $output->writeln($seperator . PHP_EOL);
+            $output->writeln($separator . PHP_EOL);
         }
     }
 }
