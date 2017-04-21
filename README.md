@@ -11,7 +11,7 @@ class Foo
     public function setPassword($password)
     {
          // don't do this
-         if ($password > 7) {
+         if (mb_strlen($password) > 7) {
               throw new InvalidArgumentException("password");
          }
     }
@@ -25,7 +25,7 @@ class Foo
     
     public function setPassword($password)
     {
-         if ($password > self::MAX_PASSWORD_LENGTH) {
+         if (mb_strlen($password) > self::MAX_PASSWORD_LENGTH) {
               throw new InvalidArgumentException("password");
          }
     }
