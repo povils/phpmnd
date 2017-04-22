@@ -51,6 +51,13 @@ class Command extends BaseCommand
                 [0, 1]
             )
             ->addOption(
+                'ignore-funcs',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'A comma-separated list of functions to ignore when using "argument" extension',
+                []
+            )
+            ->addOption(
                 'exclude',
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
@@ -85,14 +92,7 @@ class Command extends BaseCommand
             $progressBar->start();
         }
 
-        $detector = new Detector();
-        $extensions = $this->getCSVOption($input, 'extensions');
-        foreach ($extensions as $extensionName) {
-            $detector->addExtension(ExtensionFactory::create($extensionName));
-        }
-
-        $detector->setIgnoreNumbers($this->getCSVOption($input, 'ignore-numbers'));
-
+        $detector = new Detector($this->createOption($input));
 
         $printer = new Printer();
         foreach ($finder as $file) {
@@ -150,5 +150,23 @@ class Command extends BaseCommand
         }
 
         return $value;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return Option
+     * @throws \Exception
+     */
+    private function createOption(InputInterface $input)
+    {
+        $option = new Option;
+        $option->setIgnoreNumbers($this->getCSVOption($input, 'ignore-numbers'));
+        $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
+        $extensions = $this->getCSVOption($input, 'extensions');
+        foreach ($extensions as $extensionName) {
+            $option->addExtension(ExtensionFactory::create($extensionName));
+        }
+
+        return $option;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Povils\PHPMND\Tests;
 
+use Povils\PHPMND\Console\Option;
 use Povils\PHPMND\Detector;
 use Povils\PHPMND\Extension\ArgumentExtension;
 use Povils\PHPMND\Extension\ArrayExtension;
@@ -19,7 +20,7 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testDetectDefault()
     {
-        $detector = new Detector();
+        $detector = new Detector(new Option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertSame(
@@ -55,8 +56,9 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDetectWithAssignExtension()
     {
-        $detector = new Detector();
-        $detector->addExtension(new AssignExtension());
+        $option = new Option;
+        $option->addExtension(new AssignExtension());
+        $detector = new Detector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -70,8 +72,9 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDetectWithPropertyExtension()
     {
-        $detector = new Detector();
-        $detector->addExtension(new PropertyExtension());
+        $option = new Option;
+        $option->addExtension(new PropertyExtension());
+        $detector = new Detector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -85,8 +88,9 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDetectWithArrayExtension()
     {
-        $detector = new Detector();
-        $detector->addExtension(new ArrayExtension());
+        $option = new Option;
+        $option->addExtension(new ArrayExtension());
+        $detector = new Detector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -100,8 +104,10 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDetectWithArgumentExtension()
     {
-        $detector = new Detector();
-        $detector->addExtension(new ArgumentExtension());
+        $option = new Option;
+        $option->addExtension(new ArgumentExtension());
+        $detector = new Detector($option);
+
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -115,8 +121,10 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDetectWithDefaultParameterExtension()
     {
-        $detector = new Detector();
-        $detector->addExtension(new DefaultParameterExtension());
+        $option = new Option;
+        $option->addExtension(new DefaultParameterExtension());
+        $detector = new Detector($option);
+
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -130,8 +138,10 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDetectWithOperationExtension()
     {
-        $detector = new Detector();
-        $detector->addExtension(new OperationExtension());
+        $option = new Option;
+        $option->addExtension(new OperationExtension());
+        $detector = new Detector($option);
+
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -153,13 +163,34 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDetectWithIgnoreNumber()
     {
-        $detector = new Detector();
         $ignoreNumbers = [2, 10];
-        $detector->setIgnoreNumbers($ignoreNumbers);
+        $option = new Option;
+        $option->setIgnoreNumbers($ignoreNumbers);
+        $detector = new Detector($option);
+
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         foreach ($fileReport->getEntries() as $entry) {
             $this->assertFalse(in_array($entry['value'], $ignoreNumbers, true));
         }
+    }
+
+    public function testDetectWithIgnoreFuncs()
+    {
+        $ignoreFuncs = ['round'];
+        $option = new Option;
+        $option->addExtension(new ArgumentExtension());
+        $option->setIgnoreFuncs($ignoreFuncs);
+        $detector = new Detector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertNotContains(
+            [
+                'line' => 25,
+                'value' => 4,
+            ],
+            $fileReport->getEntries()
+        );
     }
 }

@@ -4,6 +4,7 @@ namespace Povils\PHPMND;
 
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
+use Povils\PHPMND\Console\Option;
 use Povils\PHPMND\Extension\DefaultExtension;
 use Povils\PHPMND\Extension\Extension;
 use Povils\PHPMND\Visitor\DetectorVisitor;
@@ -18,18 +19,11 @@ use Symfony\Component\Finder\SplFileInfo;
 class Detector
 {
     /**
-     * @var Extension[]
+     * @param Option $option
      */
-    private $extensions;
-
-    /**
-     * @var array
-     */
-    private $ignoreNumbers = [0, 0., 1];
-
-    public function __construct()
+    public function __construct(Option $option)
     {
-        $this->extensions[] = new DefaultExtension();
+        $this->option = $option;
     }
 
     /**
@@ -45,27 +39,11 @@ class Detector
         $fileReport = new FileReport($file);
 
         $traverser->addVisitor(new ParentConnectorVisitor());
-        $traverser->addVisitor(new DetectorVisitor($fileReport, $this->extensions, $this->ignoreNumbers));
+        $traverser->addVisitor(new DetectorVisitor($fileReport, $this->option));
 
         $stmts = $parser->parse($file->getContents());
         $traverser->traverse($stmts);
 
         return $fileReport;
-    }
-
-    /**
-     * @param Extension $extension
-     */
-    public function addExtension(Extension $extension)
-    {
-        $this->extensions[] = $extension;
-    }
-
-    /**
-     * @param array $ignoreNumbers
-     */
-    public function setIgnoreNumbers(array $ignoreNumbers)
-    {
-        $this->ignoreNumbers = array_merge($this->ignoreNumbers, $ignoreNumbers);
     }
 }

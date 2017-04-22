@@ -74,10 +74,12 @@ Then make sure you have the global Composer binaries directory in your ``PATH``.
 Basic usage:
 
 ```
-$ phpmnd wordpress --ignore-numbers=2,-1 --exclude=tests --progress --extensions=default_parameter,assign
+$ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress --extensions=default_parameter,assign,argument
 ```
 
 The ``--ignore-numbers`` option will exclude numbers from code analysis.
+
+The ``--ignore-funcs`` option will exclude functions from code analysis when using "argument" extension.
 
 The ``--exclude`` option will  exclude a directory from code analysis (must be relative to source) (multiple values allowed)
 
