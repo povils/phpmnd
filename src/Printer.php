@@ -36,8 +36,11 @@ class Printer
         $separator = str_repeat('-', self::LINE_LENGTH);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
+        $total = 0;
         foreach ($this->fileReports as $fileReport) {
-            foreach ($fileReport->getEntries() as $entry) {
+            $entries = $fileReport->getEntries();
+            $total += count($entries);
+            foreach ($entries as $entry) {
                 $output->writeln(sprintf(
                     '%s:%d. Magic number: %s',
                     $fileReport->getFile()->getRelativePathname(),
@@ -50,5 +53,6 @@ class Printer
             }
             $output->writeln($separator . PHP_EOL);
         }
+        $output->writeln('<info>Total of Magic Numbers: ' . $total . '</info>');
     }
 }
