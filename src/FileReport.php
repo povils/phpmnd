@@ -2,7 +2,6 @@
 
 namespace Povils\PHPMND;
 
-use SplFileObject;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**

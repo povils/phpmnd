@@ -9,7 +9,9 @@ use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
+use Povils\PHPMND\Console\Option;
 use Povils\PHPMND\Extension\Extension;
+use Povils\PHPMND\Extension\FunctionAwareExtension;
 use Povils\PHPMND\FileReport;
 
 /**
@@ -25,25 +27,18 @@ class DetectorVisitor extends NodeVisitorAbstract
     private $fileReport;
 
     /**
-     * @var Extension[]
+     * @var Option
      */
-    private $extensions;
-
-    /**
-     * @var array
-     */
-    private $ignoreNumbers;
+    private $option;
 
     /**
      * @param FileReport $fileReport
-     * @param Extension[] $extensions
-     * @param array $ignoreNumbers
+     * @param Option $option
      */
-    public function __construct(FileReport $fileReport, array $extensions, array $ignoreNumbers)
+    public function __construct(FileReport $fileReport, Option $option)
     {
         $this->fileReport = $fileReport;
-        $this->extensions = $extensions;
-        $this->ignoreNumbers = $ignoreNumbers;
+        $this->option = $option;
     }
 
     /**
@@ -56,9 +51,9 @@ class DetectorVisitor extends NodeVisitorAbstract
         }
 
         /** @var LNumber $node */
-        if (($node instanceof LNumber || $node instanceof DNumber) && false === $this->ignoreNumber($node)) {
-            foreach ($this->extensions as $extension) {
-                if ($extension->extend($node)) {
+        if ($this->isNumber($node) && false === $this->ignoreNumber($node)) {
+            foreach ($this->option->getExtensions() as $extension) {
+                if ($extension->extend($node) && false == $this->ignoreFunc($node, $extension)) {
                     $this->fileReport->addEntry($node->getLine(), $node->value);
 
                     return null;
@@ -70,12 +65,37 @@ class DetectorVisitor extends NodeVisitorAbstract
     }
 
     /**
+     * @param Node $node
+     *
+     * @return bool
+     */
+    protected function isNumber(Node $node)
+    {
+        return $node instanceof LNumber || $node instanceof DNumber;
+    }
+
+    /**
      * @param LNumber|DNumber|Scalar $node
      *
      * @return bool
      */
     private function ignoreNumber(Scalar $node)
     {
-        return in_array($node->value, $this->ignoreNumbers, true);
+        return in_array($node->value, $this->option->getIgnoreNumbers(), true);
+    }
+
+    /**
+     * @param Node      $node
+     * @param Extension $extension
+     *
+     * @return bool
+     */
+    private function ignoreFunc(Node $node, Extension $extension)
+    {
+        if ($extension instanceof FunctionAwareExtension) {
+            return $extension->ignoreFunc($node, $this->option->getIgnoreFuncs());
+        }
+
+        return false;
     }
 }
