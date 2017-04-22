@@ -40,7 +40,7 @@ class Printer
         foreach ($this->fileReports as $fileReport) {
             $entries = $fileReport->getEntries();
             $total += count($entries);
-            foreach ($fileReport->getEntries() as $entry) {
+            foreach ($entries as $entry) {
                 $output->writeln(sprintf(
                     '%s:%d. Magic number: %s',
                     $fileReport->getFile()->getRelativePathname(),
