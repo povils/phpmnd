@@ -64,6 +64,18 @@ class Command extends BaseCommand
                 'Exclude a directory from code analysis (must be relative to source)'
             )
             ->addOption(
+               'exclude-path',
+               null,
+               InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+               'Exclude a path from code analysis (must be relative to source)'
+            )
+            ->addOption(
+               'exclude-file',
+               null,
+               InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+               'Exclude a file from code analysis (must be relative to source)'
+            )
+            ->addOption(
                 'progress',
                 null,
                 InputOption::VALUE_NONE,
@@ -80,6 +92,14 @@ class Command extends BaseCommand
         $finder
             ->in($input->getArgument('directory'))
             ->exclude(array_merge(['vendor'], $input->getOption('exclude')));
+
+        foreach ($input->getOption('exclude-path') as $notPath) {
+            $finder->notPath($notPath);
+        }
+
+        foreach ($input->getOption('exclude-file') as $notName) {
+            $finder->notName($notName);
+        }
 
         if (0 === $finder->count()) {
             $output->writeln('No files found to scan');
