@@ -12,9 +12,9 @@ use Symfony\Component\Finder\Finder;
  */
 class PHPFinder extends Finder
 {
-   /**
-    * @param InputInterface $input
-    */
+    /**
+     * @param InputInterface $input
+     */
     public function __construct(InputInterface $input)
     {
         parent::__construct();

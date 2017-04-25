@@ -5,8 +5,6 @@ namespace Povils\PHPMND;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use Povils\PHPMND\Console\Option;
-use Povils\PHPMND\Extension\DefaultExtension;
-use Povils\PHPMND\Extension\Extension;
 use Povils\PHPMND\Visitor\DetectorVisitor;
 use Povils\PHPMND\Visitor\ParentConnectorVisitor;
 use Symfony\Component\Finder\SplFileInfo;

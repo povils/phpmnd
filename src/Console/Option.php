@@ -38,7 +38,7 @@ class Option
         $this->extensions[] = $extension;
     }
 
-    /**]
+    /**
      * @return Extension[]
      */
     public function getExtensions()

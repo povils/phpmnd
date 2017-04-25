@@ -50,6 +50,7 @@ class DetectorVisitor extends NodeVisitorAbstract
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
+        /** @var LNumber|DNumber|Node $node */
         if ($this->isNumber($node) && false === $this->ignoreNumber($node)) {
             foreach ($this->option->getExtensions() as $extension) {
                 if ($extension->extend($node) && false === $this->ignoreFunc($node, $extension)) {
@@ -74,11 +75,11 @@ class DetectorVisitor extends NodeVisitorAbstract
     }
 
     /**
-     * @param LNumber|DNumber|Scalar $node
+     * @param LNumber|DNumber|Node $node
      *
      * @return bool
      */
-    private function ignoreNumber(Scalar $node)
+    private function ignoreNumber(Node $node)
     {
         return in_array($node->value, $this->option->getIgnoreNumbers(), true);
     }

@@ -64,16 +64,16 @@ class Command extends BaseCommand
                 'Exclude a directory from code analysis (must be relative to source)'
             )
             ->addOption(
-               'exclude-path',
-               null,
-               InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-               'Exclude a path from code analysis (must be relative to source)'
+                'exclude-path',
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Exclude a path from code analysis (must be relative to source)'
             )
             ->addOption(
-               'exclude-file',
-               null,
-               InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-               'Exclude a file from code analysis (must be relative to source)'
+                'exclude-file',
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Exclude a file from code analysis (must be relative to source)'
             )
             ->addOption(
                 'progress',
