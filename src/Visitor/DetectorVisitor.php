@@ -50,10 +50,9 @@ class DetectorVisitor extends NodeVisitorAbstract
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
-        /** @var LNumber $node */
         if ($this->isNumber($node) && false === $this->ignoreNumber($node)) {
             foreach ($this->option->getExtensions() as $extension) {
-                if ($extension->extend($node) && false == $this->ignoreFunc($node, $extension)) {
+                if ($extension->extend($node) && false === $this->ignoreFunc($node, $extension)) {
                     $this->fileReport->addEntry($node->getLine(), $node->value);
 
                     return null;
