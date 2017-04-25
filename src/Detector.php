@@ -17,6 +17,11 @@ use Symfony\Component\Finder\SplFileInfo;
 class Detector
 {
     /**
+     * @var Option
+     */
+    private $option;
+
+    /**
      * @param Option $option
      */
     public function __construct(Option $option)

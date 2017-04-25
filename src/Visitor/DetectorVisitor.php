@@ -4,7 +4,6 @@ namespace Povils\PHPMND\Visitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Const_;
-use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\NodeTraverser;
