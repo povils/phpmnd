@@ -81,7 +81,11 @@ The ``--ignore-numbers`` option will exclude numbers from code analysis.
 
 The ``--ignore-funcs`` option will exclude functions from code analysis when using "argument" extension.
 
-The ``--exclude`` option will  exclude a directory from code analysis (must be relative to source) (multiple values allowed)
+The ``--exclude`` option will exclude a directory from code analysis (must be relative to source) (multiple values allowed)
+
+The ``--exclude-path`` option will exclude path from code analysis (must be relative to source) (multiple values allowed)
+
+The ``--exclude-name`` option will exclude file from code analysis (multiple values allowed)
 
 The ``--progress`` option will display progress bar.
 
