@@ -88,18 +88,7 @@ class Command extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $finder = new PHPFinder();
-        $finder
-            ->in($input->getArgument('directory'))
-            ->exclude(array_merge(['vendor'], $input->getOption('exclude')));
-
-        foreach ($input->getOption('exclude-path') as $notPath) {
-            $finder->notPath($notPath);
-        }
-
-        foreach ($input->getOption('exclude-file') as $notName) {
-            $finder->notName($notName);
-        }
+        $finder = new PHPFinder($input);
 
         if (0 === $finder->count()) {
             $output->writeln('No files found to scan');
