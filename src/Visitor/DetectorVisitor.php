@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Povils\PHPMND\Console\Option;
@@ -50,7 +51,7 @@ class DetectorVisitor extends NodeVisitorAbstract
         }
 
         /** @var LNumber|DNumber|Node $node */
-        if ($this->isNumber($node) && false === $this->ignoreNumber($node)) {
+        if ($this->isNumber($node) || $this->isString($node)) {
             foreach ($this->option->getExtensions() as $extension) {
                 if ($extension->extend($node) && false === $this->ignoreFunc($node, $extension)) {
                     $this->fileReport->addEntry($node->getLine(), $node->value);
@@ -68,9 +69,19 @@ class DetectorVisitor extends NodeVisitorAbstract
      *
      * @return bool
      */
-    protected function isNumber(Node $node)
+    private function isNumber(Node $node)
     {
-        return $node instanceof LNumber || $node instanceof DNumber;
+        return ($node instanceof LNumber || $node instanceof DNumber) && false === $this->ignoreNumber($node);
+    }
+
+    /**
+     * @param Node $node
+     *
+     * @return bool
+     */
+    private function isString(Node $node)
+    {
+        return $this->option->includeStrings() && $node instanceof String_ && false === $this->ignoreString($node);
     }
 
     /**
@@ -81,6 +92,16 @@ class DetectorVisitor extends NodeVisitorAbstract
     private function ignoreNumber(Node $node)
     {
         return in_array($node->value, $this->option->getIgnoreNumbers(), true);
+    }
+
+    /**
+     * @param String_|Node $node
+     *
+     * @return bool
+     */
+    private function ignoreString(Node $node)
+    {
+        return in_array($node->value, $this->option->getIgnoreStrings(), true);
     }
 
     /**

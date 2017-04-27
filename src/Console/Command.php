@@ -80,6 +80,19 @@ class Command extends BaseCommand
                 null,
                 InputOption::VALUE_NONE,
                 'Show progress bar'
+            )
+            ->addOption(
+                'strings',
+                null,
+                InputOption::VALUE_NONE,
+                'Include strings literal search in code analysis'
+            )
+            ->addOption(
+                'ignore-strings',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'A comma-separated list of strings to ignore when using "strings" option',
+                []
             );
     }
 
@@ -132,6 +145,26 @@ class Command extends BaseCommand
 
     /**
      * @param InputInterface $input
+     * @return Option
+     * @throws \Exception
+     */
+    private function createOption(InputInterface $input)
+    {
+        $option = new Option;
+        $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
+        $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
+        $option->setIncludeStrings($input->getOption('strings'));
+        $option->setIgnoreStrings($input->getOption('ignore-strings'));
+        $extensions = $this->getCSVOption($input, 'extensions');
+        foreach ($extensions as $extensionName) {
+            $option->addExtension(ExtensionFactory::create($extensionName));
+        }
+
+        return $option;
+    }
+
+    /**
+     * @param InputInterface $input
      * @param string $option
      *
      * @return array
@@ -140,8 +173,7 @@ class Command extends BaseCommand
     {
         $result = $input->getOption($option);
         if (false === is_array($result)) {
-            $result = explode(',', $result);
-            $result = array_map([$this, 'castToNumber'], $result);
+            return explode(',', $result);
         }
 
         return $result;
@@ -159,23 +191,5 @@ class Command extends BaseCommand
         }
 
         return $value;
-    }
-
-    /**
-     * @param InputInterface $input
-     * @return Option
-     * @throws \Exception
-     */
-    private function createOption(InputInterface $input)
-    {
-        $option = new Option;
-        $option->setIgnoreNumbers($this->getCSVOption($input, 'ignore-numbers'));
-        $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
-        $extensions = $this->getCSVOption($input, 'extensions');
-        foreach ($extensions as $extensionName) {
-            $option->addExtension(ExtensionFactory::create($extensionName));
-        }
-
-        return $option;
     }
 }

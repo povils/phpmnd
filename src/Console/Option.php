@@ -25,6 +25,16 @@ class Option
      */
     private $ignoreFuncs = [];
 
+    /**
+     * @var array
+     */
+    private $ignoreStrings = [''];
+
+    /**
+     * @var bool
+     */
+    private $includeStrings = false;
+
     public function __construct()
     {
         $this->extensions[] = new DefaultExtension();
@@ -76,5 +86,37 @@ class Option
     public function getIgnoreFuncs()
     {
         return $this->ignoreFuncs;
+    }
+
+    /**
+     * @return bool
+     */
+    public function includeStrings()
+    {
+        return $this->includeStrings;
+    }
+
+    /**
+     * @param bool $includeStrings
+     */
+    public function setIncludeStrings($includeStrings)
+    {
+        $this->includeStrings = $includeStrings;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIgnoreStrings()
+    {
+        return $this->ignoreStrings;
+    }
+
+    /**
+     * @param array $ignoreStrings
+     */
+    public function setIgnoreStrings(array $ignoreStrings)
+    {
+        $this->ignoreStrings = array_merge($this->ignoreStrings, $ignoreStrings);
     }
 }

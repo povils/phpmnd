@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Application extends BaseApplication
 {
     const VERSION = '1.0.2';
+    const COMMAND_NAME = 'phpmnd';
 
     public function __construct()
     {
@@ -26,7 +27,7 @@ class Application extends BaseApplication
      */
     protected function getCommandName(InputInterface $input)
     {
-        return 'phpmnd';
+        return self::COMMAND_NAME;
     }
 
     /**

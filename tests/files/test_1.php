@@ -10,7 +10,7 @@ class TEST_1
 
    private $variable = 6;
 
-   public function test($input = 4){
+   public function test($input = 4) {
       if ($input > 2) {
          return 15;
       }
@@ -38,4 +38,8 @@ class TEST_1
    }
 
    const TEST_2 = 20 * 21;
+
+   public function returnString() {
+      return 'string';
+   }
 }

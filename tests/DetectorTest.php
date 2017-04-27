@@ -152,13 +152,13 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
             $fileReport->getEntries()
         );
 
-       $this->assertNotContains(
-          [
-             'line' => 40,
-             'value' => 21,
-          ],
-          $fileReport->getEntries()
-       );
+        $this->assertNotContains(
+            [
+                'line' => 40,
+                'value' => 21,
+            ],
+            $fileReport->getEntries()
+        );
     }
 
     public function testDetectWithIgnoreNumber()
@@ -189,6 +189,41 @@ class DetectorTest extends \PHPUnit_Framework_TestCase
             [
                 'line' => 25,
                 'value' => 4,
+            ],
+            $fileReport->getEntries()
+        );
+    }
+
+    public function testDetectIncludeStrings()
+    {
+        $option = new Option;
+        $option->setIncludeStrings(true);
+        $detector = new Detector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertContains(
+            [
+                'line' => 43,
+                'value' => 'string',
+            ],
+            $fileReport->getEntries()
+        );
+    }
+
+    public function testDetectIncludeStringsAndIgnoreString()
+    {
+        $option = new Option;
+        $option->setIncludeStrings(true);
+        $option->setIgnoreStrings(['string']);
+        $detector = new Detector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertNotContains(
+            [
+                'line' => 43,
+                'value' => 'string',
             ],
             $fileReport->getEntries()
         );
