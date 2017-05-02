@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Visitor;
+namespace PHPMND\Visitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;

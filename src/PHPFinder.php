@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND;
+namespace PHPMND;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
@@ -8,7 +8,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Class Finder
  *
- * @package Povils\PHPMND
+ * @package PHPMND
  */
 class PHPFinder extends Finder
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND;
+namespace PHPMND;
 
 use JakubOnderka\PhpConsoleColor\ConsoleColor;
 use JakubOnderka\PhpConsoleHighlighter\Highlighter;
@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class Printer
  *
- * @package Povils\PHPMND
+ * @package PHPMND
  */
 class Printer
 {

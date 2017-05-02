@@ -1,20 +1,20 @@
 <?php
 
-namespace Povils\PHPMND\Tests;
+namespace PHPMND\Tests;
 
-use Povils\PHPMND\Console\Option;
-use Povils\PHPMND\Detector;
-use Povils\PHPMND\Extension\ArgumentExtension;
-use Povils\PHPMND\Extension\ArrayExtension;
-use Povils\PHPMND\Extension\AssignExtension;
-use Povils\PHPMND\Extension\DefaultParameterExtension;
-use Povils\PHPMND\Extension\OperationExtension;
-use Povils\PHPMND\Extension\PropertyExtension;
+use PHPMND\Console\Option;
+use PHPMND\Detector;
+use PHPMND\Extension\ArgumentExtension;
+use PHPMND\Extension\ArrayExtension;
+use PHPMND\Extension\AssignExtension;
+use PHPMND\Extension\DefaultParameterExtension;
+use PHPMND\Extension\OperationExtension;
+use PHPMND\Extension\PropertyExtension;
 
 /**
  * Class DetectorTest
  *
- * @package Povils\PHPMND\Tests
+ * @package PHPMND\Tests
  */
 class DetectorTest extends \PHPUnit_Framework_TestCase
 {

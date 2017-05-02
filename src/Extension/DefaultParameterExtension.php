@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Extension;
+namespace PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Param;
@@ -8,7 +8,7 @@ use PhpParser\Node\Param;
 /**
  * Class DefaultParameterExtension
  *
- * @package Povils\PHPMND\Extension
+ * @package PHPMND\Extension
  */
 class DefaultParameterExtension implements Extension
 {

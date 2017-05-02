@@ -1,11 +1,11 @@
 <?php
 
-namespace Povils\PHPMND\Console;
+namespace PHPMND\Console;
 
-use Povils\PHPMND\Detector;
-use Povils\PHPMND\ExtensionFactory;
-use Povils\PHPMND\PHPFinder;
-use Povils\PHPMND\Printer;
+use PHPMND\Detector;
+use PHPMND\ExtensionFactory;
+use PHPMND\PHPFinder;
+use PHPMND\Printer;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class Command
  *
- * @package Povils\PHPMND\Console
+ * @package PHPMND\Console
  */
 class Command extends BaseCommand
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Extension;
+namespace PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
@@ -8,7 +8,7 @@ use PhpParser\Node\Expr\Assign;
 /**
  * Class AssignExtension
  *
- * @package Povils\PHPMND\Extension
+ * @package PHPMND\Extension
  */
 class AssignExtension implements Extension
 {

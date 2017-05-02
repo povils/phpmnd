@@ -30,12 +30,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Povils\\PHPMND\\": "src/"
+      "PHPMND\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Povils\\PHPMND\\Tests\\": "tests/"
+      "PHPMND\\Tests\\": "tests/"
     }
   },
   "bin": ["phpmnd"],

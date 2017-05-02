@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Extension;
+namespace PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
@@ -10,7 +10,7 @@ use PhpParser\Node\Name;
 /**
  * Class ArgumentExtension
  *
- * @package Povils\PHPMND\Extension
+ * @package PHPMND\Extension
  */
 class ArgumentExtension implements FunctionAwareExtension
 {
