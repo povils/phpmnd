@@ -10,13 +10,14 @@ use Povils\PHPMND\Extension\AssignExtension;
 use Povils\PHPMND\Extension\DefaultParameterExtension;
 use Povils\PHPMND\Extension\OperationExtension;
 use Povils\PHPMND\Extension\PropertyExtension;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * Class DetectorTest
  *
  * @package Povils\PHPMND\Tests
  */
-class DetectorTest extends \PHPUnit_Framework_TestCase
+class DetectorTest extends PHPUnitTestCase
 {
     public function testDetectDefault()
     {
