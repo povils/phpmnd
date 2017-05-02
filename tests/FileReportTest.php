@@ -4,13 +4,14 @@ namespace Povils\PHPMND\Tests;
 
 use Povils\PHPMND\FileReport;
 use Symfony\Component\Finder\SplFileInfo;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class FileReportTest
  *
  * @package Povils\PHPMND\Tests
  */
-class FileReportTest extends \PHPUnit_Framework_TestCase
+class FileReportTest extends TestCase
 {
     public function testFileReport()
     {
