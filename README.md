@@ -125,3 +125,8 @@ Choose from the list of available extensions:
 	```
  
  I would recommend clean up code using default extension before using these extensions.
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
