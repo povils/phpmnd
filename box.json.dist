@@ -1,0 +1,56 @@
+{
+    "chmod": "0755",
+    "directories": [
+        "src"
+    ],
+    "files": [
+        "LICENSE"
+    ],
+    "finder": [
+        {
+            "name": [
+                "*.php"
+            ],
+            "exclude": [
+                "tests",
+                "Tests",
+                "phpunit/phpunit",
+                "phpunit/php-code-coverage",
+                "phpunit/phpunit-mock-objects",
+                "sebastian/comparator",
+                "sebastian/environment",
+                "sebastian/exporter",
+                "sebastian/global-state",
+                "sebastian/object-enumerator",
+                "sebastian/recursion-context",
+                "myclabs/deep-copy",
+                "phpspec/prophecy",
+                "phpdocumentor/reflection-docblock",
+                "phpdocumentor/type-resolver",
+                "phpdocumentor/reflection-common",
+                "webmozart/assert",
+                "phpunit/php-token-stream",
+                "sebastian/code-unit-reverse-lookup",
+                "phpunit/php-file-iterator",
+                "phpunit/php-text-template",
+                "doctrine/instantiator",
+                "sebastian/diff",
+                "sebastian/resource-operations",
+                "sebastian/version",
+                "phar-io/manifest",
+                "phar-io/version",
+                "theseer/tokenizer",
+                "sebastian/object-reflector"
+            ],
+            "in": [
+                "vendor"
+            ]
+        }
+    ],
+    "git-version": "package_version",
+    "main": "phpmnd",
+    "output": "build/phpmnd.phar",
+    "stub": true,
+    "compactors": "Herrera\\Box\\Compactor\\Php",
+    "compression": "GZ"
+}

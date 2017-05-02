@@ -7,3 +7,5 @@ LICENSE export-ignore
 phpunit.xml.dist export-ignore
 README.md export-ignore
 tests/ export-ignore
+box.json.dist export-ignore
+build/ export-ignore
