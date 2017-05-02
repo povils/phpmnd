@@ -93,8 +93,6 @@ The ``--strings`` option will include strings literal search in code analysis.
 
 The ``--ignore-strings`` option will exclude strings from code analysis when using "strings" option.
 
-The ``--progress`` option will display progress bar.
-
 The ``--extensions`` option lets you extend code analysis (extensions must be separated by a comma).
 
 **By default it analyses conditions, return statements and switch cases.**
