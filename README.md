@@ -127,6 +127,10 @@ Choose from the list of available extensions:
  I would recommend clean up code using default extension before using these extensions.
 
 
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for more information.
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
