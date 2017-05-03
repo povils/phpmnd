@@ -48,7 +48,7 @@
         }
     ],
     "git-version": "package_version",
-    "main": "phpmnd",
+    "main": "bin/phpmnd",
     "output": "build/phpmnd.phar",
     "stub": true,
     "compactors": "Herrera\\Box\\Compactor\\Php",
