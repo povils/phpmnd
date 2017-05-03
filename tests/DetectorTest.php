@@ -10,13 +10,14 @@ use PHPMND\Extension\AssignExtension;
 use PHPMND\Extension\DefaultParameterExtension;
 use PHPMND\Extension\OperationExtension;
 use PHPMND\Extension\PropertyExtension;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class DetectorTest
  *
  * @package PHPMND\Tests
  */
-class DetectorTest extends \PHPUnit_Framework_TestCase
+class DetectorTest extends TestCase
 {
     public function testDetectDefault()
     {

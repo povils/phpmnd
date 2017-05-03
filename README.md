@@ -3,6 +3,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/povils/phpmnd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/povils/phpmnd/?branch=master)
 [![License](https://poser.pugx.org/povils/phpmnd/license)](https://packagist.org/packages/povils/phpmnd)
 [![Build Status](https://travis-ci.org/povils/phpmnd.svg?branch=master)](https://travis-ci.org/povils/phpmnd)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/povils/phpmnd?svg=true)](https://ci.appveyor.com/project/povils/phpmnd)
 
 `phpmnd` is a tool that **helps** you detect magic numbers in PHP code. By default 0 and 1 are not considered to be magic numbers.
 
@@ -125,3 +126,8 @@ Choose from the list of available extensions:
 	```
  
  I would recommend clean up code using default extension before using these extensions.
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
