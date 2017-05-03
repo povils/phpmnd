@@ -76,6 +76,13 @@ class Command extends BaseCommand
                 'Exclude a file from code analysis (must be relative to source)'
             )
             ->addOption(
+                'suffixes',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Comma-separated string of valid source code filename extensions',
+                'php'
+            )
+            ->addOption(
                 'progress',
                 null,
                 InputOption::VALUE_NONE,
@@ -101,7 +108,13 @@ class Command extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $finder = new PHPFinder($input);
+        $finder = new PHPFinder(
+            $input->getArgument('directory'),
+            $input->getOption('exclude'),
+            $input->getOption('exclude-path'),
+            $input->getOption('exclude-file'),
+            $this->getCSVOption($input, 'suffixes')
+        );
 
         if (0 === $finder->count()) {
             $output->writeln('No files found to scan');

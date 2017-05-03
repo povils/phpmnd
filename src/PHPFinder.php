@@ -2,7 +2,6 @@
 
 namespace Povils\PHPMND;
 
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -13,24 +12,36 @@ use Symfony\Component\Finder\Finder;
 class PHPFinder extends Finder
 {
     /**
-     * @param InputInterface $input
+     * @param string $directory
+     * @param array $exclude
+     * @param array $excludePaths
+     * @param array $excludeFiles
+     * @param array $suffixes
      */
-    public function __construct(InputInterface $input)
-    {
+    public function __construct(
+        $directory,
+        array $exclude,
+        array $excludePaths,
+        array $excludeFiles,
+        array $suffixes
+    ) {
         parent::__construct();
         $this
             ->files()
-            ->in($input->getArgument('directory'))
-            ->exclude(array_merge(['vendor'], $input->getOption('exclude')))
-            ->name('*.php')
+            ->in($directory)
+            ->exclude(array_merge(['vendor'], $exclude))
             ->ignoreDotFiles(true)
             ->ignoreVCS(true);
 
-        foreach ($input->getOption('exclude-path') as $notPath) {
+        foreach ($suffixes as $suffix) {
+            $this->name('*.' . $suffix);
+        }
+
+        foreach ($excludePaths as $notPath) {
             $this->notPath($notPath);
         }
 
-        foreach ($input->getOption('exclude-file') as $notName) {
+        foreach ($excludeFiles as $notName) {
             $this->notName($notName);
         }
     }
