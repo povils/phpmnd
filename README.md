@@ -88,6 +88,8 @@ The ``--exclude-path`` option will exclude path from code analysis (must be rela
 
 The ``--exclude-name`` option will exclude file from code analysis (multiple values allowed)
 
+The ``--suffixes`` comma separated option of valid source code filename extensions.
+
 The ``--progress`` option will display progress bar.
 
 The ``--strings`` option will include strings literal search in code analysis.
