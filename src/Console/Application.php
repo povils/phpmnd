@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Console;
+namespace PHPMND\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class Application
  *
- * @package Povils\PHPMND\Console
+ * @package PHPMND\Console
  */
 class Application extends BaseApplication
 {

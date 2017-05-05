@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Extension;
+namespace PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayItem;
@@ -8,7 +8,7 @@ use PhpParser\Node\Expr\ArrayItem;
 /**
  * Class ArrayExtension
  *
- * @package Povils\PHPMND\Extension
+ * @package PHPMND\Extension
  */
 class ArrayExtension implements Extension
 {

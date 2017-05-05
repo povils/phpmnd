@@ -1,13 +1,13 @@
 <?php
 
-namespace Povils\PHPMND;
+namespace PHPMND;
 
-use Povils\PHPMND\Extension\Extension;
+use PHPMND\Extension\Extension;
 
 /**
  * Class ExtensionFactory
  *
- * @package Povils\PHPMND
+ * @package PHPMND
  */
 class ExtensionFactory
 {
@@ -19,7 +19,7 @@ class ExtensionFactory
      */
     public static function create($extensionName)
     {
-        $extensionClassName = 'Povils\PHPMND\Extension\\' . self::pascalCase($extensionName) . 'Extension';
+        $extensionClassName = 'PHPMND\Extension\\' . self::pascalCase($extensionName) . 'Extension';
         if (false === class_exists($extensionClassName)) {
             throw new \Exception(sprintf('Extension "%s" does not exist', $extensionName));
         }

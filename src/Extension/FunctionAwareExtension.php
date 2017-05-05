@@ -1,11 +1,11 @@
 <?php
 
-namespace Povils\PHPMND\Extension;
+namespace PHPMND\Extension;
 
 use PhpParser\Node;
 
 /**
- * @package Povils\PHPMND\Extension
+ * @package PHPMND\Extension
  */
 interface FunctionAwareExtension extends Extension
 {

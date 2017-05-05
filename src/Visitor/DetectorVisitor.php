@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Visitor;
+namespace PHPMND\Visitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Const_;
@@ -9,15 +9,15 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
-use Povils\PHPMND\Console\Option;
-use Povils\PHPMND\Extension\Extension;
-use Povils\PHPMND\Extension\FunctionAwareExtension;
-use Povils\PHPMND\FileReport;
+use PHPMND\Console\Option;
+use PHPMND\Extension\Extension;
+use PHPMND\Extension\FunctionAwareExtension;
+use PHPMND\FileReport;
 
 /**
  * Class DetectorVisitor
  *
- * @package Povils\PHPMND
+ * @package PHPMND
  */
 class DetectorVisitor extends NodeVisitorAbstract
 {

@@ -35,5 +35,5 @@ if (false === $loaded) {
 }
 ini_set('xdebug.max_nesting_level', 10000);
 
-$application = new Povils\PHPMND\Console\Application;
+$application = new PHPMND\Console\Application;
 $application->run();

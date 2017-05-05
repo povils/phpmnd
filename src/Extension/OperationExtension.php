@@ -1,6 +1,6 @@
 <?php
 
-namespace Povils\PHPMND\Extension;
+namespace PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Div;
@@ -15,7 +15,7 @@ use PhpParser\Node\Expr\BinaryOp\ShiftRight;
 /**
  * Class OperationExtension
  *
- * @package Povils\PHPMND\Extension
+ * @package PHPMND\Extension
  */
 class OperationExtension implements Extension
 {
