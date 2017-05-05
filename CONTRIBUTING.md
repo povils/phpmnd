@@ -3,7 +3,7 @@
 Thanks for considering to contribute to `PHPMND`. While doing so please follow these guidelines:
  
  - You must follow the `PSR-2` coding standard. Please see [PSR-2](http://www.php-fig.org/psr/psr-2/) for more details.
- - You must ensure the coding standard compliance before committing or opening pull requests by running `composer cs-check` and if required `composer cs-fix` in the root directory of this repository. If one of these Composer scripts fails to run, please do a `composer update` and rerun it.
+ - You must ensure the coding standard compliance before committing or opening pull requests by running `composer cs-check` and if required `composer cs-fix` in the root directory of this repository. If one of these Composer scripts fails to run, please do a `composer update` and rerun it. In case you miss this manual check, Travis CI will enforce it and you should fix the detected coding standard violations.
  - All non trivial features or bugfixes must have an associated issue for discussion. If you want to work on an issue that is already created, please leave a comment on it indicating that you are working on it.
  - We try to follow [SemVer v2.0.0](http://semver.org/). Randomly breaking public APIs is not an option.
  - Add tests for features or bugfixes touching `src` code if you want to increase the chance of your contribution being merged.
