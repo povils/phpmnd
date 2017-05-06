@@ -27,6 +27,7 @@ class Command extends BaseCommand
     {
         $this
             ->setName('run')
+            ->setDescription('Runs PHPMND. Executed by default when no other command provided.')
             ->setDefinition(
                 [
                     new InputArgument(
