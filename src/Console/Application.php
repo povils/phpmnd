@@ -24,36 +24,6 @@ class Application extends BaseApplication
 
     /**
      * @inheritdoc
-     *
-    protected function getCommandName(InputInterface $input)
-    {
-        return self::COMMAND_NAME;
-    }
-
-    /**
-     * @inheritdoc
-     *
-    protected function getDefaultCommands()
-    {
-        $defaultCommands = parent::getDefaultCommands();
-        $defaultCommands[] = new Command;
-
-        return $defaultCommands;
-    }
-
-    /**
-     * @inheritdoc
-     *
-    public function getDefinition()
-    {
-        $inputDefinition = parent::getDefinition();
-        $inputDefinition->setArguments();
-
-        return $inputDefinition;
-    }
-
-    /**
-     * @inheritdoc
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
