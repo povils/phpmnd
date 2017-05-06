@@ -3,7 +3,7 @@
 namespace Povils\PHPMND\Console\Command;
 
 use Povils\PHPMND\Console\Application;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,7 +11,7 @@ use Humbug\SelfUpdate\Updater;
 use Humbug\SelfUpdate\VersionParser;
 use Humbug\SelfUpdate\Strategy\GithubStrategy;
 
-class SelfUpdate extends Command
+class SelfUpdate extends BaseCommand
 {
 
     /**
@@ -104,7 +104,7 @@ class SelfUpdate extends Command
      */
     protected function getStableUpdater()
     {
-        $updater = new Updater;
+        $updater = new Updater(null, false);
         $updater->setStrategy(Updater::STRATEGY_GITHUB);
         return $this->getGithubReleasesUpdater($updater);
     }

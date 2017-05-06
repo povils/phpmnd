@@ -19,12 +19,12 @@ class Application extends BaseApplication
 
     public function __construct()
     {
-        parent::__construct('phpmnd', self::VERSION);
+        parent::__construct(self::COMMAND_NAME, self::VERSION);
     }
 
     /**
      * @inheritdoc
-     */
+     *
     protected function getCommandName(InputInterface $input)
     {
         return self::COMMAND_NAME;
@@ -32,7 +32,7 @@ class Application extends BaseApplication
 
     /**
      * @inheritdoc
-     */
+     *
     protected function getDefaultCommands()
     {
         $defaultCommands = parent::getDefaultCommands();
@@ -43,7 +43,7 @@ class Application extends BaseApplication
 
     /**
      * @inheritdoc
-     */
+     *
     public function getDefinition()
     {
         $inputDefinition = parent::getDefinition();
@@ -70,8 +70,8 @@ class Application extends BaseApplication
             exit;
         }
 
-        if (null === $input->getFirstArgument()) {
-            $input = new ArrayInput(['--help']);
+        if ('run' === $input->getFirstArgument()) {
+            $input = new ArrayInput(['run','--help']);
         }
 
         parent::doRun($input, $output);

@@ -26,7 +26,7 @@ class Command extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('phpmnd')
+            ->setName('run')
             ->setDefinition(
                 [
                     new InputArgument(
