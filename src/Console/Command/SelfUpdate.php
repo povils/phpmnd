@@ -43,22 +43,22 @@ class SelfUpdate extends BaseCommand
             ->setName('self-update')
             ->setDescription('Update phpmnd.phar to most recent stable build.')
             ->addOption(
-               'stable',
-               's',
-               InputOption::VALUE_NONE,
-               'Update to most recent stable version of PHPMND tagged on Github.'
+                'stable',
+                's',
+                InputOption::VALUE_NONE,
+                'Update to most recent stable version of PHPMND tagged on Github.'
             )
             ->addOption(
-               'rollback',
-               'r',
-               InputOption::VALUE_NONE,
-               'Rollback to previous version of PHPMND if available on filesystem.'
+                'rollback',
+                'r',
+                InputOption::VALUE_NONE,
+                'Rollback to previous version of PHPMND if available on filesystem.'
             )
             ->addOption(
-               'check',
-               'c',
-               InputOption::VALUE_NONE,
-               'Checks what updates are available.'
+                'check',
+                'c',
+                InputOption::VALUE_NONE,
+                'Checks what updates are available.'
             )
         ;
     }
@@ -223,5 +223,4 @@ class SelfUpdate extends BaseCommand
         $updater->getStrategy()->setCurrentLocalVersion($this->version);
         return $updater;
     }
-    
 }
