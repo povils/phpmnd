@@ -51,15 +51,12 @@ function prepareArgv()
 
     $found = false;
 
-    while (next($argv)) {
-        $value = current($argv);
-        if (!$value || '-' !== $value[0]) {
-            $found = true;
-        }
+    if (isset($argv[1]) && ('run' === $argv[1] || 'self-update' === $argv[1])) {
+        $found = true;
     }
 
     if (!$found) {
-        $argv[] = 'run';
+        array_splice($argv, 1, 0, ['run']);
     }
 
     return $argv;

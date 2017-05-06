@@ -40,7 +40,7 @@ class Application extends BaseApplication
             exit;
         }
 
-        if ('run' === $input->getFirstArgument()) {
+        if ('run' === (string) $input) {
             $input = new ArrayInput(['run','--help']);
         }
 
