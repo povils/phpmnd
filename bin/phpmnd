@@ -36,4 +36,7 @@ if (false === $loaded) {
 ini_set('xdebug.max_nesting_level', 10000);
 
 $application = new Povils\PHPMND\Console\Application;
+if ('phar:' === substr(__FILE__, 0, 5)) {
+    $application->add(new Povils\PHPMND\Console\Command\SelfUpdate;
+}
 $application->run();
