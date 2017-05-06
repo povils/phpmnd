@@ -149,7 +149,7 @@ class SelfUpdate extends BaseCommand
      */
     protected function rollback()
     {
-        $updater = new Updater;
+        $updater = new Updater(null, false);
         try {
             $result = $updater->rollback();
             if ($result) {
