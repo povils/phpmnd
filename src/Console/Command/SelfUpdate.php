@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Humbug\SelfUpdate\Updater;
-use Humbug\SelfUpdate\VersionParser;
 use Humbug\SelfUpdate\Strategy\GithubStrategy;
 
 class SelfUpdate extends BaseCommand
@@ -73,7 +72,6 @@ class SelfUpdate extends BaseCommand
     {
         $this->output = $output;
         $this->version = $this->getApplication()->getVersion();
-        $parser = new VersionParser;
 
         /**
          * Check for ancilliary options
