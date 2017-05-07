@@ -16,6 +16,7 @@ class Application extends BaseApplication
 {
     const VERSION = '1.0.3';
     const COMMAND_NAME = 'phpmnd';
+    const PACKAGIST_PACKAGE_NAME = 'povils/phpmnd';
 
     public function __construct()
     {

@@ -13,15 +13,7 @@ use Humbug\SelfUpdate\Strategy\GithubStrategy;
 class SelfUpdate extends BaseCommand
 {
 
-    /**
-     * Packagist package name
-     */
-    const PACKAGE_NAME = 'povils/phpmnd';
-
-    /**
-     * This is the remote file name, not local name.
-     */
-    const FILE_NAME = 'phpmnd.phar';
+    const REMOTE_FILENAME = 'phpmnd.phar';
 
     /**
      * @var OutputInterface
@@ -36,7 +28,7 @@ class SelfUpdate extends BaseCommand
     /**
      * Setup command and arguments.
      */
-    protected function configure()
+    private function configure()
     {
         $this
             ->setName('self-update')
@@ -68,7 +60,7 @@ class SelfUpdate extends BaseCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    private function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
         $this->version = $this->getApplication()->getVersion();
@@ -92,7 +84,7 @@ class SelfUpdate extends BaseCommand
     /**
      * Perform update using phar-updater configured for stable versions.
      */
-    protected function updateToStableBuild()
+    private function updateToStableBuild()
     {
         $this->update($this->getStableUpdater());
     }
@@ -100,7 +92,7 @@ class SelfUpdate extends BaseCommand
     /**
      * Get phar-updater instance.
      */
-    protected function getStableUpdater()
+    private function getStableUpdater()
     {
         $updater = new Updater(null, false);
         $updater->setStrategy(Updater::STRATEGY_GITHUB);
@@ -110,7 +102,7 @@ class SelfUpdate extends BaseCommand
     /**
      * Perform in-place update of phar.
      */
-    protected function update(Updater $updater)
+    private function update(Updater $updater)
     {
         $this->output->writeln('Updating...'.PHP_EOL);
         try {
@@ -145,7 +137,7 @@ class SelfUpdate extends BaseCommand
     /**
      * Attempt to rollback to the previous phar version.
      */
-    protected function rollback()
+    private function rollback()
     {
         $updater = new Updater(null, false);
         try {
@@ -160,7 +152,7 @@ class SelfUpdate extends BaseCommand
         }
     }
 
-    protected function printAvailableUpdates()
+    private function printAvailableUpdates()
     {
         $this->printCurrentLocalVersion();
         $this->printCurrentStableVersion();
@@ -169,7 +161,7 @@ class SelfUpdate extends BaseCommand
     /**
      * Print the current version of the phar in use.
      */
-    protected function printCurrentLocalVersion()
+    private function printCurrentLocalVersion()
     {
         $this->output->writeln(sprintf(
             'Your current local build version is: <options=bold>%s</options=bold>',
@@ -180,7 +172,7 @@ class SelfUpdate extends BaseCommand
     /**
      * Send updater to version printer.
      */
-    protected function printCurrentStableVersion()
+    private function printCurrentStableVersion()
     {
         $this->printVersion($this->getStableUpdater());
     }
@@ -189,7 +181,7 @@ class SelfUpdate extends BaseCommand
      * Print a remotely available version.
      * @param  Updater $updater
      */
-    protected function printVersion(Updater $updater)
+    private function printVersion(Updater $updater)
     {
         $stability = 'stable';
         try {
@@ -210,14 +202,13 @@ class SelfUpdate extends BaseCommand
     }
 
     /**
-     * Configure phar-updater with local phar details.
      * @param  Updater $updater
      * @return Updater
      */
-    protected function getGithubReleasesUpdater(Updater $updater)
+    private function getGithubReleasesUpdater(Updater $updater)
     {
-        $updater->getStrategy()->setPackageName(self::PACKAGE_NAME);
-        $updater->getStrategy()->setPharName(self::FILE_NAME);
+        $updater->getStrategy()->setPackageName(Application::PACKAGIST_PACKAGE_NAME);
+        $updater->getStrategy()->setPharName(self::REMOTE_FILENAME);
         $updater->getStrategy()->setCurrentLocalVersion($this->version);
         return $updater;
     }
