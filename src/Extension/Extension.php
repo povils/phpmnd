@@ -17,4 +17,9 @@ interface Extension
      * @return bool
      */
     public function extend(Node $node);
+
+    /**
+     * @return string
+     */
+    public function getName();
 }

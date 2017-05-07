@@ -3,21 +3,21 @@
 namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
-use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\Case_;
 
 /**
- * Class DefaultParameterExtension
+ * Class SwitchCaseExtension
  *
  * @package Povils\PHPMND\Extension
  */
-class DefaultParameterExtension implements Extension
+class SwitchCaseExtension implements Extension
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'default_parameter';
+        return 'switch_case';
     }
 
     /**
@@ -25,6 +25,6 @@ class DefaultParameterExtension implements Extension
      */
     public function extend(Node $node)
     {
-        return $node->getAttribute('parent') instanceof Param;
+        return $node->getAttribute('parent') instanceof Case_;
     }
 }

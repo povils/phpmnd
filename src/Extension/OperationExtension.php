@@ -22,6 +22,14 @@ class OperationExtension implements Extension
     /**
      * @inheritdoc
      */
+    public function getName()
+    {
+        return 'operation';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function extend(Node $node)
     {
         $parentNode = $node->getAttribute('parent');

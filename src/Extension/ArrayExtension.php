@@ -15,6 +15,14 @@ class ArrayExtension implements Extension
     /**
      * @inheritdoc
      */
+    public function getName()
+    {
+        return 'array';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function extend(Node $node)
     {
         return $node->getAttribute('parent') instanceof ArrayItem;
