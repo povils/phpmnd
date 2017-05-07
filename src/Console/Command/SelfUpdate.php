@@ -18,17 +18,17 @@ class SelfUpdate extends BaseCommand
     /**
      * @var OutputInterface
      */
-    protected $output;
+    private $output;
 
     /**
      * @var string
      */
-    protected $version;
+    private $version;
 
     /**
      * Setup command and arguments.
      */
-    private function configure()
+    protected function configure()
     {
         $this
             ->setName('self-update')
@@ -60,7 +60,7 @@ class SelfUpdate extends BaseCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    private function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
         $this->version = $this->getApplication()->getVersion();
