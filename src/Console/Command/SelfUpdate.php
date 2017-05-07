@@ -112,24 +112,24 @@ class SelfUpdate extends BaseCommand
             $oldVersion = $updater->getOldVersion();
         
             if ($result) {
-                $this->output->writeln('<fg=green>PHPMND has been updated.</fg=green>');
+                $this->output->writeln('<info>PHPMND has been updated.</fg=green>');
                 $this->output->writeln(sprintf(
-                    '<fg=green>Current version is:</fg=green> <options=bold>%s</options=bold>.',
+                    '<info>Current version is:</fg=green> <options=bold>%s</options=bold>.',
                     $newVersion
                 ));
                 $this->output->writeln(sprintf(
-                    '<fg=green>Previous version was:</fg=green> <options=bold>%s</options=bold>.',
+                    '<info>Previous version was:</fg=green> <options=bold>%s</options=bold>.',
                     $oldVersion
                 ));
             } else {
-                $this->output->writeln('<fg=green>PHPMND is currently up to date.</fg=green>');
+                $this->output->writeln('<info>PHPMND is currently up to date.</fg=green>');
                 $this->output->writeln(sprintf(
-                    '<fg=green>Current version is:</fg=green> <options=bold>%s</options=bold>.',
+                    '<info>Current version is:</fg=green> <options=bold>%s</options=bold>.',
                     $oldVersion
                 ));
             }
         } catch (\Exception $e) {
-            $this->output->writeln(sprintf('Error: <fg=yellow>%s</fg=yellow>', $e->getMessage()));
+            $this->output->writeln(sprintf('Error: <warning>%s</fg=yellow>', $e->getMessage()));
         }
         $this->output->write(PHP_EOL);
     }
@@ -143,12 +143,12 @@ class SelfUpdate extends BaseCommand
         try {
             $result = $updater->rollback();
             if ($result) {
-                $this->output->writeln('<fg=green>PHPMND has been rolled back to prior version.</fg=green>');
+                $this->output->writeln('<info>PHPMND has been rolled back to prior version.</fg=green>');
             } else {
-                $this->output->writeln('<fg=red>Rollback failed for reasons unknown.</fg=red>');
+                $this->output->writeln('<warning>Rollback failed for reasons unknown.</fg=red>');
             }
         } catch (\Exception $e) {
-            $this->output->writeln(sprintf('Error: <fg=yellow>%s</fg=yellow>', $e->getMessage()));
+            $this->output->writeln(sprintf('Error: <warning>%s</fg=yellow>', $e->getMessage()));
         }
     }
 
@@ -197,7 +197,7 @@ class SelfUpdate extends BaseCommand
                 $this->output->writeln(sprintf('You have the current %s build installed.', $stability));
             }
         } catch (\Exception $e) {
-            $this->output->writeln(sprintf('Error: <fg=yellow>%s</fg=yellow>', $e->getMessage()));
+            $this->output->writeln(sprintf('Error: <warning>%s</fg=yellow>', $e->getMessage()));
         }
     }
 
