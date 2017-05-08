@@ -17,6 +17,14 @@ class ArgumentExtension implements FunctionAwareExtension
     /**
      * @inheritdoc
      */
+    public function getName()
+    {
+        return 'argument';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function extend(Node $node)
     {
         return $node->getAttribute('parent') instanceof Arg;

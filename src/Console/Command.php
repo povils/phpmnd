@@ -3,7 +3,7 @@
 namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Detector;
-use Povils\PHPMND\ExtensionFactory;
+use Povils\PHPMND\ExtensionResolver;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
 use Symfony\Component\Console\Command\Command as BaseCommand;
@@ -168,10 +168,9 @@ class Command extends BaseCommand
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
         $option->setIgnoreStrings($input->getOption('ignore-strings'));
-        $extensions = $this->getCSVOption($input, 'extensions');
-        foreach ($extensions as $extensionName) {
-            $option->addExtension(ExtensionFactory::create($extensionName));
-        }
+        $option->setExtensions(
+            (new ExtensionResolver())->resolve($this->getCSVOption($input, 'extensions'))
+        );
 
         return $option;
     }

@@ -75,7 +75,7 @@ Then make sure you have the global Composer binaries directory in your ``PATH``.
 Basic usage:
 
 ```
-$ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress --extensions=default_parameter,assign,argument
+$ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress --extensions=default_parameter,-return,argument
 ```
 
 The ``--ignore-numbers`` option will exclude numbers from code analysis.
@@ -126,7 +126,23 @@ Choose from the list of available extensions:
     ```php
 		private $bar = 10;
 	```
- 
+
+ * **return(default)**
+    ```php
+		return 5;
+	```
+ * **condition(default)**
+    ```php
+		$var < 7;
+	```
+ * **switch_case(default)**
+    ```php
+		case 3;
+	```
+ * **all**
+    To include all extensions.
+
+ If Extension starts with minus that means it will be removed from code analysis.
  I would recommend clean up code using default extension before using these extensions.
 
 
