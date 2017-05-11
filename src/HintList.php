@@ -15,11 +15,11 @@ class HintList
     private $constants = [];
 
     /**
-     * @param mixed$magicNumber
+     * @param mixed $magicNumber
      *
      * @return array
      */
-    public function getHintByValue($magicNumber)
+    public function getHintsByValue($magicNumber)
     {
         $hints = [];
         foreach ($this->constants as $constant) {

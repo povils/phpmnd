@@ -54,7 +54,7 @@ class Printer
                 $output->writeln($highlighter->getCodeSnippet($fileReport->getFile()->getContents(), $entry['line'], 0, 0));
 
                 if ($hintList->hasHints()) {
-                    $hints = $hintList->getHintByValue($entry['value']);
+                    $hints = $hintList->getHintsByValue($entry['value']);
                     if (false === empty($hints)) {
                         $output->writeln('Suggestions:');
                         foreach ($hints as $hint) {

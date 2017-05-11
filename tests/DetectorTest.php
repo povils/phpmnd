@@ -239,7 +239,7 @@ class DetectorTest extends TestCase
         $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertTrue($hintList->hasHints());
-        $this->assertSame(['TEST_1::TEST_1'], $hintList->getHintByValue(3));
+        $this->assertSame(['TEST_1::TEST_1'], $hintList->getHintsByValue(3));
     }
 
     /**
