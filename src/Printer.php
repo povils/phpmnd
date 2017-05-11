@@ -31,7 +31,7 @@ class Printer
 
     /**
      * @param OutputInterface $output
-     * @param HintList        $hintList
+     * @param HintList $hintList
      */
     public function printData(OutputInterface $output, HintList $hintList)
     {
@@ -63,7 +63,6 @@ class Printer
                         $output->write(PHP_EOL);
                     }
                 }
-
             }
             $output->writeln($separator . PHP_EOL);
         }
