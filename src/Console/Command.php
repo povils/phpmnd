@@ -4,6 +4,7 @@ namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Detector;
 use Povils\PHPMND\ExtensionResolver;
+use Povils\PHPMND\HintList;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
 use Symfony\Component\Console\Command\Command as BaseCommand;
@@ -89,6 +90,12 @@ class Command extends BaseCommand
                 'Show progress bar'
             )
             ->addOption(
+                'hint',
+                null,
+                InputOption::VALUE_NONE,
+                'Suggest replacements for magic numbers'
+            )
+            ->addOption(
                 'strings',
                 null,
                 InputOption::VALUE_NONE,
@@ -127,7 +134,8 @@ class Command extends BaseCommand
             $progressBar->start();
         }
 
-        $detector = new Detector($this->createOption($input));
+        $hintList = new HintList;
+        $detector = new Detector($this->createOption($input), $hintList);
 
         $printer = new Printer();
         foreach ($finder as $file) {
@@ -151,7 +159,7 @@ class Command extends BaseCommand
 
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
             $output->writeln('');
-            $printer->printData($output);
+            $printer->printData($output, $hintList);
             $output->writeln('<info>' . \PHP_Timer::resourceUsage() . '</info>');
         }
     }
@@ -168,6 +176,7 @@ class Command extends BaseCommand
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
         $option->setIgnoreStrings($input->getOption('ignore-strings'));
+        $option->setGiveHint($input->getOption('hint'));
         $option->setExtensions(
             (new ExtensionResolver())->resolve($this->getCSVOption($input, 'extensions'))
         );

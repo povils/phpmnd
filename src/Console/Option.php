@@ -35,6 +35,11 @@ class Option
     private $includeStrings = false;
 
     /**
+     * @var bool
+     */
+    private $giveHint = false;
+
+    /**
      * @param Extension[] $extensions
      */
     public function setExtensions(array $extensions)
@@ -112,5 +117,21 @@ class Option
     public function setIgnoreStrings(array $ignoreStrings)
     {
         $this->ignoreStrings = array_merge($this->ignoreStrings, $ignoreStrings);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function giveHint()
+    {
+        return $this->giveHint;
+    }
+
+    /**
+     * @param boolean $giveHint
+     */
+    public function setGiveHint($giveHint)
+    {
+        $this->giveHint = $giveHint;
     }
 }

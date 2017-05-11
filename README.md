@@ -92,6 +92,8 @@ The ``--suffixes`` comma separated option of valid source code filename extensio
 
 The ``--progress`` option will display progress bar.
 
+The ``--hint`` option will suggest replacements for magic numbers based on your codebase constants.
+
 The ``--strings`` option will include strings literal search in code analysis.
 
 The ``--ignore-strings`` option will exclude strings from code analysis when using "strings" option.
