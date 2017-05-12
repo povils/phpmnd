@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Printer
 {
     const LINE_LENGTH = 80;
+    const TAB = 4;
 
     /**
      * @var FileReport[]
@@ -30,8 +31,9 @@ class Printer
 
     /**
      * @param OutputInterface $output
+     * @param HintList $hintList
      */
-    public function printData(OutputInterface $output)
+    public function printData(OutputInterface $output, HintList $hintList)
     {
         $separator = str_repeat('-', self::LINE_LENGTH);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
@@ -50,6 +52,17 @@ class Printer
 
                 $highlighter = new Highlighter(new ConsoleColor());
                 $output->writeln($highlighter->getCodeSnippet($fileReport->getFile()->getContents(), $entry['line'], 0, 0));
+
+                if ($hintList->hasHints()) {
+                    $hints = $hintList->getHintsByValue($entry['value']);
+                    if (false === empty($hints)) {
+                        $output->writeln('Suggestions:');
+                        foreach ($hints as $hint) {
+                            $output->writeln(str_repeat(' ', 2 * self::TAB) . $hint);
+                        }
+                        $output->write(PHP_EOL);
+                    }
+                }
             }
             $output->writeln($separator . PHP_EOL);
         }

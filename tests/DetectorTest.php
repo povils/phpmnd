@@ -15,6 +15,7 @@ use Povils\PHPMND\Extension\PropertyExtension;
 use PHPUnit\Framework\TestCase;
 use Povils\PHPMND\Extension\ReturnExtension;
 use Povils\PHPMND\Extension\SwitchCaseExtension;
+use Povils\PHPMND\HintList;
 
 /**
  * Class DetectorTest
@@ -25,7 +26,7 @@ class DetectorTest extends TestCase
 {
     public function testDetectDefault()
     {
-        $detector = new Detector($this->createOption());
+        $detector = $this->createDetector($this->createOption());
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertSame(
@@ -62,7 +63,7 @@ class DetectorTest extends TestCase
     public function testDetectWithAssignExtension()
     {
         $option = $this->createOption([new AssignExtension()]);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -77,7 +78,7 @@ class DetectorTest extends TestCase
     public function testDetectWithPropertyExtension()
     {
         $option = $this->createOption([new PropertyExtension()]);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -92,7 +93,7 @@ class DetectorTest extends TestCase
     public function testDetectWithArrayExtension()
     {
         $option = $this->createOption([new ArrayExtension()]);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
@@ -107,7 +108,7 @@ class DetectorTest extends TestCase
     public function testDetectWithArgumentExtension()
     {
         $option = $this->createOption([new ArgumentExtension()]);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -123,7 +124,7 @@ class DetectorTest extends TestCase
     public function testDetectWithDefaultParameterExtension()
     {
         $option = $this->createOption([new DefaultParameterExtension()]);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -139,7 +140,7 @@ class DetectorTest extends TestCase
     public function testDetectWithOperationExtension()
     {
         $option = $this->createOption([new OperationExtension()]);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -165,7 +166,7 @@ class DetectorTest extends TestCase
         $ignoreNumbers = [2, 10];
         $option = $this->createOption();
         $option->setIgnoreNumbers($ignoreNumbers);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -179,7 +180,7 @@ class DetectorTest extends TestCase
         $ignoreFuncs = ['round'];
         $option = $this->createOption([new ArgumentExtension()]);
         $option->setIgnoreFuncs($ignoreFuncs);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -196,7 +197,7 @@ class DetectorTest extends TestCase
     {
         $option = $this->createOption();
         $option->setIncludeStrings(true);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -214,7 +215,7 @@ class DetectorTest extends TestCase
         $option = $this->createOption();
         $option->setIncludeStrings(true);
         $option->setIgnoreStrings(['string']);
-        $detector = new Detector($option);
+        $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -225,6 +226,20 @@ class DetectorTest extends TestCase
             ],
             $fileReport->getEntries()
         );
+    }
+
+    public function testDetectWithHint()
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new AssignExtension]);
+        $option->setGiveHint(true);
+        $hintList = new HintList;
+        $detector = $this->createDetector($option, $hintList);
+
+        $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertTrue($hintList->hasHints());
+        $this->assertSame(['TEST_1::TEST_1'], $hintList->getHintsByValue(3));
     }
 
     /**
@@ -247,5 +262,20 @@ class DetectorTest extends TestCase
         );
 
         return $option;
+    }
+
+    /**
+     * @param Option        $option
+     * @param HintList|null $hintList
+     *
+     * @return Detector
+     */
+    private function createDetector(Option $option, HintList $hintList = null)
+    {
+        if (null === $hintList) {
+            $hintList = new HintList;
+        }
+
+        return new Detector($option, $hintList);
     }
 }
