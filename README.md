@@ -94,6 +94,8 @@ The ``--progress`` option will display progress bar.
 
 The ``--hint`` option will suggest replacements for magic numbers based on your codebase constants.
 
+The ``--non-zero-exit-on-violation`` option will return non zero exit code when there are magic numbers in your codebase.
+
 The ``--strings`` option will include strings literal search in code analysis.
 
 The ``--ignore-strings`` option will exclude strings from code analysis when using "strings" option.

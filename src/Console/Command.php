@@ -4,6 +4,7 @@ namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Detector;
 use Povils\PHPMND\ExtensionResolver;
+use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
@@ -96,6 +97,12 @@ class Command extends BaseCommand
                 'Suggest replacements for magic numbers'
             )
             ->addOption(
+                'non-zero-exit-on-violation',
+                null,
+                InputOption::VALUE_NONE,
+                'Return a non zero exit code when there are magic numbers'
+            )
+            ->addOption(
                 'strings',
                 null,
                 InputOption::VALUE_NONE,
@@ -115,17 +122,11 @@ class Command extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $finder = new PHPFinder(
-            $input->getArgument('directory'),
-            $input->getOption('exclude'),
-            $input->getOption('exclude-path'),
-            $input->getOption('exclude-file'),
-            $this->getCSVOption($input, 'suffixes')
-        );
+        $finder = $this->createFinder($input);
 
         if (0 === $finder->count()) {
             $output->writeln('No files found to scan');
-            exit(1);
+            exit(0);
         }
 
         $progressBar = null;
@@ -137,12 +138,13 @@ class Command extends BaseCommand
         $hintList = new HintList;
         $detector = new Detector($this->createOption($input), $hintList);
 
+        $fileReportList = new FileReportList();
         $printer = new Printer();
         foreach ($finder as $file) {
             try {
                 $fileReport = $detector->detect($file);
                 if ($fileReport->hasMagicNumbers()) {
-                    $printer->addFileReport($fileReport);
+                    $fileReportList->addFileReport($fileReport);
                 }
             } catch (\Exception $e) {
                 $output->writeln($e->getMessage());
@@ -159,8 +161,12 @@ class Command extends BaseCommand
 
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
             $output->writeln('');
-            $printer->printData($output, $hintList);
+            $printer->printData($output, $fileReportList, $hintList);
             $output->writeln('<info>' . \PHP_Timer::resourceUsage() . '</info>');
+        }
+
+        if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
+            exit(1);
         }
     }
 
@@ -198,6 +204,22 @@ class Command extends BaseCommand
         }
 
         return $result;
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return PHPFinder
+     */
+    protected function createFinder(InputInterface $input)
+    {
+        return new PHPFinder(
+            $input->getArgument('directory'),
+            $input->getOption('exclude'),
+            $input->getOption('exclude-path'),
+            $input->getOption('exclude-file'),
+            $this->getCSVOption($input, 'suffixes')
+        );
     }
 
     /**

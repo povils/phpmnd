@@ -17,29 +17,17 @@ class Printer
     const TAB = 4;
 
     /**
-     * @var FileReport[]
-     */
-    private $fileReports = [];
-
-    /**
-     * @param FileReport $fileReport
-     */
-    public function addFileReport(FileReport $fileReport)
-    {
-        $this->fileReports[] = $fileReport;
-    }
-
-    /**
      * @param OutputInterface $output
-     * @param HintList $hintList
+     * @param FileReportList  $fileReportList
+     * @param HintList        $hintList
      */
-    public function printData(OutputInterface $output, HintList $hintList)
+    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList)
     {
         $separator = str_repeat('-', self::LINE_LENGTH);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
         $total = 0;
-        foreach ($this->fileReports as $fileReport) {
+        foreach ($fileReportList->getFileReports() as $fileReport) {
             $entries = $fileReport->getEntries();
             $total += count($entries);
             foreach ($entries as $entry) {
