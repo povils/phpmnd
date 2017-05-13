@@ -22,6 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Command extends BaseCommand
 {
+    const EXIT_CODE_SUCCESS = 0;
+    const EXIT_CODE_FAILURE = 1;
+
     /**
      * @inheritdoc
      */
@@ -126,7 +129,7 @@ class Command extends BaseCommand
 
         if (0 === $finder->count()) {
             $output->writeln('No files found to scan');
-            exit(0);
+            return self::EXIT_CODE_SUCCESS;
         }
 
         $progressBar = null;
@@ -166,8 +169,10 @@ class Command extends BaseCommand
         }
 
         if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
-            exit(1);
+            return self::EXIT_CODE_FAILURE;
         }
+
+        return self::EXIT_CODE_SUCCESS;
     }
 
     /**
