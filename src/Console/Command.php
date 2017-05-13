@@ -4,6 +4,7 @@ namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Detector;
 use Povils\PHPMND\ExtensionResolver;
+use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
@@ -21,6 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Command extends BaseCommand
 {
+    const EXIT_CODE_SUCCESS = 0;
+    const EXIT_CODE_FAILURE = 1;
+
     /**
      * @inheritdoc
      */
@@ -41,22 +45,20 @@ class Command extends BaseCommand
                 'extensions',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'A comma-separated list of extensions',
-                []
+                'A comma-separated list of extensions'
             )
             ->addOption(
                 'ignore-numbers',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'A comma-separated list of numbers to ignore',
-                [0, 1]
+                '0, 1'
             )
             ->addOption(
                 'ignore-funcs',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'A comma-separated list of functions to ignore when using "argument" extension',
-                []
+                'A comma-separated list of functions to ignore when using "argument" extension'
             )
             ->addOption(
                 'exclude',
@@ -96,6 +98,12 @@ class Command extends BaseCommand
                 'Suggest replacements for magic numbers'
             )
             ->addOption(
+                'non-zero-exit-on-violation',
+                null,
+                InputOption::VALUE_NONE,
+                'Return a non zero exit code when there are magic numbers'
+            )
+            ->addOption(
                 'strings',
                 null,
                 InputOption::VALUE_NONE,
@@ -105,8 +113,7 @@ class Command extends BaseCommand
                 'ignore-strings',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'A comma-separated list of strings to ignore when using "strings" option',
-                []
+                'A comma-separated list of strings to ignore when using "strings" option'
             );
     }
 
@@ -115,17 +122,11 @@ class Command extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $finder = new PHPFinder(
-            $input->getArgument('directory'),
-            $input->getOption('exclude'),
-            $input->getOption('exclude-path'),
-            $input->getOption('exclude-file'),
-            $this->getCSVOption($input, 'suffixes')
-        );
+        $finder = $this->createFinder($input);
 
         if (0 === $finder->count()) {
             $output->writeln('No files found to scan');
-            exit(1);
+            return self::EXIT_CODE_SUCCESS;
         }
 
         $progressBar = null;
@@ -137,12 +138,13 @@ class Command extends BaseCommand
         $hintList = new HintList;
         $detector = new Detector($this->createOption($input), $hintList);
 
+        $fileReportList = new FileReportList();
         $printer = new Printer();
         foreach ($finder as $file) {
             try {
                 $fileReport = $detector->detect($file);
                 if ($fileReport->hasMagicNumbers()) {
-                    $printer->addFileReport($fileReport);
+                    $fileReportList->addFileReport($fileReport);
                 }
             } catch (\Exception $e) {
                 $output->writeln($e->getMessage());
@@ -159,9 +161,14 @@ class Command extends BaseCommand
 
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
             $output->writeln('');
-            $printer->printData($output, $hintList);
+            $printer->printData($output, $fileReportList, $hintList);
             $output->writeln('<info>' . \PHP_Timer::resourceUsage() . '</info>');
         }
+
+        if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
+            return self::EXIT_CODE_FAILURE;
+        }
+        return self::EXIT_CODE_SUCCESS;
     }
 
     /**
@@ -175,7 +182,7 @@ class Command extends BaseCommand
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
-        $option->setIgnoreStrings($input->getOption('ignore-strings'));
+        $option->setIgnoreStrings($this->getCSVOption($input, 'ignore-strings'));
         $option->setGiveHint($input->getOption('hint'));
         $option->setExtensions(
             (new ExtensionResolver())->resolve($this->getCSVOption($input, 'extensions'))
@@ -194,10 +201,35 @@ class Command extends BaseCommand
     {
         $result = $input->getOption($option);
         if (false === is_array($result)) {
-            return explode(',', $result);
+            return array_filter(
+                explode(',', $result),
+                function ($value) {
+                    return false === empty($value);
+                }
+            );
+        }
+
+        if (null === $result) {
+            return [];
         }
 
         return $result;
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return PHPFinder
+     */
+    protected function createFinder(InputInterface $input)
+    {
+        return new PHPFinder(
+            $input->getArgument('directory'),
+            $input->getOption('exclude'),
+            $input->getOption('exclude-path'),
+            $input->getOption('exclude-file'),
+            $this->getCSVOption($input, 'suffixes')
+        );
     }
 
     /**
