@@ -45,22 +45,20 @@ class Command extends BaseCommand
                 'extensions',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'A comma-separated list of extensions',
-                []
+                'A comma-separated list of extensions'
             )
             ->addOption(
                 'ignore-numbers',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'A comma-separated list of numbers to ignore',
-                [0, 1]
+                '0, 1'
             )
             ->addOption(
                 'ignore-funcs',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'A comma-separated list of functions to ignore when using "argument" extension',
-                []
+                'A comma-separated list of functions to ignore when using "argument" extension'
             )
             ->addOption(
                 'exclude',
@@ -115,8 +113,7 @@ class Command extends BaseCommand
                 'ignore-strings',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'A comma-separated list of strings to ignore when using "strings" option',
-                []
+                'A comma-separated list of strings to ignore when using "strings" option'
             );
     }
 
@@ -171,7 +168,6 @@ class Command extends BaseCommand
         if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
             return self::EXIT_CODE_FAILURE;
         }
-
         return self::EXIT_CODE_SUCCESS;
     }
 
@@ -186,7 +182,7 @@ class Command extends BaseCommand
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
-        $option->setIgnoreStrings($input->getOption('ignore-strings'));
+        $option->setIgnoreStrings($this->getCSVOption($input, 'ignore-strings'));
         $option->setGiveHint($input->getOption('hint'));
         $option->setExtensions(
             (new ExtensionResolver())->resolve($this->getCSVOption($input, 'extensions'))
@@ -205,7 +201,16 @@ class Command extends BaseCommand
     {
         $result = $input->getOption($option);
         if (false === is_array($result)) {
-            return explode(',', $result);
+            return array_filter(
+                explode(',', $result),
+                function ($value) {
+                    return false === empty($value);
+                }
+            );
+        }
+
+        if (null === $result) {
+            return [];
         }
 
         return $result;
