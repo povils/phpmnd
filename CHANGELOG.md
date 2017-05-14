@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 - Add `--non-zero-exit-on-violation` option to return non zero exit code when there are magic number in the codebase.
+- Add `--hint` option suggest replacements for magic numbers.
+- Add more flexibility to extensions. 'all' option and possibility for removal with minus sign.
+- Add `--suffixes` option.
+- Add PHAR build support with Box.
 
 ## [v1.0.3] - 2017-04-27
 ### Added
