@@ -16,7 +16,7 @@ class CommandTest extends TestCase
 
     public function testExecuteNoFilesFound()
     {
-        $input = $this->createInput('bad_suffix');
+        $input = $this->createInput(null, 'bad_suffix');
         $output = $this->createOutput();
 
         $this->assertSame(Command::EXIT_CODE_SUCCESS, $this->execute([$input, $output]));
@@ -24,10 +24,22 @@ class CommandTest extends TestCase
 
     public function testExecuteWithViolationOption()
     {
-        $input = $this->createInput(null, true);
+        $input = $this->createInput(null, null, true);
         $output = $this->createOutput();
 
         $this->assertSame(Command::EXIT_CODE_FAILURE, $this->execute([$input, $output]));
+    }
+
+    public function testExecuteWithHintOption()
+    {
+        $input = $this->createInput('assign', null, true, true);
+        $output = $this->createOutput();
+        $output
+            ->expects($this->at(11))
+            ->method('writeln')
+            ->with('Suggestions:');
+
+        $this->execute([$input, $output]);
     }
 
     /**
@@ -46,12 +58,14 @@ class CommandTest extends TestCase
     }
 
     /**
+     * @param string $extensions
      * @param string $suffix
      * @param bool   $exitOnViolation
+     * @param bool   $hint
      *
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createInput($suffix = 'php', $exitOnViolation = false)
+    protected function createInput($extensions = '', $suffix = 'php', $exitOnViolation = false, $hint = false)
     {
         $input = $this->createMock('Symfony\Component\Console\Input\InputInterface');
         $input
@@ -59,11 +73,13 @@ class CommandTest extends TestCase
             ->will(
                 $this->returnValueMap(
                     [
+                        ['extensions', $extensions],
                         ['exclude', []],
                         ['exclude-path', []],
                         ['exclude-file', []],
                         ['suffixes', $suffix],
                         ['non-zero-exit-on-violation', $exitOnViolation],
+                        ['hint', $hint],
                     ]
                 )
             );

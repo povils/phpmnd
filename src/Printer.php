@@ -39,7 +39,9 @@ class Printer
                 ));
 
                 $highlighter = new Highlighter(new ConsoleColor());
-                $output->writeln($highlighter->getCodeSnippet($fileReport->getFile()->getContents(), $entry['line'], 0, 0));
+                $output->writeln(
+                    $highlighter->getCodeSnippet($fileReport->getFile()->getContents(), $entry['line'], 0, 0)
+                );
 
                 if ($hintList->hasHints()) {
                     $hints = $hintList->getHintsByValue($entry['value']);
