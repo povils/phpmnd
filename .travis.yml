@@ -21,17 +21,13 @@ cache:
 
 before_install:
   - composer install -n
-  - composer require satooshi/php-coveralls --dev
 
 script:
-  - vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover
+  - vendor/bin/phpunit
   # Verify coding standard compliance only once
   - if [[ $LINT = true ]]; then
       composer cs-check;
     fi
-
-after_script:
-  - php vendor/bin/coveralls -v
 
 notifications:
   email: false
