@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [v1.1.0] - 2017-05-15
 - Add `--non-zero-exit-on-violation` option to return non zero exit code when there are magic number in the codebase.
 - Add `--hint` option suggest replacements for magic numbers.
 - Add more flexibility to extensions. 'all' option and possibility for removal with minus sign.
