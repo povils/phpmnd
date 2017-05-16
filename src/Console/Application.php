@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Application extends BaseApplication
 {
-    const VERSION = '1.0.3';
+    const VERSION = '1.1.0';
     const COMMAND_NAME = 'phpmnd';
     const PACKAGIST_PACKAGE_NAME = 'povils/phpmnd';
 
@@ -45,6 +45,6 @@ class Application extends BaseApplication
             $input = new ArrayInput(['run','--help']);
         }
 
-        parent::doRun($input, $output);
+        return parent::doRun($input, $output);
     }
 }

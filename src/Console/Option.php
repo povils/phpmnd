@@ -2,7 +2,6 @@
 
 namespace Povils\PHPMND\Console;
 
-use Povils\PHPMND\Extension\DefaultExtension;
 use Povils\PHPMND\Extension\Extension;
 
 /**
@@ -13,7 +12,7 @@ class Option
     /**
      * @var Extension[]
      */
-    private $extensions;
+    private $extensions = [];
 
     /**
      * @var array
@@ -35,17 +34,17 @@ class Option
      */
     private $includeStrings = false;
 
-    public function __construct()
-    {
-        $this->extensions[] = new DefaultExtension();
-    }
+    /**
+     * @var bool
+     */
+    private $giveHint = false;
 
     /**
-     * @param Extension $extension
+     * @param Extension[] $extensions
      */
-    public function addExtension(Extension $extension)
+    public function setExtensions(array $extensions)
     {
-        $this->extensions[] = $extension;
+        $this->extensions = $extensions;
     }
 
     /**
@@ -118,5 +117,21 @@ class Option
     public function setIgnoreStrings(array $ignoreStrings)
     {
         $this->ignoreStrings = array_merge($this->ignoreStrings, $ignoreStrings);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function giveHint()
+    {
+        return $this->giveHint;
+    }
+
+    /**
+     * @param boolean $giveHint
+     */
+    public function setGiveHint($giveHint)
+    {
+        $this->giveHint = $giveHint;
     }
 }

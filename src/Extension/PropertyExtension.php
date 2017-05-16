@@ -15,6 +15,14 @@ class PropertyExtension implements Extension
     /**
      * @inheritdoc
      */
+    public function getName()
+    {
+        return 'property';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function extend(Node $node)
     {
         return $node->getAttribute('parent') instanceof PropertyProperty;

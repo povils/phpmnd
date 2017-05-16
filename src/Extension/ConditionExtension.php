@@ -18,25 +18,31 @@ use PhpParser\Node\Expr\BinaryOp\Smaller;
 use PhpParser\Node\Expr\BinaryOp\SmallerOrEqual;
 use PhpParser\Node\Expr\BinaryOp\Spaceship;
 use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Stmt\Case_;
-use PhpParser\Node\Stmt\Return_;
 
 /**
- * Class DefaultExtension
+ * Class ConditionExtension
+ *
+ * @package Povils\PHPMND\Extension
  */
-class DefaultExtension implements Extension
+class ConditionExtension implements Extension
 {
+    /**
+     * @inheritdoc
+     */
+    public function getName()
+    {
+        return 'condition';
+    }
+
     /**
      * @inheritdoc
      */
     public function extend(Node $node)
     {
         return
-            ($this->isCondition($node->getAttribute('parent')) && false === $this->comparesToConst($node->getAttribute('parent')))
-            ||
-            $this->isReturn($node->getAttribute('parent'))
-            ||
-            $this->isSwitchCase($node->getAttribute('parent'));
+            $this->isCondition($node->getAttribute('parent'))
+            &&
+            false === $this->comparesToConst($node->getAttribute('parent'));
     }
 
     /**
@@ -93,25 +99,5 @@ class DefaultExtension implements Extension
                 ||
                 $node->right instanceof ConstFetch
             );
-    }
-
-    /**
-     * @param Node $node
-     *
-     * @return bool
-     */
-    private function isReturn($node)
-    {
-        return $node instanceof Return_;
-    }
-
-    /**
-     * @param Node $node
-     *
-     * @return bool
-     */
-    private function isSwitchCase($node)
-    {
-        return $node instanceof Case_;
     }
 }

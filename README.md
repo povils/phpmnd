@@ -75,7 +75,7 @@ Then make sure you have the global Composer binaries directory in your ``PATH``.
 Basic usage:
 
 ```
-$ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress --extensions=default_parameter,assign,argument
+$ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress --extensions=default_parameter,-return,argument
 ```
 
 The ``--ignore-numbers`` option will exclude numbers from code analysis.
@@ -91,6 +91,10 @@ The ``--exclude-name`` option will exclude file from code analysis (multiple val
 The ``--suffixes`` comma separated option of valid source code filename extensions.
 
 The ``--progress`` option will display progress bar.
+
+The ``--hint`` option will suggest replacements for magic numbers based on your codebase constants.
+
+The ``--non-zero-exit-on-violation`` option will return non zero exit code when there are magic numbers in your codebase.
 
 The ``--strings`` option will include strings literal search in code analysis.
 
@@ -126,7 +130,23 @@ Choose from the list of available extensions:
     ```php
 		private $bar = 10;
 	```
- 
+
+ * **return(default)**
+    ```php
+		return 5;
+	```
+ * **condition(default)**
+    ```php
+		$var < 7;
+	```
+ * **switch_case(default)**
+    ```php
+		case 3;
+	```
+ * **all**
+    To include all extensions.
+
+ If Extension starts with minus that means it will be removed from code analysis.
  I would recommend clean up code using default extension before using these extensions.
 
 
