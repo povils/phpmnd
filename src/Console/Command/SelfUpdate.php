@@ -34,12 +34,6 @@ class SelfUpdate extends BaseCommand
             ->setName('self-update')
             ->setDescription('Update phpmnd.phar to most recent stable build.')
             ->addOption(
-                'stable',
-                's',
-                InputOption::VALUE_NONE,
-                'Update to most recent stable version of PHPMND tagged on Github.'
-            )
-            ->addOption(
                 'rollback',
                 'r',
                 InputOption::VALUE_NONE,
@@ -49,7 +43,7 @@ class SelfUpdate extends BaseCommand
                 'check',
                 'c',
                 InputOption::VALUE_NONE,
-                'Checks what updates are available.'
+                'Checks whether an update is available.'
             )
         ;
     }
@@ -129,7 +123,7 @@ class SelfUpdate extends BaseCommand
                 ));
             }
         } catch (\Exception $e) {
-            $this->output->writeln(sprintf('Error: <warning>%s</warning>', $e->getMessage()));
+            $this->output->writeln(sprintf('<error>Error: %s</error>', $e->getMessage()));
         }
         $this->output->write(PHP_EOL);
     }
@@ -145,10 +139,10 @@ class SelfUpdate extends BaseCommand
             if ($result) {
                 $this->output->writeln('<info>PHPMND has been rolled back to prior version.</info>');
             } else {
-                $this->output->writeln('<warning>Rollback failed for reasons unknown.</warning>');
+                $this->output->writeln('<error>Rollback failed for reasons unknown.</error>');
             }
         } catch (\Exception $e) {
-            $this->output->writeln(sprintf('Error: <warning>%s</warning>', $e->getMessage()));
+            $this->output->writeln(sprintf('Error: <error>%s</error>', $e->getMessage()));
         }
     }
 
@@ -197,7 +191,7 @@ class SelfUpdate extends BaseCommand
                 $this->output->writeln(sprintf('You have the current %s build installed.', $stability));
             }
         } catch (\Exception $e) {
-            $this->output->writeln(sprintf('Error: <warning>%s</warning>', $e->getMessage()));
+            $this->output->writeln(sprintf('Error: <error>%s</error>', $e->getMessage()));
         }
     }
 
