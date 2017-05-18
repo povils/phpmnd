@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v1.1.1] - 2017-05-16
+- Fix `--non-zero-exit-on-violation` option.
+
 ## [v1.1.0] - 2017-05-15
 - Add `--non-zero-exit-on-violation` option to return non zero exit code when there are magic number in the codebase.
 - Add `--hint` option suggest replacements for magic numbers.
@@ -29,7 +32,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## v1.0.0 - 2017-04-20
 - Initial release.
 
-[Unreleased]: https://github.com/povils/phpmnd/compare/v1.0.3...HEAD
+[v1.1.1]: https://github.com/povils/phpmnd/compare/v1.1.0...v1.1.1
+[v1.1.0]: https://github.com/povils/phpmnd/compare/v1.0.3...v1.1.0
 [v1.0.3]: https://github.com/povils/phpmnd/compare/v1.0.2...v1.0.3
 [v1.0.2]: https://github.com/povils/phpmnd/compare/v1.0.1...v1.0.2
 [v1.0.1]: https://github.com/povils/phpmnd/compare/v1.0.0...v1.0.1
