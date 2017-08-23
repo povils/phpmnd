@@ -86,7 +86,7 @@ The ``--exclude`` option will exclude a directory from code analysis (must be re
 
 The ``--exclude-path`` option will exclude path from code analysis (must be relative to source) (multiple values allowed)
 
-The ``--exclude-name`` option will exclude file from code analysis (multiple values allowed)
+The ``--exclude-file`` option will exclude file from code analysis (multiple values allowed)
 
 The ``--suffixes`` comma separated option of valid source code filename extensions.
 
