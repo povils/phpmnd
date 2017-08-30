@@ -21,7 +21,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [v1.0.2] - 2017-04-25
 ### Added
 - Add `--exclude-path` option.
-- Add `--exclude-name` option.
+- Add `--exclude-file` option.
 - Add `--ignore-funcs` option.
 - Add total magic number count in output result.
 
