@@ -42,4 +42,8 @@ class TEST_1
    public function returnString() {
       return 'string';
    }
+
+   public function returnNegative() {
+      return -2;
+   }
 }

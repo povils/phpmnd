@@ -4,6 +4,9 @@ namespace Povils\PHPMND\Visitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Const_;
+use PhpParser\Node\Expr\UnaryMinus;
+use PhpParser\Node\Expr\UnaryPlus;
+use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
@@ -51,9 +54,17 @@ class DetectorVisitor extends NodeVisitorAbstract
         }
 
         if ($this->isNumber($node) || $this->isString($node)) {
+            /** @var LNumber|DNumber|String_ $scalar */
+            $scalar = $node;
+            if ($this->hasSign($node)) {
+                $node = $node->getAttribute('parent');
+                if ($this->isMinus($node)) {
+                    $scalar->value = -$scalar->value;
+                }
+            }
             foreach ($this->option->getExtensions() as $extension) {
                 if ($extension->extend($node) && false === $this->ignoreFunc($node, $extension)) {
-                    $this->fileReport->addEntry($node->getLine(), $node->value);
+                    $this->fileReport->addEntry($scalar->getLine(), $scalar->value);
 
                     return null;
                 }
@@ -104,7 +115,27 @@ class DetectorVisitor extends NodeVisitorAbstract
     }
 
     /**
-     * @param Node      $node
+     * @param Node $node
+     *
+     * @return bool
+     */
+    private function hasSign(Node $node)
+    {
+        return $node->getAttribute('parent') instanceof UnaryMinus || $node->getAttribute('parent') instanceof UnaryPlus;
+    }
+
+    /**
+     * @param Node $node
+     *
+     * @return bool
+     */
+    private function isMinus(Node $node)
+    {
+        return $node instanceof UnaryMinus;
+    }
+
+    /**
+     * @param Node $node
      * @param Extension $extension
      *
      * @return bool
