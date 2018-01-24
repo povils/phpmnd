@@ -31,7 +31,8 @@ class Command extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('phpmnd')
+            ->setName('run')
+            ->setDescription('Runs PHPMND. Executed by default when no other command provided.')
             ->setDefinition(
                 [
                     new InputArgument(

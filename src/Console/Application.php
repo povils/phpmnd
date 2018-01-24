@@ -16,40 +16,11 @@ class Application extends BaseApplication
 {
     const VERSION = '1.1.1';
     const COMMAND_NAME = 'phpmnd';
+    const PACKAGIST_PACKAGE_NAME = 'povils/phpmnd';
 
     public function __construct()
     {
-        parent::__construct('phpmnd', self::VERSION);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getCommandName(InputInterface $input)
-    {
-        return self::COMMAND_NAME;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getDefaultCommands()
-    {
-        $defaultCommands = parent::getDefaultCommands();
-        $defaultCommands[] = new Command;
-
-        return $defaultCommands;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDefinition()
-    {
-        $inputDefinition = parent::getDefinition();
-        $inputDefinition->setArguments();
-
-        return $inputDefinition;
+        parent::__construct(self::COMMAND_NAME, self::VERSION);
     }
 
     /**
@@ -70,8 +41,8 @@ class Application extends BaseApplication
             exit;
         }
 
-        if (null === $input->getFirstArgument()) {
-            $input = new ArrayInput(['--help']);
+        if ('run' === (string) $input) {
+            $input = new ArrayInput(['run','--help']);
         }
 
         return parent::doRun($input, $output);

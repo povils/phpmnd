@@ -40,7 +40,8 @@
                 "phar-io/manifest",
                 "phar-io/version",
                 "theseer/tokenizer",
-                "sebastian/object-reflector"
+                "sebastian/object-reflector",
+                "squizlabs/php_codesniffer"
             ],
             "in": [
                 "vendor"

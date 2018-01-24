@@ -37,4 +37,28 @@ if (false === $loaded) {
 ini_set('xdebug.max_nesting_level', 10000);
 
 $application = new Povils\PHPMND\Console\Application;
-$application->run();
+$application->add(new Povils\PHPMND\Console\Command);
+if ('phar:' === substr(__FILE__, 0, 5)) {
+    $application->add(new Povils\PHPMND\Console\Command\SelfUpdate);
+}
+
+$output = new Symfony\Component\Console\Output\ConsoleOutput();
+$input = new \Symfony\Component\Console\Input\ArgvInput(prepareArgv());
+$application->run($input, $output);
+
+function prepareArgv()
+{
+    $argv = $_SERVER['argv'];
+
+    $found = false;
+
+    if (isset($argv[1]) && ('run' === $argv[1] || 'self-update' === $argv[1])) {
+        $found = true;
+    }
+
+    if (!$found) {
+        array_splice($argv, 1, 0, ['run']);
+    }
+
+    return $argv;
+}
