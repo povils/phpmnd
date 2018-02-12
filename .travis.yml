@@ -9,8 +9,9 @@ matrix:
     - php: 7.0
     - php: 7.1
     - php: 7.2
-      env:
-      - LINT=true
+      env: LINT=true
+    - php: 7.2
+      env: COMPOSER_FLAGS="--prefer-lowest"
 
   fast_finish: true
 
@@ -21,7 +22,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-  - composer install -n
+  - composer update -n $COMPOSER_FLAGS
 
 script:
   - vendor/bin/phpunit
