@@ -8,6 +8,7 @@ use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
+use SebastianBergmann\Timer\Timer;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -162,7 +163,12 @@ class Command extends BaseCommand
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
             $output->writeln('');
             $printer->printData($output, $fileReportList, $hintList);
-            $output->writeln('<info>' . \PHP_Timer::resourceUsage() . '</info>');
+
+            $resourceUsage = class_exists(Timer::class)
+                ? Timer::resourceUsage()
+                : \PHP_Timer::resourceUsage();
+
+            $output->writeln('<info>' . $resourceUsage . '</info>');
         }
 
         if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
