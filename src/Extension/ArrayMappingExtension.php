@@ -28,7 +28,7 @@ class ArrayMappingExtension implements Extension
     {
         $parent = $node->getAttribute('parent');
 
-        return 
+        return
             $parent instanceof ArrayItem &&
             !($parent->key instanceof String_);
         ;
