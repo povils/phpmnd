@@ -29,6 +29,8 @@ class TEST_1
          'name' => 'Name',
          'age' => 13,
          'adult' => $input > 18,
+         18,
+         123 => 1234,
       ];
 
       if ($input > 1);
