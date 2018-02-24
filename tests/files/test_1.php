@@ -2,7 +2,7 @@
 
 define('test', 3);
 
-$variable = 4;
+$variable = '4';
 
 class TEST_1
 {
