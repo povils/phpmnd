@@ -121,7 +121,14 @@ class Command extends BaseCommand
                 null,
                 InputOption::VALUE_NONE,
                 'Include strings which are numeric'
-            );
+            )
+            ->addOption(
+                'xml-output',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Generate an XML output to the specified path'
+            )
+        ;
     }
 
     /**
@@ -146,7 +153,7 @@ class Command extends BaseCommand
         $detector = new Detector($this->createOption($input), $hintList);
 
         $fileReportList = new FileReportList();
-        $printer = new Printer();
+        $printer = new Printer\Console();
         foreach ($finder as $file) {
             try {
                 $fileReport = $detector->detect($file);
@@ -164,6 +171,11 @@ class Command extends BaseCommand
 
         if ($input->getOption('progress')) {
             $progressBar->finish();
+        }
+
+        if ($input->getOption('xml-output')) {
+            $xmlOutput = new Printer\Xml($input->getOption('xml-output'));
+            $xmlOutput->printData($output, $fileReportList, $hintList);
         }
 
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {

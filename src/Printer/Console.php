@@ -1,25 +1,25 @@
 <?php
 
-namespace Povils\PHPMND;
+namespace Povils\PHPMND\Printer;
 
 use JakubOnderka\PhpConsoleColor\ConsoleColor;
 use JakubOnderka\PhpConsoleHighlighter\Highlighter;
+use Povils\PHPMND\FileReportList;
+use Povils\PHPMND\HintList;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class Printer
+ * Class Console
  *
- * @package Povils\PHPMND
+ * @package Povils\PHPMND\Printer
  */
-class Printer
+class Console implements Printer
 {
     const LINE_LENGTH = 80;
     const TAB = 4;
 
     /**
-     * @param OutputInterface $output
-     * @param FileReportList  $fileReportList
-     * @param HintList        $hintList
+     * {@inheritDoc}
      */
     public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList)
     {
