@@ -108,6 +108,8 @@ The ``--ignore-strings`` option will exclude strings from the code analysis, whe
 
 The ``--extensions`` option lets you extend the code analysis. The provided extensions must be comma separated.
 
+The ``--include-numeric-string`` option forces numeric strings such as "1234" to also be treated as a number
+
 **By default it analyses conditions, return statements, and switch cases.**
 
 Choose from the list of available extensions:

@@ -67,13 +67,14 @@ class DetectorTest extends TestCase
     public function testDetectWithAssignExtension()
     {
         $option = $this->createOption([new AssignExtension()]);
+        $option->setIncludeStrings(true);
         $detector = $this->createDetector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         $this->assertContains(
             [
                 'line' => 5,
-                'value' => 4,
+                'value' => '4',
             ],
             $fileReport->getEntries()
         );

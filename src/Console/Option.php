@@ -10,6 +10,11 @@ use Povils\PHPMND\Extension\Extension;
 class Option
 {
     /**
+     * @var bool
+     */
+    private $numericStrings;
+
+    /**
      * @var Extension[]
      */
     private $extensions = [];
@@ -133,5 +138,18 @@ class Option
     public function setGiveHint($giveHint)
     {
         $this->giveHint = $giveHint;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getNumericStrings()
+    {
+        return $this->numericStrings;
+    }
+
+    public function setNumericStrings($numericStrings)
+    {
+        $this->numericStrings = $numericStrings;
     }
 }

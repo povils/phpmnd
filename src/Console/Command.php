@@ -115,6 +115,12 @@ class Command extends BaseCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'A comma-separated list of strings to ignore when using "strings" option'
+            )
+            ->addOption(
+                'include-numeric-string',
+                null,
+                InputOption::VALUE_NONE,
+                'Include strings which are numeric'
             );
     }
 
@@ -183,6 +189,7 @@ class Command extends BaseCommand
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
+        $option->setNumericStrings($input->getOption('include-numeric-string'));
         $option->setIgnoreStrings($this->getCSVOption($input, 'ignore-strings'));
         $option->setGiveHint($input->getOption('hint'));
         $option->setExtensions(
