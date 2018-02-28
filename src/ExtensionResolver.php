@@ -4,6 +4,7 @@ namespace Povils\PHPMND;
 
 use Povils\PHPMND\Extension\ArgumentExtension;
 use Povils\PHPMND\Extension\ArrayExtension;
+use Povils\PHPMND\Extension\ArrayMappingExtension;
 use Povils\PHPMND\Extension\AssignExtension;
 use Povils\PHPMND\Extension\ConditionExtension;
 use Povils\PHPMND\Extension\DefaultParameterExtension;
@@ -83,6 +84,7 @@ class ExtensionResolver
                 [
                     new ArgumentExtension,
                     new ArrayExtension,
+                    new ArrayMappingExtension,
                     new AssignExtension,
                     new DefaultParameterExtension,
                     new OperationExtension,

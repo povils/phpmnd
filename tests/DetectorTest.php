@@ -6,6 +6,7 @@ use Povils\PHPMND\Console\Option;
 use Povils\PHPMND\Detector;
 use Povils\PHPMND\Extension\ArgumentExtension;
 use Povils\PHPMND\Extension\ArrayExtension;
+use Povils\PHPMND\Extension\ArrayMappingExtension;
 use Povils\PHPMND\Extension\AssignExtension;
 use Povils\PHPMND\Extension\ConditionExtension;
 use Povils\PHPMND\Extension\DefaultParameterExtension;
@@ -56,7 +57,7 @@ class DetectorTest extends TestCase
                     'value' => 18,
                 ],
                 [
-                    'line' => 47,
+                    'line' => 49,
                     'value' => -2,
                 ],
             ],
@@ -151,7 +152,7 @@ class DetectorTest extends TestCase
 
         $this->assertContains(
             [
-                'line' => 37,
+                'line' => 39,
                 'value' => 15,
             ],
             $fileReport->getEntries()
@@ -208,7 +209,7 @@ class DetectorTest extends TestCase
 
         $this->assertContains(
             [
-                'line' => 43,
+                'line' => 45,
                 'value' => 'string',
             ],
             $fileReport->getEntries()
@@ -245,6 +246,40 @@ class DetectorTest extends TestCase
 
         $this->assertTrue($hintList->hasHints());
         $this->assertSame(['TEST_1::TEST_1'], $hintList->getHintsByValue(3));
+    }
+
+    public function testDetectArrayMappings()
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayMappingExtension]);
+
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertContains(
+            [
+                'line' => 32,
+                'value' => 18,
+            ],
+            $fileReport->getEntries()
+        );
+
+        $this->assertContains(
+            [
+                'line' => 33,
+                'value' => 1234,
+            ],
+            $fileReport->getEntries()
+        );
+
+        $this->assertNotContains(
+            [
+                'line' => 30,
+                'value' => 13,
+            ],
+            $fileReport->getEntries()
+        );
     }
 
     /**
