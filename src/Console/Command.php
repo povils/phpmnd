@@ -8,6 +8,7 @@ use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
+use SebastianBergmann\Timer\Timer;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -114,6 +115,12 @@ class Command extends BaseCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'A comma-separated list of strings to ignore when using "strings" option'
+            )
+            ->addOption(
+                'include-numeric-string',
+                null,
+                InputOption::VALUE_NONE,
+                'Include strings which are numeric'
             );
     }
 
@@ -162,7 +169,12 @@ class Command extends BaseCommand
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
             $output->writeln('');
             $printer->printData($output, $fileReportList, $hintList);
-            $output->writeln('<info>' . \PHP_Timer::resourceUsage() . '</info>');
+
+            $resourceUsage = class_exists(Timer::class)
+                ? Timer::resourceUsage()
+                : \PHP_Timer::resourceUsage();
+
+            $output->writeln('<info>' . $resourceUsage . '</info>');
         }
 
         if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
@@ -182,6 +194,7 @@ class Command extends BaseCommand
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
+        $option->setNumericStrings($input->getOption('include-numeric-string'));
         $option->setIgnoreStrings($this->getCSVOption($input, 'ignore-strings'));
         $option->setGiveHint($input->getOption('hint'));
         $option->setExtensions(

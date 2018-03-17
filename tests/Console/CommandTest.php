@@ -35,7 +35,7 @@ class CommandTest extends TestCase
         $input = $this->createInput('assign', null, true, true);
         $output = $this->createOutput();
         $output
-            ->expects($this->at(11))
+            ->expects($this->at(9))
             ->method('writeln')
             ->with('Suggestions:');
 

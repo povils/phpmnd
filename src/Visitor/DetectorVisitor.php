@@ -81,7 +81,17 @@ class DetectorVisitor extends NodeVisitorAbstract
      */
     private function isNumber(Node $node)
     {
-        return ($node instanceof LNumber || $node instanceof DNumber) && false === $this->ignoreNumber($node);
+        $isNumber = (
+            $node instanceof LNumber ||
+            $node instanceof DNumber ||
+            (
+                $this->option->getNumericStrings() &&
+                isset($node->value) &&
+                is_numeric($node->value)
+            )
+        );
+
+        return $isNumber && false === $this->ignoreNumber($node);
     }
 
     /**
