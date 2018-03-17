@@ -3,23 +3,35 @@
 namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
+use Povils\PHPMND\Console\Option;
 
 /**
- * Interface Extension
+ * @package Povils\PHPMND\Extension
  */
-interface Extension
+abstract class Extension
 {
     /**
-     * Extend magic number detection.
-     *
+     * @var Option
+     */
+    protected $option;
+
+    /**
      * @param Node $node
      *
      * @return bool
      */
-    public function extend(Node $node);
+    abstract public function extend(Node $node);
 
     /**
      * @return string
      */
-    public function getName();
+    abstract public function getName();
+
+    /**
+     * @param Option $option
+     */
+    public function setOption(Option $option)
+    {
+        $this->option = $option;
+    }
 }

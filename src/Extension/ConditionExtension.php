@@ -19,12 +19,7 @@ use PhpParser\Node\Expr\BinaryOp\SmallerOrEqual;
 use PhpParser\Node\Expr\BinaryOp\Spaceship;
 use PhpParser\Node\Expr\ConstFetch;
 
-/**
- * Class ConditionExtension
- *
- * @package Povils\PHPMND\Extension
- */
-class ConditionExtension implements Extension
+class ConditionExtension extends Extension
 {
     /**
      * @inheritdoc

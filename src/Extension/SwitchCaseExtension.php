@@ -5,12 +5,7 @@ namespace Povils\PHPMND\Extension;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Case_;
 
-/**
- * Class SwitchCaseExtension
- *
- * @package Povils\PHPMND\Extension
- */
-class SwitchCaseExtension implements Extension
+class SwitchCaseExtension extends Extension
 {
     /**
      * @inheritdoc

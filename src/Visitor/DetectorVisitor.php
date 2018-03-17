@@ -13,6 +13,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Povils\PHPMND\Console\Option;
+use Povils\PHPMND\Extension\ArrayAwareExtension;
 use Povils\PHPMND\Extension\Extension;
 use Povils\PHPMND\Extension\FunctionAwareExtension;
 use Povils\PHPMND\FileReport;
@@ -63,7 +64,8 @@ class DetectorVisitor extends NodeVisitorAbstract
                 }
             }
             foreach ($this->option->getExtensions() as $extension) {
-                if ($extension->extend($node) && false === $this->ignoreFunc($node, $extension)) {
+                $extension->setOption($this->option);
+                if ($extension->extend($node)) {
                     $this->fileReport->addEntry($scalar->getLine(), $scalar->value);
 
                     return null;
@@ -138,21 +140,6 @@ class DetectorVisitor extends NodeVisitorAbstract
     private function isMinus(Node $node)
     {
         return $node instanceof UnaryMinus;
-    }
-
-    /**
-     * @param Node $node
-     * @param Extension $extension
-     *
-     * @return bool
-     */
-    private function ignoreFunc(Node $node, Extension $extension)
-    {
-        if ($extension instanceof FunctionAwareExtension) {
-            return $extension->ignoreFunc($node, $this->option->getIgnoreFuncs());
-        }
-
-        return false;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Povils\PHPMND\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Povils\PHPMND\Console\Option;
 use Povils\PHPMND\Detector;
 use Povils\PHPMND\Extension\ArgumentExtension;
@@ -12,7 +13,6 @@ use Povils\PHPMND\Extension\DefaultParameterExtension;
 use Povils\PHPMND\Extension\Extension;
 use Povils\PHPMND\Extension\OperationExtension;
 use Povils\PHPMND\Extension\PropertyExtension;
-use PHPUnit\Framework\TestCase;
 use Povils\PHPMND\Extension\ReturnExtension;
 use Povils\PHPMND\Extension\SwitchCaseExtension;
 use Povils\PHPMND\HintList;
@@ -56,7 +56,7 @@ class DetectorTest extends TestCase
                     'value' => 18,
                 ],
                 [
-                    'line' => 47,
+                    'line' => 50,
                     'value' => -2,
                 ],
             ],
@@ -151,7 +151,7 @@ class DetectorTest extends TestCase
 
         $this->assertContains(
             [
-                'line' => 37,
+                'line' => 40,
                 'value' => 15,
             ],
             $fileReport->getEntries()
@@ -208,7 +208,7 @@ class DetectorTest extends TestCase
 
         $this->assertContains(
             [
-                'line' => 43,
+                'line' => 46,
                 'value' => 'string',
             ],
             $fileReport->getEntries()
@@ -226,7 +226,7 @@ class DetectorTest extends TestCase
 
         $this->assertNotContains(
             [
-                'line' => 43,
+                'line' => 45,
                 'value' => 'string',
             ],
             $fileReport->getEntries()
@@ -259,6 +259,49 @@ class DetectorTest extends TestCase
         $this->assertEmpty($fileReport->getEntries());
     }
 
+    public function testAllowArrayMappingWithArrayExtension()
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayExtension()]);
+        $option->setAllowArrayMapping(true);
+        $option->setIncludeNumericStrings(true);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertContains(
+            [
+                'line' => 32,
+                'value' => 18,
+            ],
+            $fileReport->getEntries()
+        );
+
+        $this->assertContains(
+            [
+                'line' => 33,
+                'value' => 1234,
+            ],
+            $fileReport->getEntries()
+        );
+
+        $this->assertContains(
+            [
+                'line' => 34,
+                'value' => 1234,
+            ],
+            $fileReport->getEntries()
+        );
+
+        $this->assertNotContains(
+            [
+                'line' => 30,
+                'value' => 13,
+            ],
+            $fileReport->getEntries()
+        );
+    }
+
     /**
      * @param Extension[] $extensions
      *
@@ -282,7 +325,7 @@ class DetectorTest extends TestCase
     }
 
     /**
-     * @param Option        $option
+     * @param Option $option
      * @param HintList|null $hintList
      *
      * @return Detector

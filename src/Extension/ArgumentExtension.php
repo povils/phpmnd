@@ -7,12 +7,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 
-/**
- * Class ArgumentExtension
- *
- * @package Povils\PHPMND\Extension
- */
-class ArgumentExtension implements FunctionAwareExtension
+class ArgumentExtension extends Extension
 {
     /**
      * @inheritdoc
@@ -27,13 +22,14 @@ class ArgumentExtension implements FunctionAwareExtension
      */
     public function extend(Node $node)
     {
-        return $node->getAttribute('parent') instanceof Arg;
+        return $node->getAttribute('parent') instanceof Arg && false === $this->ignoreFunc($node);
     }
 
     /**
-     * @inheritdoc
+     * @param Node $node
+     * @return bool
      */
-    public function ignoreFunc(Node $node, array $ignoreFuncs)
+    private function ignoreFunc(Node $node)
     {
         /** @var FuncCall $funcCallNode */
         $funcCallNode = $node->getAttribute('parent')->getAttribute('parent');
@@ -43,6 +39,6 @@ class ArgumentExtension implements FunctionAwareExtension
             &&
             $funcCallNode->name instanceof Name
             &&
-            in_array($funcCallNode->name->getLast(), $ignoreFuncs, true);
+            in_array($funcCallNode->name->getLast(), $this->option->getIgnoreFuncs(), true);
     }
 }

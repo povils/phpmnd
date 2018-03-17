@@ -5,12 +5,7 @@ namespace Povils\PHPMND\Extension;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\PropertyProperty;
 
-/**
- * Class PropertyExtension
- *
- * @package Povils\PHPMND\Extension
- */
-class PropertyExtension implements Extension
+class PropertyExtension extends Extension
 {
     /**
      * @inheritdoc

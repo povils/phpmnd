@@ -123,6 +123,12 @@ class Command extends BaseCommand
                 'Include strings which are numeric'
             )
             ->addOption(
+                'allow-array-mapping',
+                null,
+                InputOption::VALUE_NONE,
+                'Allow array mapping (key as strings) when using "array" extension.'
+            )
+            ->addOption(
                 'xml-output',
                 null,
                 InputOption::VALUE_REQUIRED,
@@ -203,6 +209,7 @@ class Command extends BaseCommand
         $option->setIncludeStrings($input->getOption('strings'));
         $option->setIncludeNumericStrings($input->getOption('include-numeric-string'));
         $option->setIgnoreStrings($this->getCSVOption($input, 'ignore-strings'));
+        $option->setAllowArrayMapping($input->getOption('allow-array-mapping'));
         $option->setGiveHint($input->getOption('hint'));
         $option->setExtensions(
             (new ExtensionResolver())->resolve($this->getCSVOption($input, 'extensions'))

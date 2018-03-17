@@ -45,6 +45,11 @@ class Option
     private $includeNumericStrings = false;
 
     /**
+     * @var bool
+     */
+    private $allowArrayMapping = false;
+
+    /**
      * @param Extension[] $extensions
      */
     public function setExtensions(array $extensions)
@@ -154,5 +159,21 @@ class Option
     public function setIncludeNumericStrings($includeNumericStrings)
     {
         $this->includeNumericStrings = $includeNumericStrings;
+    }
+
+    /**
+     * @return bool
+     */
+    public function allowArrayMapping()
+    {
+        return $this->allowArrayMapping;
+    }
+
+    /**
+     * @param bool $allowArrayMapping
+     */
+    public function setAllowArrayMapping($allowArrayMapping)
+    {
+        $this->allowArrayMapping = $allowArrayMapping;
     }
 }

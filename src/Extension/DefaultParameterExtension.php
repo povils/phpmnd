@@ -5,12 +5,7 @@ namespace Povils\PHPMND\Extension;
 use PhpParser\Node;
 use PhpParser\Node\Param;
 
-/**
- * Class DefaultParameterExtension
- *
- * @package Povils\PHPMND\Extension
- */
-class DefaultParameterExtension implements Extension
+class DefaultParameterExtension extends Extension
 {
     /**
      * @inheritdoc
