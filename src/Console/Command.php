@@ -187,7 +187,10 @@ class Command extends BaseCommand
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
             $output->writeln('');
             $printer->printData($output, $fileReportList, $hintList);
-            $output->writeln('<info>' . Timer::resourceUsage() . '</info>');
+
+            $resourceUsage = class_exists(Timer::class) ? Timer::resourceUsage() : \PHP_Timer::resourceUsage();
+
+            $output->writeln('<info>' . $resourceUsage . '</info>');
         }
 
         if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
