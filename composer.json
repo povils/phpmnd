@@ -21,7 +21,7 @@
     "phpunit/php-timer": "^1.0 || ^2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7 || ^6.0 || ^7.0",
+    "phpunit/phpunit": "^5.7.10 || ^6.0 || ^7.0",
     "squizlabs/php_codesniffer": "^2.8.1"
   },
   "autoload": {
