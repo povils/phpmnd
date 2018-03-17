@@ -10,11 +10,6 @@ use Povils\PHPMND\Extension\Extension;
 class Option
 {
     /**
-     * @var bool
-     */
-    private $numericStrings;
-
-    /**
      * @var Extension[]
      */
     private $extensions = [];
@@ -32,7 +27,7 @@ class Option
     /**
      * @var array
      */
-    private $ignoreStrings = [''];
+    private $ignoreStrings = ['', '0', '1'];
 
     /**
      * @var bool
@@ -43,6 +38,11 @@ class Option
      * @var bool
      */
     private $giveHint = false;
+
+    /**
+     * @var bool
+     */
+    private $includeNumericStrings = false;
 
     /**
      * @param Extension[] $extensions
@@ -143,13 +143,16 @@ class Option
     /**
      * @return bool
      */
-    public function getNumericStrings()
+    public function includeNumericStrings()
     {
-        return $this->numericStrings;
+        return $this->includeNumericStrings;
     }
 
-    public function setNumericStrings($numericStrings)
+    /**
+     * @param bool $includeNumericStrings
+     */
+    public function setIncludeNumericStrings($includeNumericStrings)
     {
-        $this->numericStrings = $numericStrings;
+        $this->includeNumericStrings = $includeNumericStrings;
     }
 }

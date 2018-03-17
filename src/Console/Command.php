@@ -189,7 +189,7 @@ class Command extends BaseCommand
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
-        $option->setNumericStrings($input->getOption('include-numeric-string'));
+        $option->setIncludeNumericStrings($input->getOption('include-numeric-string'));
         $option->setIgnoreStrings($this->getCSVOption($input, 'ignore-strings'));
         $option->setGiveHint($input->getOption('hint'));
         $option->setExtensions(

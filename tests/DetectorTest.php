@@ -67,7 +67,7 @@ class DetectorTest extends TestCase
     public function testDetectWithAssignExtension()
     {
         $option = $this->createOption([new AssignExtension()]);
-        $option->setIncludeStrings(true);
+        $option->setIncludeNumericStrings(true);
         $detector = $this->createDetector($option);
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
@@ -245,6 +245,18 @@ class DetectorTest extends TestCase
 
         $this->assertTrue($hintList->hasHints());
         $this->assertSame(['TEST_1::TEST_1'], $hintList->getHintsByValue(3));
+    }
+
+    public function testDontDetect0And1WithIncludeNumericStrings()
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new AssignExtension]);
+        $option->setIncludeNumericStrings(true);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_2'));
+
+        $this->assertEmpty($fileReport->getEntries());
     }
 
     /**

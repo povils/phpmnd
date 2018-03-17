@@ -84,11 +84,7 @@ class DetectorVisitor extends NodeVisitorAbstract
         $isNumber = (
             $node instanceof LNumber ||
             $node instanceof DNumber ||
-            (
-                $this->option->getNumericStrings() &&
-                isset($node->value) &&
-                is_numeric($node->value)
-            )
+            $this->isValidNumeric($node)
         );
 
         return $isNumber && false === $this->ignoreNumber($node);
@@ -157,5 +153,17 @@ class DetectorVisitor extends NodeVisitorAbstract
         }
 
         return false;
+    }
+
+    /**
+     * @param Node $node
+     * @return bool
+     */
+    private function isValidNumeric(Node $node)
+    {
+        return $this->option->includeNumericStrings() &&
+        isset($node->value) &&
+        is_numeric($node->value) &&
+        false === $this->ignoreString($node);
     }
 }
