@@ -110,6 +110,8 @@ The ``--extensions`` option lets you extend the code analysis. The provided exte
 
 The ``--include-numeric-string`` option forces numeric strings such as "1234" to also be treated as a number
 
+The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
+
 **By default it analyses conditions, return statements, and switch cases.**
 
 Choose from the list of available extensions:
