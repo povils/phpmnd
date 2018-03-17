@@ -3,8 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [v2.0.0] - 2015-03-17
+- Update dependencies. Required PHP 7.1
 - Add support for negative numbers.
+- Ignore '0' and '1' by default.
+- Add XML report output
+- Option for allowing array mapping when using array extension
+- Option for including numeric strings
 
 ## [v1.1.1] - 2017-05-16
 - Fix `--non-zero-exit-on-violation` option.
