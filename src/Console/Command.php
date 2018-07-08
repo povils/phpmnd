@@ -134,6 +134,13 @@ class Command extends BaseCommand
                 InputOption::VALUE_REQUIRED,
                 'Generate an XML output to the specified path'
             )
+            ->addOption(
+                'whitelist',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Link to a file containing filenames to search',
+                ''
+            )
         ;
     }
 
@@ -160,7 +167,13 @@ class Command extends BaseCommand
 
         $fileReportList = new FileReportList();
         $printer = new Printer\Console();
+        $whitelist = $this->getFileOption($input->getOption('whitelist'));
+
         foreach ($finder as $file) {
+            if (count($whitelist) > 0 && !in_array($file->getRelativePathname(), $whitelist)) {
+                continue;
+            }
+
             try {
                 $fileReport = $detector->detect($file);
                 if ($fileReport->hasMagicNumbers()) {
@@ -274,5 +287,24 @@ class Command extends BaseCommand
         }
 
         return $value;
+    }
+
+    private function getFileOption($filename) {
+        $filename = $this->convertFileDescriptorLink($filename);
+
+        if (file_exists($filename)) {
+            return array_map('trim', file($filename));
+        }
+
+        return [];
+    }
+
+    private function convertFileDescriptorLink($path)
+    {
+        if (strpos($path, '/dev/fd') === 0) {
+            return str_replace('/dev/fd', 'php://fd', $path);
+        }
+
+        return $path;
     }
 }
