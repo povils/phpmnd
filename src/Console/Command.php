@@ -289,7 +289,8 @@ class Command extends BaseCommand
         return $value;
     }
 
-    private function getFileOption($filename) {
+    private function getFileOption($filename)
+    {
         $filename = $this->convertFileDescriptorLink($filename);
 
         if (file_exists($filename)) {
