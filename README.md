@@ -108,11 +108,13 @@ The ``--ignore-strings`` option will exclude strings from the code analysis, whe
 
 The ``--extensions`` option lets you extend the code analysis. The provided extensions must be comma separated.
 
-The ``--include-numeric-string`` option forces numeric strings such as "1234" to also be treated as a number
+The ``--include-numeric-string`` option forces numeric strings such as "1234" to also be treated as a number.
 
 The ``--allow-array-mapping`` option allow keys as strings when using "array" extension.
 
 The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
+
+The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental anaysis.
 
 **By default it analyses conditions, return statements, and switch cases.**
 
