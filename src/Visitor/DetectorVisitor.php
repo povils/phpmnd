@@ -129,7 +129,8 @@ class DetectorVisitor extends NodeVisitorAbstract
      */
     private function hasSign(Node $node): bool
     {
-        return $node->getAttribute('parent') instanceof UnaryMinus || $node->getAttribute('parent') instanceof UnaryPlus;
+        return $node->getAttribute('parent') instanceof UnaryMinus
+            || $node->getAttribute('parent') instanceof UnaryPlus;
     }
 
     /**
