@@ -5,6 +5,8 @@ namespace Povils\PHPMND\Tests\Console;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Povils\PHPMND\Console\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class CommandTest
@@ -67,7 +69,7 @@ class CommandTest extends TestCase
      */
     protected function createInput($extensions = '', $suffix = 'php', $exitOnViolation = false, $hint = false)
     {
-        $input = $this->createMock('Symfony\Component\Console\Input\InputInterface');
+        $input = $this->createMock(InputInterface::class);
         $input
             ->method('getOption')
             ->will(
@@ -101,6 +103,6 @@ class CommandTest extends TestCase
      */
     protected function createOutput()
     {
-        return $this->createMock('Symfony\Component\Console\Output\OutputInterface');
+        return $this->createMock(OutputInterface::class);
     }
 }
