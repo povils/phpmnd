@@ -19,7 +19,7 @@ class PHPFinder extends Finder
      * @param array  $suffixes
      */
     public function __construct(
-        $directory,
+        string $directory,
         array $exclude,
         array $excludePaths,
         array $excludeFiles,

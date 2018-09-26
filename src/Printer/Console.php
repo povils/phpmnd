@@ -21,7 +21,7 @@ class Console implements Printer
     /**
      * {@inheritDoc}
      */
-    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList)
+    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
     {
         $separator = str_repeat('-', self::LINE_LENGTH);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);

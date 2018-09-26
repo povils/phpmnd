@@ -21,5 +21,5 @@ interface Printer
      * @param HintList        $hintList
      * @return void
      */
-    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList);
+    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void;
 }

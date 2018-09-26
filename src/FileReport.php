@@ -30,7 +30,7 @@ class FileReport
     /**
      * @return SplFileInfo
      */
-    public function getFile()
+    public function getFile(): SplFileInfo
     {
         return $this->file;
     }
@@ -39,7 +39,7 @@ class FileReport
      * @param int $line
      * @param int|float $value
      */
-    public function addEntry($line, $value)
+    public function addEntry(int $line, $value): void
     {
         $this->entries[] = [
             'line' => $line,
@@ -50,7 +50,7 @@ class FileReport
     /**
      * @return array
      */
-    public function getEntries()
+    public function getEntries(): array
     {
         return $this->entries;
     }
@@ -58,7 +58,7 @@ class FileReport
     /**
      * @return bool
      */
-    public function hasMagicNumbers()
+    public function hasMagicNumbers(): bool
     {
         return false === empty($this->entries);
     }

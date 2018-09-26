@@ -24,7 +24,7 @@ class ConditionExtension extends Extension
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function getName(): string
     {
         return 'condition';
     }
@@ -32,7 +32,7 @@ class ConditionExtension extends Extension
     /**
      * @inheritdoc
      */
-    public function extend(Node $node)
+    public function extend(Node $node): bool
     {
         return
             $this->isCondition($node->getAttribute('parent'))
@@ -45,7 +45,7 @@ class ConditionExtension extends Extension
      *
      * @return bool
      */
-    private function isCondition($node)
+    private function isCondition(Node $node): bool
     {
         return
             $node instanceof BinaryOp
@@ -84,7 +84,7 @@ class ConditionExtension extends Extension
      *
      * @return bool
      */
-    private function comparesToConst($node)
+    private function comparesToConst(BinaryOp $node): bool
     {
         return
             $node instanceof BinaryOp

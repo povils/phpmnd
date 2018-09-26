@@ -19,7 +19,7 @@ class HintList
      *
      * @return array
      */
-    public function getHintsByValue($magicNumber)
+    public function getHintsByValue($magicNumber): array
     {
         $hints = [];
         foreach ($this->constants as $constant) {
@@ -34,7 +34,7 @@ class HintList
     /**
      * @return bool
      */
-    public function hasHints()
+    public function hasHints(): bool
     {
         return false === empty($this->constants);
     }
@@ -44,7 +44,7 @@ class HintList
      * @param string $className
      * @param string $constName
      */
-    public function addClassCont($value, $className, $constName)
+    public function addClassCont($value, string $className, string $constName): void
     {
         $this->constants[] = [
             'value' => $value,

@@ -17,7 +17,7 @@ class FileReportList
     /**
      * @param FileReport $fileReport
      */
-    public function addFileReport(FileReport $fileReport)
+    public function addFileReport(FileReport $fileReport): void
     {
         $this->fileReports[] = $fileReport;
     }
@@ -25,7 +25,7 @@ class FileReportList
     /**
      * @return FileReport[]
      */
-    public function getFileReports()
+    public function getFileReports(): array
     {
         return $this->fileReports;
     }
@@ -33,7 +33,7 @@ class FileReportList
     /**
      * @return bool
      */
-    public function hasMagicNumbers()
+    public function hasMagicNumbers(): bool
     {
         foreach ($this->fileReports as $fileReport) {
             if ($fileReport->hasMagicNumbers()) {

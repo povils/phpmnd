@@ -60,7 +60,7 @@ class Option
     /**
      * @return Extension[]
      */
-    public function getExtensions()
+    public function getExtensions(): array
     {
         return $this->extensions;
     }
@@ -76,7 +76,7 @@ class Option
     /**
      * @return array
      */
-    public function getIgnoreNumbers()
+    public function getIgnoreNumbers(): array
     {
         return $this->ignoreNumbers;
     }
@@ -92,7 +92,7 @@ class Option
     /**
      * @return array
      */
-    public function getIgnoreFuncs()
+    public function getIgnoreFuncs(): array
     {
         return $this->ignoreFuncs;
     }
@@ -100,7 +100,7 @@ class Option
     /**
      * @return bool
      */
-    public function includeStrings()
+    public function includeStrings(): ?bool
     {
         return $this->includeStrings;
     }
@@ -108,7 +108,7 @@ class Option
     /**
      * @param bool $includeStrings
      */
-    public function setIncludeStrings($includeStrings)
+    public function setIncludeStrings(?bool $includeStrings)
     {
         $this->includeStrings = $includeStrings;
     }
@@ -116,7 +116,7 @@ class Option
     /**
      * @return array
      */
-    public function getIgnoreStrings()
+    public function getIgnoreStrings(): array
     {
         return $this->ignoreStrings;
     }
@@ -132,7 +132,7 @@ class Option
     /**
      * @return boolean
      */
-    public function giveHint()
+    public function giveHint(): bool
     {
         return $this->giveHint;
     }
@@ -140,7 +140,7 @@ class Option
     /**
      * @param boolean $giveHint
      */
-    public function setGiveHint($giveHint)
+    public function setGiveHint(bool $giveHint)
     {
         $this->giveHint = $giveHint;
     }
@@ -148,7 +148,7 @@ class Option
     /**
      * @return bool
      */
-    public function includeNumericStrings()
+    public function includeNumericStrings(): ?bool
     {
         return $this->includeNumericStrings;
     }
@@ -156,7 +156,7 @@ class Option
     /**
      * @param bool $includeNumericStrings
      */
-    public function setIncludeNumericStrings($includeNumericStrings)
+    public function setIncludeNumericStrings(?bool $includeNumericStrings)
     {
         $this->includeNumericStrings = $includeNumericStrings;
     }
@@ -164,7 +164,7 @@ class Option
     /**
      * @return bool
      */
-    public function allowArrayMapping()
+    public function allowArrayMapping(): ?bool
     {
         return $this->allowArrayMapping;
     }
@@ -172,7 +172,7 @@ class Option
     /**
      * @param bool $allowArrayMapping
      */
-    public function setAllowArrayMapping($allowArrayMapping)
+    public function setAllowArrayMapping(?bool $allowArrayMapping)
     {
         $this->allowArrayMapping = $allowArrayMapping;
     }

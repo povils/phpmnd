@@ -48,7 +48,7 @@ class DetectorVisitor extends NodeVisitorAbstract
     /**
      * @inheritdoc
      */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): ?int
     {
         if ($node instanceof Const_) {
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
@@ -81,7 +81,7 @@ class DetectorVisitor extends NodeVisitorAbstract
      *
      * @return bool
      */
-    private function isNumber(Node $node)
+    private function isNumber(Node $node): bool
     {
         $isNumber = (
             $node instanceof LNumber ||
@@ -97,7 +97,7 @@ class DetectorVisitor extends NodeVisitorAbstract
      *
      * @return bool
      */
-    private function isString(Node $node)
+    private function isString(Node $node): bool
     {
         return $this->option->includeStrings() && $node instanceof String_ && false === $this->ignoreString($node);
     }
@@ -107,7 +107,7 @@ class DetectorVisitor extends NodeVisitorAbstract
      *
      * @return bool
      */
-    private function ignoreNumber(Node $node)
+    private function ignoreNumber(Node $node): bool
     {
         return in_array($node->value, $this->option->getIgnoreNumbers(), true);
     }
@@ -117,7 +117,7 @@ class DetectorVisitor extends NodeVisitorAbstract
      *
      * @return bool
      */
-    private function ignoreString(Node $node)
+    private function ignoreString(Node $node): bool
     {
         return in_array($node->value, $this->option->getIgnoreStrings(), true);
     }
@@ -127,7 +127,7 @@ class DetectorVisitor extends NodeVisitorAbstract
      *
      * @return bool
      */
-    private function hasSign(Node $node)
+    private function hasSign(Node $node): bool
     {
         return $node->getAttribute('parent') instanceof UnaryMinus || $node->getAttribute('parent') instanceof UnaryPlus;
     }
@@ -137,7 +137,7 @@ class DetectorVisitor extends NodeVisitorAbstract
      *
      * @return bool
      */
-    private function isMinus(Node $node)
+    private function isMinus(Node $node): bool
     {
         return $node instanceof UnaryMinus;
     }
@@ -146,7 +146,7 @@ class DetectorVisitor extends NodeVisitorAbstract
      * @param Node $node
      * @return bool
      */
-    private function isValidNumeric(Node $node)
+    private function isValidNumeric(Node $node): bool
     {
         return $this->option->includeNumericStrings() &&
         isset($node->value) &&

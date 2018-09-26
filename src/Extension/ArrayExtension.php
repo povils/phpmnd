@@ -11,7 +11,7 @@ class ArrayExtension extends Extension
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function getName(): string
     {
         return 'array';
     }
@@ -19,7 +19,7 @@ class ArrayExtension extends Extension
     /**
      * @inheritdoc
      */
-    public function extend(Node $node)
+    public function extend(Node $node): bool
     {
         $parent = $node->getAttribute('parent');
 
@@ -29,7 +29,7 @@ class ArrayExtension extends Extension
     /**
      * @inheritdoc
      */
-    private function ignoreArray(ArrayItem $node)
+    private function ignoreArray(ArrayItem $node): bool
     {
         $arrayKey = $node->key;
         

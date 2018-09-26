@@ -42,7 +42,7 @@ class Detector
      *
      * @return FileReport
      */
-    public function detect(SplFileInfo $file)
+    public function detect(SplFileInfo $file): FileReport
     {
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         $traverser = new NodeTraverser();

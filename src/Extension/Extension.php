@@ -20,12 +20,12 @@ abstract class Extension
      *
      * @return bool
      */
-    abstract public function extend(Node $node);
+    abstract public function extend(Node $node): bool;
 
     /**
      * @return string
      */
-    abstract public function getName();
+    abstract public function getName(): string;
 
     /**
      * @param Option $option

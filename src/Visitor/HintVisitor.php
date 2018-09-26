@@ -34,7 +34,7 @@ class HintVisitor extends NodeVisitorAbstract
     /**
      * @inheritdoc
      */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): ?int
     {
         if ($node instanceof Const_) {
             if (false === $node->value instanceof Scalar) {

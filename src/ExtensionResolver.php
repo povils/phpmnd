@@ -37,7 +37,7 @@ class ExtensionResolver
      */
     private $resolvedExtensions = [];
 
-    public function resolve(array $extensionNames)
+    public function resolve(array $extensionNames): array
     {
         $this->resolvedExtensions = $this->defaults();
         if (($allKey = array_search(self::ALL_EXTENSIONS, $extensionNames)) !== false) {
@@ -60,7 +60,7 @@ class ExtensionResolver
     /**
      * @return Extension[]
      */
-    public function defaults()
+    public function defaults(): array
     {
         if (null === $this->defaultExtensions) {
             $this->defaultExtensions = [
@@ -76,7 +76,7 @@ class ExtensionResolver
     /**
      * @return Extension[]
      */
-    public function all()
+    public function all(): array
     {
         if (null === $this->allExtensions) {
             $this->allExtensions = array_merge(
@@ -98,7 +98,7 @@ class ExtensionResolver
     /**
      * @param string $extensionName
      */
-    private function addExtension($extensionName)
+    private function addExtension(string $extensionName): void
     {
         if ($this->exists($extensionName)) {
             foreach ($this->all() as $extension) {
@@ -116,7 +116,7 @@ class ExtensionResolver
      *
      * @throws \Exception
      */
-    private function removeExtension($extensionName)
+    private function removeExtension(string $extensionName): void
     {
         $extensionNameWithoutMinus = substr($extensionName, 1);
         if ($this->exists($extensionNameWithoutMinus)) {
@@ -136,7 +136,7 @@ class ExtensionResolver
      *
      * @throws \Exception
      */
-    private function exists($extensionName)
+    private function exists(string $extensionName): bool
     {
         foreach ($this->all() as $extension) {
             if ($extension->getName() === $extensionName) {
@@ -152,7 +152,7 @@ class ExtensionResolver
      *
      * @return bool
      */
-    private function startsWithMinus($extensionName)
+    private function startsWithMinus(string $extensionName): bool
     {
         return 0 === strpos($extensionName, '-');
     }

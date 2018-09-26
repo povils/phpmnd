@@ -22,7 +22,7 @@ class Xml implements Printer
      *
      * @param string $outputPath
      */
-    public function __construct($outputPath)
+    public function __construct(string $outputPath)
     {
         $this->outputPath = $outputPath;
     }
@@ -30,7 +30,7 @@ class Xml implements Printer
     /**
      * {@inheritDoc}
      */
-    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList)
+    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
     {
         $output->writeln('Generate XML output...');
         $dom = new \DOMDocument();
@@ -97,7 +97,7 @@ class Xml implements Printer
      * @param int|string $text
      * @return array
      */
-    private function getSnippet($content, $line, $text)
+    private function getSnippet(string $content, int $line, $text): array
     {
         $content = str_replace(array("\r\n", "\r"), "\n", $content);
         $lines = explode("\n", $content);

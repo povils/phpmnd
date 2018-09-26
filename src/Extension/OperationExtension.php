@@ -17,7 +17,7 @@ class OperationExtension extends Extension
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function getName(): string
     {
         return 'operation';
     }
@@ -25,7 +25,7 @@ class OperationExtension extends Extension
     /**
      * @inheritdoc
      */
-    public function extend(Node $node)
+    public function extend(Node $node): bool
     {
         $parentNode = $node->getAttribute('parent');
 
