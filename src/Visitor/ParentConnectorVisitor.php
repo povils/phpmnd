@@ -12,17 +12,11 @@ class ParentConnectorVisitor extends NodeVisitorAbstract
      */
     private $stack;
 
-    /**
-     * @inheritdoc
-     */
     public function beforeTraverse(array $nodes): void
     {
         $this->stack = [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function enterNode(Node $node): void
     {
         if (false === empty($this->stack)) {
@@ -31,9 +25,6 @@ class ParentConnectorVisitor extends NodeVisitorAbstract
         $this->stack[] = $node;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function leaveNode(Node $node): void
     {
         array_pop($this->stack);

@@ -18,9 +18,6 @@ class Console implements Printer
     const LINE_LENGTH = 80;
     const TAB = 4;
 
-    /**
-     * {@inheritDoc}
-     */
     public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
     {
         $separator = str_repeat('-', self::LINE_LENGTH);

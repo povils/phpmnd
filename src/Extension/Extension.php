@@ -15,21 +15,10 @@ abstract class Extension
      */
     protected $option;
 
-    /**
-     * @param Node $node
-     *
-     * @return bool
-     */
     abstract public function extend(Node $node): bool;
 
-    /**
-     * @return string
-     */
     abstract public function getName(): string;
 
-    /**
-     * @param Option $option
-     */
     public function setOption(Option $option)
     {
         $this->option = $option;

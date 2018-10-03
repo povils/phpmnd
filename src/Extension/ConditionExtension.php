@@ -21,17 +21,11 @@ use PhpParser\Node\Expr\ConstFetch;
 
 class ConditionExtension extends Extension
 {
-    /**
-     * @inheritdoc
-     */
     public function getName(): string
     {
         return 'condition';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function extend(Node $node): bool
     {
         return
@@ -40,11 +34,6 @@ class ConditionExtension extends Extension
             false === $this->comparesToConst($node->getAttribute('parent'));
     }
 
-    /**
-     * @param Node $node
-     *
-     * @return bool
-     */
     private function isCondition(Node $node): bool
     {
         return
@@ -79,11 +68,6 @@ class ConditionExtension extends Extension
             );
     }
 
-    /**
-     * @param BinaryOp $node
-     *
-     * @return bool
-     */
     private function comparesToConst(BinaryOp $node): bool
     {
         return

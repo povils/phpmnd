@@ -23,17 +23,11 @@ class HintVisitor extends NodeVisitorAbstract
      */
     private $hintList;
 
-    /**
-     * @param HintList $hintList
-     */
     public function __construct(HintList $hintList)
     {
         $this->hintList = $hintList;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function enterNode(Node $node): ?int
     {
         if ($node instanceof Const_) {

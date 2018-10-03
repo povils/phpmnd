@@ -17,19 +17,11 @@ class Xml implements Printer
     /** @var string */
     private $outputPath;
 
-    /**
-     * Xml constructor.
-     *
-     * @param string $outputPath
-     */
     public function __construct(string $outputPath)
     {
         $this->outputPath = $outputPath;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
     {
         $output->writeln('Generate XML output...');

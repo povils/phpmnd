@@ -8,17 +8,11 @@ use PhpParser\Node\Scalar\String_;
 
 class ArrayExtension extends Extension
 {
-    /**
-     * @inheritdoc
-     */
     public function getName(): string
     {
         return 'array';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function extend(Node $node): bool
     {
         $parent = $node->getAttribute('parent');
@@ -26,9 +20,6 @@ class ArrayExtension extends Extension
         return $parent instanceof ArrayItem && false === $this->ignoreArray($parent);
     }
 
-    /**
-     * @inheritdoc
-     */
     private function ignoreArray(ArrayItem $node): bool
     {
         $arrayKey = $node->key;

@@ -27,21 +27,12 @@ class Detector
      */
     private $hintList;
 
-    /**
-     * @param Option   $option
-     * @param HintList $hintList
-     */
     public function __construct(Option $option, HintList $hintList)
     {
         $this->option = $option;
         $this->hintList = $hintList;
     }
 
-    /**
-     * @param SplFileInfo $file
-     *
-     * @return FileReport
-     */
     public function detect(SplFileInfo $file): FileReport
     {
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);

@@ -27,9 +27,6 @@ class FileReport
         $this->file = $file;
     }
 
-    /**
-     * @return SplFileInfo
-     */
     public function getFile(): SplFileInfo
     {
         return $this->file;
@@ -47,17 +44,11 @@ class FileReport
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getEntries(): array
     {
         return $this->entries;
     }
 
-    /**
-     * @return bool
-     */
     public function hasMagicNumbers(): bool
     {
         return false === empty($this->entries);

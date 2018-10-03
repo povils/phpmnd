@@ -31,9 +31,6 @@ class HintList
         return $hints;
     }
 
-    /**
-     * @return bool
-     */
     public function hasHints(): bool
     {
         return false === empty($this->constants);

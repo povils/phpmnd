@@ -14,17 +14,11 @@ use PhpParser\Node\Expr\BinaryOp\ShiftRight;
 
 class OperationExtension extends Extension
 {
-    /**
-     * @inheritdoc
-     */
     public function getName(): string
     {
         return 'operation';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function extend(Node $node): bool
     {
         $parentNode = $node->getAttribute('parent');

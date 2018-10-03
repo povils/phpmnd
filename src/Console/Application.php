@@ -23,17 +23,11 @@ class Application extends BaseApplication
         parent::__construct('phpmnd', self::VERSION);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getCommandName(InputInterface $input): string
     {
         return self::COMMAND_NAME;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getDefaultCommands(): array
     {
         $defaultCommands = parent::getDefaultCommands();
@@ -42,9 +36,6 @@ class Application extends BaseApplication
         return $defaultCommands;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefinition();
@@ -53,9 +44,6 @@ class Application extends BaseApplication
         return $inputDefinition;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
         if (false === $input->hasParameterOption('--quiet')) {

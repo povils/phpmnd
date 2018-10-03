@@ -13,13 +13,5 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface Printer
 {
-    /**
-     * Render the result of the detector
-     *
-     * @param OutputInterface $output
-     * @param FileReportList  $fileReportList
-     * @param HintList        $hintList
-     * @return void
-     */
     public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void;
 }
