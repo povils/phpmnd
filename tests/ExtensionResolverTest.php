@@ -14,7 +14,7 @@ use Povils\PHPMND\ExtensionResolver;
  */
 class ExtensionResolverTest extends TestCase
 {
-    public function testResolveDefault()
+    public function testResolveDefault(): void
     {
         $resolver = $this->createResolver();
         $extensions = $resolver->resolve([]);
@@ -22,7 +22,7 @@ class ExtensionResolverTest extends TestCase
         $this->assertSame($resolver->defaults(), $extensions);
     }
 
-    public function testResolveAddExtension()
+    public function testResolveAddExtension(): void
     {
         $resolver = $this->createResolver();
         $extensions = $resolver->resolve(['assign']);
@@ -37,7 +37,7 @@ class ExtensionResolverTest extends TestCase
         $this->assertTrue(false);
     }
 
-    public function testResolveAll()
+    public function testResolveAll(): void
     {
         $resolver = $this->createResolver();
         $extensions = $resolver->resolve(['all']);
@@ -45,7 +45,7 @@ class ExtensionResolverTest extends TestCase
         $this->assertSame($resolver->all(), $extensions);
     }
 
-    public function testResolveWithMinus()
+    public function testResolveWithMinus(): void
     {
         $resolver = $this->createResolver();
         $extensions = $resolver->resolve(['-return']);
@@ -59,7 +59,7 @@ class ExtensionResolverTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testResolveNotExistingExtension()
+    public function testResolveNotExistingExtension(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -67,10 +67,7 @@ class ExtensionResolverTest extends TestCase
         $resolver->resolve(['not_existing']);
     }
 
-    /**
-     * @return ExtensionResolver
-     */
-    private function createResolver()
+    private function createResolver(): ExtensionResolver
     {
         return new ExtensionResolver();
     }

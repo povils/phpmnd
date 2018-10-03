@@ -2,8 +2,8 @@
 
 namespace Povils\PHPMND\Tests\Console;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Povils\PHPMND\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CommandTest extends TestCase
 {
 
-    public function testExecuteNoFilesFound()
+    public function testExecuteNoFilesFound(): void
     {
         $input = $this->createInput(null, 'bad_suffix');
         $output = $this->createOutput();
@@ -24,7 +24,7 @@ class CommandTest extends TestCase
         $this->assertSame(Command::EXIT_CODE_SUCCESS, $this->execute([$input, $output]));
     }
 
-    public function testExecuteWithViolationOption()
+    public function testExecuteWithViolationOption(): void
     {
         $input = $this->createInput(null, null, true);
         $output = $this->createOutput();
@@ -32,7 +32,7 @@ class CommandTest extends TestCase
         $this->assertSame(Command::EXIT_CODE_FAILURE, $this->execute([$input, $output]));
     }
 
-    public function testExecuteWithHintOption()
+    public function testExecuteWithHintOption(): void
     {
         $input = $this->createInput('assign', null, true, true);
         $output = $this->createOutput();
@@ -44,12 +44,7 @@ class CommandTest extends TestCase
         $this->execute([$input, $output]);
     }
 
-    /**
-     * @param array $args
-     *
-     * @return int
-     */
-    private function execute(array $args)
+    private function execute(array $args): int
     {
         $command = new Command;
         $class = new \ReflectionClass(new Command);
@@ -59,16 +54,12 @@ class CommandTest extends TestCase
         return $method->invokeArgs($command, $args);
     }
 
-    /**
-     * @param string $extensions
-     * @param string $suffix
-     * @param bool   $exitOnViolation
-     * @param bool   $hint
-     *
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function createInput($extensions = '', $suffix = 'php', $exitOnViolation = false, $hint = false)
-    {
+    protected function createInput(
+        ?string $extensions = '',
+        ?string $suffix = 'php',
+        bool $exitOnViolation = false,
+        bool $hint = false
+    ): MockObject {
         $input = $this->createMock(InputInterface::class);
         $input
             ->method('getOption')
@@ -98,10 +89,7 @@ class CommandTest extends TestCase
         return $input;
     }
 
-    /**
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function createOutput()
+    protected function createOutput(): MockObject
     {
         return $this->createMock(OutputInterface::class);
     }

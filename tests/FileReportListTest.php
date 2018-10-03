@@ -14,7 +14,7 @@ use Povils\PHPMND\FileReportList;
  */
 class FileReportListTest extends TestCase
 {
-    public function testAddFileReport()
+    public function testAddFileReport(): void
     {
         $fileReportList = new FileReportList;
         /** @var FileReport|Mock $fileReport */
@@ -29,7 +29,7 @@ class FileReportListTest extends TestCase
         $this->assertTrue($fileReportList->hasMagicNumbers());
     }
 
-    public function testDosntHaveMagicNumbers()
+    public function testDoesNotHaveMagicNumbers(): void
     {
         $fileReportList = new FileReportList;
 
