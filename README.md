@@ -77,6 +77,9 @@ $ export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 ## Usage Example
 
+Demo:
+![demo](./demo.gif)
+
 Basic usage:
 
 ```bash
