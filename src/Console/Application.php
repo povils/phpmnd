@@ -4,6 +4,7 @@ namespace Povils\PHPMND\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -22,18 +23,12 @@ class Application extends BaseApplication
         parent::__construct('phpmnd', self::VERSION);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function getCommandName(InputInterface $input)
+    protected function getCommandName(InputInterface $input): string
     {
         return self::COMMAND_NAME;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function getDefaultCommands()
+    protected function getDefaultCommands(): array
     {
         $defaultCommands = parent::getDefaultCommands();
         $defaultCommands[] = new Command;
@@ -41,10 +36,7 @@ class Application extends BaseApplication
         return $defaultCommands;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefinition()
+    public function getDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefinition();
         $inputDefinition->setArguments();
@@ -52,10 +44,7 @@ class Application extends BaseApplication
         return $inputDefinition;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         if (false === $input->hasParameterOption('--quiet')) {
             $output->write(
@@ -67,7 +56,7 @@ class Application extends BaseApplication
         }
 
         if ($input->hasParameterOption('--version') || $input->hasParameterOption('-V')) {
-            exit;
+            return Command::EXIT_CODE_SUCCESS;
         }
 
         if (null === $input->getFirstArgument()) {

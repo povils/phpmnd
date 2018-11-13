@@ -11,15 +11,8 @@ use Symfony\Component\Finder\Finder;
  */
 class PHPFinder extends Finder
 {
-    /**
-     * @param string $directory
-     * @param array  $exclude
-     * @param array  $excludePaths
-     * @param array  $excludeFiles
-     * @param array  $suffixes
-     */
     public function __construct(
-        $directory,
+        string $directory,
         array $exclude,
         array $excludePaths,
         array $excludeFiles,

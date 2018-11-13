@@ -7,18 +7,12 @@ use PhpParser\Node\Expr\Assign;
 
 class AssignExtension extends Extension
 {
-    /**
-     * @inheritdoc
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'assign';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function extend(Node $node)
+    public function extend(Node $node): bool
     {
         return $node->getAttribute('parent') instanceof Assign;
     }

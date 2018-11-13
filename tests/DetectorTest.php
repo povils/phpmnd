@@ -24,7 +24,7 @@ use Povils\PHPMND\HintList;
  */
 class DetectorTest extends TestCase
 {
-    public function testDetectDefault()
+    public function testDetectDefault(): void
     {
         $detector = $this->createDetector($this->createOption());
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
@@ -64,7 +64,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithAssignExtension()
+    public function testDetectWithAssignExtension(): void
     {
         $option = $this->createOption([new AssignExtension()]);
         $option->setIncludeNumericStrings(true);
@@ -80,7 +80,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithPropertyExtension()
+    public function testDetectWithPropertyExtension(): void
     {
         $option = $this->createOption([new PropertyExtension()]);
         $detector = $this->createDetector($option);
@@ -95,7 +95,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithArrayExtension()
+    public function testDetectWithArrayExtension(): void
     {
         $option = $this->createOption([new ArrayExtension()]);
         $detector = $this->createDetector($option);
@@ -110,7 +110,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithArgumentExtension()
+    public function testDetectWithArgumentExtension(): void
     {
         $option = $this->createOption([new ArgumentExtension()]);
         $detector = $this->createDetector($option);
@@ -126,7 +126,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithDefaultParameterExtension()
+    public function testDetectWithDefaultParameterExtension(): void
     {
         $option = $this->createOption([new DefaultParameterExtension()]);
         $detector = $this->createDetector($option);
@@ -142,7 +142,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithOperationExtension()
+    public function testDetectWithOperationExtension(): void
     {
         $option = $this->createOption([new OperationExtension()]);
         $detector = $this->createDetector($option);
@@ -166,7 +166,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithIgnoreNumber()
+    public function testDetectWithIgnoreNumber(): void
     {
         $ignoreNumbers = [2, 10];
         $option = $this->createOption();
@@ -180,7 +180,7 @@ class DetectorTest extends TestCase
         }
     }
 
-    public function testDetectWithIgnoreFuncs()
+    public function testDetectWithIgnoreFuncs(): void
     {
         $ignoreFuncs = ['round'];
         $option = $this->createOption([new ArgumentExtension()]);
@@ -198,7 +198,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectIncludeStrings()
+    public function testDetectIncludeStrings(): void
     {
         $option = $this->createOption();
         $option->setIncludeStrings(true);
@@ -215,7 +215,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectIncludeStringsAndIgnoreString()
+    public function testDetectIncludeStringsAndIgnoreString(): void
     {
         $option = $this->createOption();
         $option->setIncludeStrings(true);
@@ -233,7 +233,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    public function testDetectWithHint()
+    public function testDetectWithHint(): void
     {
         $option = $this->createOption();
         $option->setExtensions([new AssignExtension]);
@@ -247,7 +247,7 @@ class DetectorTest extends TestCase
         $this->assertSame(['TEST_1::TEST_1'], $hintList->getHintsByValue(3));
     }
 
-    public function testDontDetect0And1WithIncludeNumericStrings()
+    public function testDontDetect0And1WithIncludeNumericStrings(): void
     {
         $option = $this->createOption();
         $option->setExtensions([new AssignExtension]);
@@ -259,7 +259,7 @@ class DetectorTest extends TestCase
         $this->assertEmpty($fileReport->getEntries());
     }
 
-    public function testAllowArrayMappingWithArrayExtension()
+    public function testAllowArrayMappingWithArrayExtension(): void
     {
         $option = $this->createOption();
         $option->setExtensions([new ArrayExtension()]);
@@ -302,12 +302,7 @@ class DetectorTest extends TestCase
         );
     }
 
-    /**
-     * @param Extension[] $extensions
-     *
-     * @return Option
-     */
-    private function createOption(array $extensions = [])
+    private function createOption(array $extensions = []): Option
     {
         $option = new Option;
         $option->setExtensions(
@@ -324,13 +319,7 @@ class DetectorTest extends TestCase
         return $option;
     }
 
-    /**
-     * @param Option $option
-     * @param HintList|null $hintList
-     *
-     * @return Detector
-     */
-    private function createDetector(Option $option, HintList $hintList = null)
+    private function createDetector(Option $option, ?HintList $hintList = null): Detector
     {
         if (null === $hintList) {
             $hintList = new HintList;

@@ -26,10 +26,7 @@ class Command extends BaseCommand
     const EXIT_CODE_SUCCESS = 0;
     const EXIT_CODE_FAILURE = 1;
 
-    /**
-     * @inheritdoc
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('phpmnd')
@@ -144,10 +141,7 @@ class Command extends BaseCommand
         ;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $finder = $this->createFinder($input);
 
@@ -212,12 +206,7 @@ class Command extends BaseCommand
         return self::EXIT_CODE_SUCCESS;
     }
 
-    /**
-     * @param InputInterface $input
-     * @return Option
-     * @throws \Exception
-     */
-    private function createOption(InputInterface $input)
+    private function createOption(InputInterface $input): Option
     {
         $option = new Option;
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
@@ -234,13 +223,7 @@ class Command extends BaseCommand
         return $option;
     }
 
-    /**
-     * @param InputInterface $input
-     * @param string $option
-     *
-     * @return array
-     */
-    private function getCSVOption(InputInterface $input, $option)
+    private function getCSVOption(InputInterface $input, string $option): array
     {
         $result = $input->getOption($option);
         if (false === is_array($result)) {
@@ -259,12 +242,7 @@ class Command extends BaseCommand
         return $result;
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return PHPFinder
-     */
-    protected function createFinder(InputInterface $input)
+    protected function createFinder(InputInterface $input): PHPFinder
     {
         return new PHPFinder(
             $input->getArgument('directory'),
@@ -275,12 +253,7 @@ class Command extends BaseCommand
         );
     }
 
-    /**
-     * @param string $value
-     *
-     * @return int|float|string
-     */
-    private function castToNumber($value)
+    private function castToNumber(string $value)
     {
         if (is_numeric($value)) {
             $value += 0; // '2' -> (int) 2, '2.' -> (float) 2.0

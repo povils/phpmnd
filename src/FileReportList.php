@@ -14,26 +14,17 @@ class FileReportList
      */
     private $fileReports = [];
 
-    /**
-     * @param FileReport $fileReport
-     */
-    public function addFileReport(FileReport $fileReport)
+    public function addFileReport(FileReport $fileReport): void
     {
         $this->fileReports[] = $fileReport;
     }
 
-    /**
-     * @return FileReport[]
-     */
-    public function getFileReports()
+    public function getFileReports(): array
     {
         return $this->fileReports;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasMagicNumbers()
+    public function hasMagicNumbers(): bool
     {
         foreach ($this->fileReports as $fileReport) {
             if ($fileReport->hasMagicNumbers()) {

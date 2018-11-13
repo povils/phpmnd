@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FileReportTest extends TestCase
 {
-    public function testFileReport()
+    public function testFileReport(): void
     {
         $file = self::getTestFile('test_1');
         $fileReport = new FileReport($file);
@@ -33,12 +33,7 @@ class FileReportTest extends TestCase
         $this->assertTrue($fileReport->hasMagicNumbers());
     }
 
-    /**
-     * @param string $name
-     *
-     * @return SplFileInfo
-     */
-    public static function getTestFile($name)
+    public static function getTestFile(string $name): SplFileInfo
     {
         return new SplFileInfo(
             __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . "$name.php",
