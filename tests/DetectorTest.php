@@ -309,7 +309,6 @@ class DetectorTest extends TestCase
         $detector = $this->createDetector($option);
 
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_3'));
-        var_dump($fileReport->getEntries());
 
         $this->assertContains(
             [
@@ -318,7 +317,6 @@ class DetectorTest extends TestCase
             ],
             $fileReport->getEntries()
         );
-
     }
 
     private function createOption(array $extensions = []): Option
