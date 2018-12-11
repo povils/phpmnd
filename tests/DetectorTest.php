@@ -302,6 +302,25 @@ class DetectorTest extends TestCase
         );
     }
 
+    public function testCheckForMagicArrayConstants(): void
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayExtension()]);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_3'));
+        var_dump($fileReport->getEntries());
+
+        $this->assertContains(
+            [
+                'line' => 4,
+                'value' => 2,
+            ],
+            $fileReport->getEntries()
+        );
+
+    }
+
     private function createOption(array $extensions = []): Option
     {
         $option = new Option;
