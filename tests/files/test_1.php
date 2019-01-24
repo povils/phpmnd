@@ -49,4 +49,10 @@ class TEST_1
    public function returnNegative() {
       return -2;
    }
+
+   public function returnFromKey() {
+    $a = [];
+    return $a[1234];
+
+   }
 }

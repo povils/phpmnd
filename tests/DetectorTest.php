@@ -259,6 +259,24 @@ class DetectorTest extends TestCase
         $this->assertEmpty($fileReport->getEntries());
     }
 
+    public function testDetectReadingNumber(): void
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayExtension]);
+        $option->setIncludeNumericStrings(true);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertContains(
+            [
+                'line' => 55,
+                'value' => 1234,
+            ],
+            $fileReport->getEntries()
+        );
+    }
+
     public function testAllowArrayMappingWithArrayExtension(): void
     {
         $option = $this->createOption();
