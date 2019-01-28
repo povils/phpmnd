@@ -3,6 +3,7 @@
 namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Extension\Extension;
+use Povils\PHPMND\Language;
 
 /**
  * @package Povils\PHPMND\Console
@@ -48,6 +49,11 @@ class Option
      * @var bool
      */
     private $allowArrayMapping = false;
+
+    /**
+     * @var array
+     */
+    private $checkNaming = [];
 
     public function setExtensions(array $extensions)
     {
@@ -127,5 +133,27 @@ class Option
     public function setAllowArrayMapping(?bool $allowArrayMapping)
     {
         $this->allowArrayMapping = $allowArrayMapping;
+    }
+
+    /**
+     * @return Language[]
+     */
+    public function checkNaming(): array
+    {
+        return $this->checkNaming;
+    }
+
+    public function setCheckNaming(array $checkNaming)
+    {
+        $languages = [];
+        foreach ($checkNaming as $language) {
+            $language = ucfirst($language);
+            $className = '\Povils\PHPMND\Languages\\' . $language;
+
+            if (class_exists($className)) {
+                $languages[] = new $className();
+            }
+        }
+        $this->checkNaming = $languages;
     }
 }

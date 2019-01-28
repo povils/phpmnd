@@ -44,12 +44,28 @@ class DetectorVisitor extends NodeVisitorAbstract
     public function enterNode(Node $node): ?int
     {
         if ($this->isIgnoreableConst($node)) {
+            if ($this->checkNameContainsLanguage(
+                $node->name->name,
+                $node->value->value ?? 0
+            )) {
+                $this->fileReport->addEntry($node->getLine(), $node->value->value);
+            }
+
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
+
 
         if ($this->isNumber($node) || $this->isString($node)) {
             /** @var LNumber|DNumber|String_ $scalar */
             $scalar = $node;
+
+            if ($this->checkNameContainsLanguage(
+                $node->getAttribute('parent')->var->name ?? '',
+                $node->value
+            )) {
+                $this->fileReport->addEntry($node->getLine(), $scalar->value);
+            }
+
             if ($this->hasSign($node)) {
                 $node = $node->getAttribute('parent');
                 if ($this->isMinus($node)) {
@@ -118,5 +134,31 @@ class DetectorVisitor extends NodeVisitorAbstract
         isset($node->value) &&
         is_numeric($node->value) &&
         false === $this->ignoreString($node);
+    }
+
+    /**
+     * @param string $name
+     * @param string|int $value
+     * @return bool
+     */
+    private function checkNameContainsLanguage(string $name, $value): bool
+    {
+        foreach ($this->option->checkNaming() as $language) {
+            $generatedNumbers = $language->parse($value);
+
+            $regex = '/^';
+            foreach ($generatedNumbers as $word) {
+                $regex .= "(?:{$word}[\s_-]*)?";
+            }
+
+            $regex .= '$/i';
+            $match = preg_match($regex, $name);
+
+            if ($match) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
