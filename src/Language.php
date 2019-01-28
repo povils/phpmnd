@@ -2,7 +2,6 @@
 
 namespace Povils\PHPMND;
 
-
 interface Language
 {
     /*
