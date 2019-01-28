@@ -304,7 +304,6 @@ class DetectorTest extends TestCase
             ],
             $fileReport->getEntries()
         );
-
     }
 
     public function testAllowArrayMappingWithArrayExtension(): void
