@@ -284,7 +284,7 @@ class DetectorTest extends TestCase
         $option->setCheckNaming(['en']);
         $detector = $this->createDetector($option);
 
-        $fileReport = $detector->detect(FileReportTest::getTestFile('check_names'));
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_4'));
 
         $this->assertSame(
             [

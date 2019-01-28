@@ -82,7 +82,7 @@ class En implements Language
             $number = -$number;
         }
 
-        do  {
+        do {
             $key = key($this->numberMapping);
 
             if ($number < $key) {
