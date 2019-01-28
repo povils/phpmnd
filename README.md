@@ -75,6 +75,15 @@ Afterwards make sure you have the global Composer binaries directory in your ``P
 $ export PATH="$PATH:$HOME/.composer/vendor/bin"
 ```
 
+### Docker
+
+You can also use this tool easily via [Docker](https://www.docker.com/why-docker).
+Just simply run this command in the relevant directory:
+
+```bash
+$ docker run --rm -v $PWD:/app --rm dockerizedphp/phpmnd /app
+```
+
 ## Usage Example
 
 Demo:  
