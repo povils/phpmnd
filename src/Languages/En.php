@@ -82,7 +82,7 @@ class En implements Language
             $number = -$number;
         }
 
-        while (prev($this->numberMapping) !== false && $number > 0) {
+        do  {
             $key = key($this->numberMapping);
 
             if ($number < $key) {
@@ -98,7 +98,7 @@ class En implements Language
 
             $final[] = current($this->numberMapping);
             $number -= $key * $multiple;
-        }
+        } while (prev($this->numberMapping) !== false && $number > 0);
 
         return $final;
     }

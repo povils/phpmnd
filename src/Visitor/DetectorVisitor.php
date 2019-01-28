@@ -146,15 +146,15 @@ class DetectorVisitor extends NodeVisitorAbstract
         foreach ($this->option->checkNaming() as $language) {
             $generatedNumbers = $language->parse($value);
 
-            $regex = '/^';
+            $regex = '/(?<name>';
             foreach ($generatedNumbers as $word) {
                 $regex .= "(?:{$word}[\s_-]*)?";
             }
 
-            $regex .= '$/i';
-            $match = preg_match($regex, $name);
+            $regex .= ')/i';
+            preg_match($regex, $name, $matches);
 
-            if ($match) {
+            if (strlen($matches['name']) > 0) {
                 return true;
             }
         }
