@@ -40,7 +40,7 @@ class CommandTest extends TestCase
         $output
             ->method('writeln')
             ->will($this->returnCallback(
-                function($string) use (&$textOutput) {
+                function ($string) use (&$textOutput) {
                     $textOutput .= $string;
                 }
             ));
