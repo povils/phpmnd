@@ -47,7 +47,7 @@ class CommandTest extends TestCase
 
         $this->execute([$input, $output]);
 
-        $this->assertStringContainsString('Suggestions:', $textOutput);
+        $this->assertTrue(strpos($textOutput, 'Suggestions:') > 1);
     }
 
     private function execute(array $args): int
