@@ -270,7 +270,7 @@ class DetectorTest extends TestCase
 
         $this->assertContains(
             [
-                'line' => 55,
+                'line' => 64,
                 'value' => 1234,
             ],
             $fileReport->getEntries()

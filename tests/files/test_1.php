@@ -60,7 +60,7 @@ class TEST_1
    }
   
    public function returnFromKey() {
-    $a = [];
-    return $a[1234];
+        $a = [];
+        return $a[1234];
    }
 }
