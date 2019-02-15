@@ -302,6 +302,42 @@ class DetectorTest extends TestCase
         );
     }
 
+    public function testDefaultIgnoreFunctions(): void
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayExtension()]);
+        $option->setIncludeNumericStrings(true);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $results = $fileReport->getEntries();
+
+        $this->assertNotContains(
+            [
+                'line' => 56,
+                'value' => 13,
+            ],
+            $results
+        );
+
+        $this->assertNotContains(
+            [
+                'line' => 57,
+                'value' => 3.14,
+            ],
+            $results
+        );
+
+        $this->assertNotContains(
+            [
+                'line' => 58,
+                'value' => 10,
+            ],
+            $results
+        );
+    }
+
     private function createOption(array $extensions = []): Option
     {
         $option = new Option;

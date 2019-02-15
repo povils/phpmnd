@@ -49,4 +49,13 @@ class TEST_1
    public function returnNegative() {
       return -2;
    }
+
+   public function ignoreValues()
+   {
+       return [
+           intval(100),
+           floatval(3.14),
+           strval('10')
+       ];
+   }
 }
