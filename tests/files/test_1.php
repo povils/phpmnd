@@ -58,4 +58,9 @@ class TEST_1
            strval('10')
        ];
    }
+  
+   public function returnFromKey() {
+    $a = [];
+    return $a[1234];
+   }
 }

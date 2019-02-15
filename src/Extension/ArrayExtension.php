@@ -4,6 +4,7 @@ namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayItem;
+use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Scalar\String_;
 
 class ArrayExtension extends Extension
@@ -17,7 +18,10 @@ class ArrayExtension extends Extension
     {
         $parent = $node->getAttribute('parent');
 
-        return $parent instanceof ArrayItem && false === $this->ignoreArray($parent);
+        return (
+            $parent instanceof ArrayItem  &&
+            false === $this->ignoreArray($parent)
+          ) || $parent instanceof ArrayDimFetch;
     }
 
     private function ignoreArray(ArrayItem $node): bool

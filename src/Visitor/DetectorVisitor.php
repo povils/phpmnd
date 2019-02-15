@@ -43,7 +43,7 @@ class DetectorVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node): ?int
     {
-        if ($node instanceof Const_) {
+        if ($this->isIgnoreableConst($node)) {
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
@@ -67,6 +67,12 @@ class DetectorVisitor extends NodeVisitorAbstract
         }
 
         return null;
+    }
+
+    private function isIgnoreableConst(Node $node): bool
+    {
+        return $node instanceof Const_ &&
+            ($this->isNumber($node->value) || $this->isString($node->value));
     }
 
     private function isNumber(Node $node): bool

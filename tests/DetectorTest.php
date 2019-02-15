@@ -259,6 +259,24 @@ class DetectorTest extends TestCase
         $this->assertEmpty($fileReport->getEntries());
     }
 
+    public function testDetectReadingNumber(): void
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayExtension]);
+        $option->setIncludeNumericStrings(true);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $this->assertContains(
+            [
+                'line' => 55,
+                'value' => 1234,
+            ],
+            $fileReport->getEntries()
+        );
+    }
+
     public function testAllowArrayMappingWithArrayExtension(): void
     {
         $option = $this->createOption();
@@ -302,6 +320,7 @@ class DetectorTest extends TestCase
         );
     }
 
+
     public function testDefaultIgnoreFunctions(): void
     {
         $option = $this->createOption();
@@ -335,6 +354,23 @@ class DetectorTest extends TestCase
                 'value' => 10,
             ],
             $results
+        );
+    }
+
+    public function testCheckForMagicArrayConstants(): void
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayExtension()]);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_3'));
+
+        $this->assertContains(
+            [
+                'line' => 4,
+                'value' => 2,
+            ],
+            $fileReport->getEntries()
         );
     }
 
