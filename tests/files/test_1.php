@@ -47,7 +47,7 @@ class TEST_1
    }
 
    public function returnNegative() {
-      return -2;
+      return -1;
    }
 
    public function returnFromKey() {

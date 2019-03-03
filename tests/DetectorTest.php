@@ -57,7 +57,7 @@ class DetectorTest extends TestCase
                 ],
                 [
                     'line' => 50,
-                    'value' => -2,
+                    'value' => -1,
                 ],
             ],
             $fileReport->getEntries()
