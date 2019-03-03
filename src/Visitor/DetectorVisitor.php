@@ -59,6 +59,17 @@ class DetectorVisitor extends NodeVisitorAbstract
             foreach ($this->option->getExtensions() as $extension) {
                 $extension->setOption($this->option);
                 if ($extension->extend($node)) {
+                    if ((
+                        $scalar instanceof LNumber &&
+                        $scalar->getAttribute('kind') != LNumber::KIND_DEC
+                    )) {
+                        $scalar->value = (int) base_convert(
+                            $scalar->value,
+                            LNumber::KIND_DEC,
+                            $scalar->getAttribute('kind')
+                        );
+                    }
+
                     $this->fileReport->addEntry($scalar->getLine(), $scalar->value);
 
                     return null;
