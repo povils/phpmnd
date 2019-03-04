@@ -270,7 +270,7 @@ class DetectorTest extends TestCase
 
         $this->assertContains(
             [
-                'line' => 55,
+                'line' => 64,
                 'value' => 1234,
             ],
             $fileReport->getEntries()
@@ -317,6 +317,43 @@ class DetectorTest extends TestCase
                 'value' => 13,
             ],
             $fileReport->getEntries()
+        );
+    }
+
+
+    public function testDefaultIgnoreFunctions(): void
+    {
+        $option = $this->createOption();
+        $option->setExtensions([new ArrayExtension()]);
+        $option->setIncludeNumericStrings(true);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
+
+        $results = $fileReport->getEntries();
+
+        $this->assertNotContains(
+            [
+                'line' => 56,
+                'value' => 13,
+            ],
+            $results
+        );
+
+        $this->assertNotContains(
+            [
+                'line' => 57,
+                'value' => 3.14,
+            ],
+            $results
+        );
+
+        $this->assertNotContains(
+            [
+                'line' => 58,
+                'value' => 10,
+            ],
+            $results
         );
     }
 

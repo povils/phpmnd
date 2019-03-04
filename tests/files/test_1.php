@@ -50,9 +50,17 @@ class TEST_1
       return -1;
    }
 
+   public function ignoreValues()
+   {
+       return [
+           intval(100),
+           floatval(3.14),
+           strval('10')
+       ];
+   }
+  
    public function returnFromKey() {
-    $a = [];
-    return $a[1234];
-
+        $a = [];
+        return $a[1234];
    }
 }
