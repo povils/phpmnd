@@ -17,7 +17,7 @@
     "symfony/console": "^4.0",
     "symfony/finder": "^4.0",
     "nikic/php-parser": "^4.0",
-    "jakub-onderka/php-console-highlighter": "^0.3.2",
+    "jakub-onderka/php-console-highlighter": "^0.4",
     "phpunit/php-timer": "^2.0"
   },
   "require-dev": {
