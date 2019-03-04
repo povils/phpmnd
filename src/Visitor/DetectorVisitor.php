@@ -47,15 +47,16 @@ class DetectorVisitor extends NodeVisitorAbstract
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
-        if ($this->isNumber($node) || $this->isString($node)) {
-            /** @var LNumber|DNumber|String_ $scalar */
-            $scalar = $node;
-            if ($this->hasSign($node)) {
-                $node = $node->getAttribute('parent');
-                if ($this->isMinus($node)) {
-                    $scalar->value = -$scalar->value;
-                }
+        /** @var LNumber|DNumber|String_ $scalar */
+        $scalar = $node;
+        if ($this->hasSign($node)) {
+            $node = $node->getAttribute('parent');
+            if ($this->isMinus($node)) {
+                $scalar->value = -$scalar->value;
             }
+        }
+
+        if ($this->isNumber($scalar) || $this->isString($scalar)) {
             foreach ($this->option->getExtensions() as $extension) {
                 $extension->setOption($this->option);
                 if ($extension->extend($node)) {
