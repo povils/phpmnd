@@ -54,24 +54,24 @@ class DetectorVisitor extends NodeVisitorAbstract
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
+        /** @var LNumber|DNumber|String_ $scalar */
+        $scalar = $node;
+        if ($this->hasSign($scalar)) {
+            $node = $scalar->getAttribute('parent');
+            if ($this->isMinus($node)) {
+                $scalar->value = -$scalar->value;
+            }
+        }
 
-        if ($this->isNumber($node) || $this->isString($node)) {
-            /** @var LNumber|DNumber|String_ $scalar */
-            $scalar = $node;
+        if ($this->isNumber($scalar) || $this->isString($scalar)) {
 
             if ($this->checkNameContainsLanguage(
-                $node->getAttribute('parent')->var->name ?? '',
-                $node->value
+                $scalar->getAttribute('parent')->var->name ?? '',
+                $scalar->value
             )) {
                 $this->fileReport->addEntry($node->getLine(), $scalar->value);
             }
 
-            if ($this->hasSign($node)) {
-                $node = $node->getAttribute('parent');
-                if ($this->isMinus($node)) {
-                    $scalar->value = -$scalar->value;
-                }
-            }
             foreach ($this->option->getExtensions() as $extension) {
                 $extension->setOption($this->option);
                 if ($extension->extend($node)) {

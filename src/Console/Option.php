@@ -23,7 +23,11 @@ class Option
     /**
      * @var array
      */
-    private $ignoreFuncs = [];
+    private $ignoreFuncs = [
+        'intval',
+        'floatval',
+        'strval',
+    ];
 
     /**
      * @var array
