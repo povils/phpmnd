@@ -53,7 +53,6 @@ class DetectorVisitor extends NodeVisitorAbstract
             $node = $node->getAttribute('parent');
             if ($this->isMinus($node)) {
                 if (!isset($scalar->value)) {
-                    
                     return null;
                 }
                 $scalar->value = -$scalar->value;
