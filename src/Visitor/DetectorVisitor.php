@@ -56,7 +56,7 @@ class DetectorVisitor extends NodeVisitorAbstract
 
         /** @var LNumber|DNumber|String_ $scalar */
         $scalar = $node;
-        if ($this->hasSign($scalar)) {
+        if ($this->hasSign($scalar) && $this->isNumber($scalar)) {
             $node = $scalar->getAttribute('parent');
             if ($this->isMinus($node)) {
                 $scalar->value = -$scalar->value;
