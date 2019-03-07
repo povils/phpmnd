@@ -64,7 +64,6 @@ class DetectorVisitor extends NodeVisitorAbstract
         }
 
         if ($this->isNumber($scalar) || $this->isString($scalar)) {
-
             if ($this->checkNameContainsLanguage(
                 $scalar->getAttribute('parent')->var->name ?? '',
                 $scalar->value
