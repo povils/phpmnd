@@ -3,6 +3,7 @@
 namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Extension\Extension;
+use Povils\PHPMND\GenericLanguage;
 use Povils\PHPMND\Language;
 
 /**
@@ -151,13 +152,25 @@ class Option
     {
         $languages = [];
         foreach ($checkNaming as $language) {
-            $language = ucfirst($language);
-            $className = '\Povils\PHPMND\Languages\\' . $language;
-
-            if (class_exists($className)) {
-                $languages[] = new $className();
-            }
+            $languages[] = $this->findLanguage($language);
         }
         $this->checkNaming = $languages;
+    }
+
+    protected function findLanguage($language): Language
+    {
+        foreach (scandir(__DIR__ . '/../Languages/') as $class) {
+            $class = basename($class, '.php');
+            $class = "Povils\PHPMND\Languages\\$class";
+            if ((
+                class_exists($class) &&
+                is_subclass_of($class, Language::class) &&
+                in_array($language, $class::providesLanguages())
+            )) {
+                return new $class($language);
+            }
+        }
+
+        return new GenericLanguage($language);
     }
 }
