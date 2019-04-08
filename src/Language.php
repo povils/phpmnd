@@ -19,7 +19,8 @@ abstract class Language
     /*
      * Returns an array of words which
      */
-    public function parse(int $number): array {
+    public function parse(int $number): array
+    {
         $words = $this->specialNumbers()[$number] ?? [];
         $formatted = $this->formatter->format($number);
 

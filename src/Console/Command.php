@@ -142,7 +142,8 @@ class Command extends BaseCommand
                 'check-naming',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Check the names of variables to ensure they are not numeric, accepts a comma separated list of languages eg en or en_GB',
+                'Check the names of variables to ensure they are not numeric,' .
+                ' accepts a comma separated list of languages eg en or en_GB',
                 ''
             )
         ;
