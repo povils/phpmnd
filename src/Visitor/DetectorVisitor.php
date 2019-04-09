@@ -135,13 +135,9 @@ class DetectorVisitor extends NodeVisitorAbstract
         false === $this->ignoreString($node);
     }
 
-    /**
-     * @param string $name
-     * @param string|int $value
-     * @return bool
-     */
     private function checkNameContainsLanguage(string $name, $value): bool
     {
+        $value = (int) $value;
         foreach ($this->option->checkNaming() as $language) {
             $generatedNumbers = $language->parse($value);
 
