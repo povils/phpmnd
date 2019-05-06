@@ -12,16 +12,17 @@ use Symfony\Component\Finder\Finder;
 class PHPFinder extends Finder
 {
     public function __construct(
-        string $directory,
+        array $directories,
         array $exclude,
         array $excludePaths,
         array $excludeFiles,
         array $suffixes
     ) {
         parent::__construct();
+
         $this
             ->files()
-            ->in($directory)
+            ->in($directories)
             ->exclude(array_merge(['vendor'], $exclude))
             ->ignoreDotFiles(true)
             ->ignoreVCS(true);

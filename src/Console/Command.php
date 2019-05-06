@@ -34,7 +34,7 @@ class Command extends BaseCommand
                 [
                     new InputArgument(
                         'directory',
-                        InputArgument::REQUIRED,
+                        InputArgument::REQUIRED + InputArgument::IS_ARRAY,
                         'Directory to analyze'
                     )
                 ]
