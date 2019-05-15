@@ -33,9 +33,9 @@ class Command extends BaseCommand
             ->setDefinition(
                 [
                     new InputArgument(
-                        'directory',
+                        'directories',
                         InputArgument::REQUIRED + InputArgument::IS_ARRAY,
-                        'Directory to analyze'
+                        'One or more files and/or directories to analyze'
                     )
                 ]
             )
@@ -245,7 +245,7 @@ class Command extends BaseCommand
     protected function createFinder(InputInterface $input): PHPFinder
     {
         return new PHPFinder(
-            $input->getArgument('directory'),
+            $input->getArgument('directories') ?:[''],
             $input->getOption('exclude'),
             $input->getOption('exclude-path'),
             $input->getOption('exclude-file'),
