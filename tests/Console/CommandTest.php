@@ -82,7 +82,7 @@ class CommandTest extends TestCase
             ->will(
                 $this->returnValueMap(
                     [
-                        ['directory', 'tests/files'],
+                        ['directories', ['tests/files']],
                     ]
                 )
             );
