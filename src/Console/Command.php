@@ -245,7 +245,7 @@ class Command extends BaseCommand
     protected function createFinder(InputInterface $input): PHPFinder
     {
         return new PHPFinder(
-            $input->getArgument('directories') ?:[''],
+            $input->getArgument('directories'),
             $input->getOption('exclude'),
             $input->getOption('exclude-path'),
             $input->getOption('exclude-file'),
