@@ -44,19 +44,33 @@ class DetectorVisitor extends NodeVisitorAbstract
     public function enterNode(Node $node): ?int
     {
         if ($this->isIgnoreableConst($node)) {
+            if ($this->checkNameContainsLanguage(
+                $node->name->name,
+                $node->value->value ?? 0
+            )) {
+                $this->fileReport->addEntry($node->getLine(), $node->value->value);
+            }
+
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
         /** @var LNumber|DNumber|String_ $scalar */
         $scalar = $node;
-        if ($this->hasSign($node)) {
-            $node = $node->getAttribute('parent');
-            if ($this->isMinus($node)) {
+        if ($this->hasSign($scalar)) {
+            $node = $scalar->getAttribute('parent');
+            if ($this->isMinus($node) && isset($scalar->value)) {
                 $scalar->value = -$scalar->value;
             }
         }
 
         if ($this->isNumber($scalar) || $this->isString($scalar)) {
+            if ($this->checkNameContainsLanguage(
+                $scalar->getAttribute('parent')->var->name ?? '',
+                $scalar->value
+            )) {
+                $this->fileReport->addEntry($node->getLine(), $scalar->value);
+            }
+
             foreach ($this->option->getExtensions() as $extension) {
                 $extension->setOption($this->option);
                 if ($extension->extend($node)) {
@@ -119,5 +133,27 @@ class DetectorVisitor extends NodeVisitorAbstract
         isset($node->value) &&
         is_numeric($node->value) &&
         false === $this->ignoreString($node);
+    }
+
+    private function checkNameContainsLanguage(string $name, $value): bool
+    {
+        $value = (int) $value;
+        foreach ($this->option->checkNaming() as $language) {
+            $generatedNumbers = $language->parse($value);
+
+            $regex = '/(?<name>';
+            foreach ($generatedNumbers as $word) {
+                $regex .= "(?:{$word}[\s_-]*)?";
+            }
+
+            $regex .= ')/i';
+            preg_match($regex, $name, $matches);
+
+            if (strlen($matches['name']) > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

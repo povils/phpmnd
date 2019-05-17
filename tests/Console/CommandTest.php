@@ -36,12 +36,18 @@ class CommandTest extends TestCase
     {
         $input = $this->createInput('assign', null, true, true);
         $output = $this->createOutput();
+        $textOutput = '';
         $output
-            ->expects($this->at(9))
             ->method('writeln')
-            ->with('Suggestions:');
+            ->will($this->returnCallback(
+                function ($string) use (&$textOutput) {
+                    $textOutput .= $string;
+                }
+            ));
 
         $this->execute([$input, $output]);
+
+        $this->assertTrue(strpos($textOutput, 'Suggestions:') > 1);
     }
 
     private function execute(array $args): int

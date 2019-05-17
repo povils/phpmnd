@@ -115,7 +115,9 @@ The ``--strings`` option will include strings literal search in code analysis.
 
 The ``--suffixes`` option will configure a comma separated list of valid source code filename extensions.
 
-The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental anaysis.
+The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental analysis.
+
+The ``--check-naming`` option will check for names for numbers being used, eg `$six = 6`; You also need to pass in a csv of supported languages you wish to check (e.g. en)
 
 The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
 **By default it analyses conditions, return statements, and switch cases.**

@@ -3,6 +3,8 @@
 namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Extension\Extension;
+use Povils\PHPMND\GenericLanguage;
+use Povils\PHPMND\Language;
 
 /**
  * @package Povils\PHPMND\Console
@@ -52,6 +54,11 @@ class Option
      * @var bool
      */
     private $allowArrayMapping = false;
+
+    /**
+     * @var array
+     */
+    private $checkNaming = [];
 
     public function setExtensions(array $extensions)
     {
@@ -131,5 +138,39 @@ class Option
     public function setAllowArrayMapping(?bool $allowArrayMapping)
     {
         $this->allowArrayMapping = $allowArrayMapping;
+    }
+
+    /**
+     * @return Language[]
+     */
+    public function checkNaming(): array
+    {
+        return $this->checkNaming;
+    }
+
+    public function setCheckNaming(array $checkNaming)
+    {
+        $languages = [];
+        foreach ($checkNaming as $language) {
+            $languages[] = $this->findLanguage($language);
+        }
+        $this->checkNaming = $languages;
+    }
+
+    protected function findLanguage($language): Language
+    {
+        foreach (scandir(__DIR__ . '/../Languages/') as $class) {
+            $class = basename($class, '.php');
+            $class = "Povils\PHPMND\Languages\\$class";
+            if ((
+                class_exists($class) &&
+                is_subclass_of($class, Language::class) &&
+                in_array($language, $class::providesLanguages())
+            )) {
+                return new $class($language);
+            }
+        }
+
+        return new GenericLanguage($language);
     }
 }

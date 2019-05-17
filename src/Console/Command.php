@@ -138,6 +138,14 @@ class Command extends BaseCommand
                 'Link to a file containing filenames to search',
                 ''
             )
+            ->addOption(
+                'check-naming',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Check the names of variables to ensure they are not numeric,' .
+                ' accepts a comma separated list of languages eg en or en_GB',
+                ''
+            )
         ;
     }
 
@@ -211,6 +219,7 @@ class Command extends BaseCommand
         $option = new Option;
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
+        $option->setCheckNaming($this->getCSVOption($input, 'check-naming'));
         $option->setIncludeStrings($input->getOption('strings'));
         $option->setIncludeNumericStrings($input->getOption('include-numeric-string'));
         $option->setIgnoreStrings($this->getCSVOption($input, 'ignore-strings'));

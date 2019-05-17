@@ -277,6 +277,35 @@ class DetectorTest extends TestCase
         );
     }
 
+    public function testNamesCorrectlyFound()
+    {
+
+        $option = $this->createOption();
+        $option->setCheckNaming(['en']);
+        $detector = $this->createDetector($option);
+
+        $fileReport = $detector->detect(FileReportTest::getTestFile('check_naming'));
+
+        $this->assertSame(
+            [
+                [
+                    'line' => 4,
+                    'value' => 27,
+                ],
+                [
+                    'line' => 8,
+                    'value' => 98,
+                ],
+                [
+                    'line' => 9,
+                    'value' => 7,
+                ],
+
+            ],
+            $fileReport->getEntries()
+        );
+    }
+
     public function testAllowArrayMappingWithArrayExtension(): void
     {
         $option = $this->createOption();
