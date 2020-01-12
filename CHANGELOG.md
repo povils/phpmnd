@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v2.2.0] - 2019-01-12
+- Add default ignore functions (intval, strval and floatval)
+- Fix negative number whitelisting
+- Ignore the negative value if the scalar does not have a value field
+- Allow multiple files and directories
+-
 ## [v2.1.0] - 2019-01-27
 - Check magic numbers in constant arrays.
 - Catch array[magic_number]
