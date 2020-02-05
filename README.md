@@ -38,7 +38,7 @@ class Foo
     }
 }
 ```
-This clearly improves the code readability and also reduces it's maintenance cost.
+This clearly improves the code readability and also reduces its maintenance cost.
 
 Of course not every literal number is a magic number.
 ```php
@@ -115,7 +115,7 @@ The ``--strings`` option will include strings literal search in code analysis.
 
 The ``--suffixes`` option will configure a comma separated list of valid source code filename extensions.
 
-The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental anaysis.
+The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental analysis.
 
 The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
 **By default it analyses conditions, return statements, and switch cases.**
@@ -172,7 +172,7 @@ eg
 ```
 $percent  = $number / 100;
 ```
-would show 100 sa a magic number
+would show 100 as a magic number
 
 ```
 $percent = $number / intval(100);
