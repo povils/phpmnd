@@ -143,7 +143,8 @@ class Command extends BaseCommand
                 InputOption::VALUE_REQUIRED,
                 'Link to a file containing filenames to search',
                 ''
-            );
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
