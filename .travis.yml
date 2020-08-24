@@ -12,7 +12,7 @@ cache:
 git:
   depth: 1
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - php: 7.1
