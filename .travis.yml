@@ -1,41 +1,52 @@
+# TravisCI configuration for povils/phpmnd
+
 language: php
+os:
+  - linux
+dist: bionic
+
+cache:
+  directories:
+    - "${HOME}/.composer/cache"
 
 git:
   depth: 1
 
 matrix:
+  fast_finish: true
   include:
     - php: 7.1
+      env: COMPOSER_FLAGS=""
+
     - php: 7.2
-      env: LINT=true
+      env: COMPOSER_FLAGS=""
+
     - php: 7.2
       env: COMPOSER_FLAGS="--prefer-lowest"
+
     - php: 7.3
-      env: LINT=true
+      env: COMPOSER_FLAGS=""
+
     - php: 7.3
       env: COMPOSER_FLAGS="--prefer-lowest"
+
     - php: 7.4
-      env: LINT=true
-    - php: 7.4
-      env: COMPOSER_FLAGS="--prefer-lowest"
+      env: COMPOSER_FLAGS=""
 
-  fast_finish: true
+# Function ReflectionType::__toString() is deprecated
+#    - php: 7.4
+#      env: COMPOSER_FLAGS="--prefer-lowest"
 
-sudo: false
+    - name: "Coding standard compliance"
+      php: 7.4
+      env: COMPOSER_FLAGS=""
+      script: composer run-script cs-check
 
-cache:
-  directories:
-    - $HOME/.composer/cache
-
-before_install:
-  - composer update -n $COMPOSER_FLAGS
+install:
+  - composer update -n ${COMPOSER_FLAGS}
 
 script:
-  - vendor/bin/phpunit
-  # Verify coding standard compliance only once
-  - if [[ $LINT = true ]]; then
-      composer cs-check;
-    fi
+  - composer run-script test
 
 notifications:
   email: false
