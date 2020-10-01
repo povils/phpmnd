@@ -1,5 +1,5 @@
 # PHP Magic Number Detector (PHPMND)
-
+# In this many of cases it is not working properly but it's code is very usefull Thanks for Developers.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/povils/phpmnd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/povils/phpmnd/?branch=master)
 [![License](https://poser.pugx.org/povils/phpmnd/license)](https://packagist.org/packages/povils/phpmnd)
 [![Build Status](https://travis-ci.org/povils/phpmnd.svg?branch=master)](https://travis-ci.org/povils/phpmnd)
