@@ -19,7 +19,7 @@ matrix:
 #    - php: 8.0
 #      env: LINT=true
   allow_failures:
-      -  php: nightly
+      - php: nightly
         env: LINT=true
 
   fast_finish: true
