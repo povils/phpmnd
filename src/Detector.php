@@ -2,6 +2,7 @@
 
 namespace Povils\PHPMND;
 
+use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use Povils\PHPMND\Console\Option;
@@ -9,6 +10,7 @@ use Povils\PHPMND\Visitor\DetectorVisitor;
 use Povils\PHPMND\Visitor\HintVisitor;
 use Povils\PHPMND\Visitor\ParentConnectorVisitor;
 use Symfony\Component\Finder\SplFileInfo;
+use const PHP_VERSION;
 
 /**
  * Class Detector
@@ -35,7 +37,12 @@ class Detector
 
     public function detect(SplFileInfo $file): FileReport
     {
-        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        // For PHP < 8.0 we want to specify a lexer object.
+        // Otherwise the code creates a `Lexer\Emulative()` instance, which by default uses PHP 8 compatibility
+        // with e.g. longer list of reserved keywords
+        $lexer = version_compare('8.0', PHP_VERSION) > 0 ? new Lexer() : null;
+
+        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7, $lexer);
         $traverser = new NodeTraverser();
 
         $fileReport = new FileReport($file);
