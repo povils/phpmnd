@@ -18,6 +18,10 @@ matrix:
       env: LINT=true
     - php: 7.4
       env: COMPOSER_FLAGS="--prefer-lowest"
+    - php: 8.0
+      env: LINT=true
+    - php: 8.0
+      env: COMPOSER_FLAGS="--prefer-lowest"
 
   fast_finish: true
 
