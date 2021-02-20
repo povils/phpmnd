@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND;
 
 use Symfony\Component\Finder\Finder;
@@ -21,7 +23,7 @@ class PHPFinder extends Finder
     ) {
         parent::__construct();
         $dirs = array_filter($directories, 'is_dir');
-        $files = array_diff($directories, $dirs);
+        $files = array_filter($directories, 'is_file');
 
         $this
             ->files()

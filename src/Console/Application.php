@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
@@ -8,11 +10,6 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Application
- *
- * @package Povils\PHPMND\Console
- */
 class Application extends BaseApplication
 {
     const VERSION = '2.4.0';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Printer;
 
 use JakubOnderka\PhpConsoleColor\ConsoleColor;
@@ -8,11 +10,6 @@ use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Console
- *
- * @package Povils\PHPMND\Printer
- */
 class Console implements Printer
 {
     const LINE_LENGTH = 80;
