@@ -76,10 +76,11 @@ $ export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 ## Usage Example
 
-Demo:
+#### Demo
+
 ![demo](./demo.gif)
 
-Basic usage:
+#### Basic usage
 
 ```bash
 $ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress \
@@ -119,7 +120,7 @@ The ``--whitelist`` option will only process the files listed in the file specif
 The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
 **By default it analyses conditions, return statements, and switch cases.**
 
-Choose from the list of available extensions:
+#### Extensions
 
 * **argument**
 ```php
