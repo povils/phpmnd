@@ -29,7 +29,7 @@ class Console implements Printer
             $total += count($entries);
             foreach ($entries as $entry) {
                 $output->writeln(sprintf(
-                    '%s:%d. Magic number: %s',
+                    '%s:%d  Magic number: %s',
                     $fileReport->getFile()->getRelativePathname(),
                     $entry['line'],
                     $entry['value']

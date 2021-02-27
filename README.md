@@ -2,8 +2,7 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/povils/phpmnd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/povils/phpmnd/?branch=master)
 [![License](https://poser.pugx.org/povils/phpmnd/license)](https://packagist.org/packages/povils/phpmnd)
-[![Build Status](https://travis-ci.org/povils/phpmnd.svg?branch=master)](https://travis-ci.org/povils/phpmnd)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/povils/phpmnd?svg=true)](https://ci.appveyor.com/project/povils/phpmnd)
+[![CI](https://github.com/povils/phpmnd/workflows/CI/badge.svg?branch=master)](https://github.com/povils/phpmnd)
 
 `phpmnd` is a tool that aims to **help** you to detect magic numbers in your PHP code. By default 0 and 1 are not considered to be magic numbers.
 
@@ -77,10 +76,11 @@ $ export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 ## Usage Example
 
-Demo:  
+#### Demo
+
 ![demo](./demo.gif)
 
-Basic usage:
+#### Basic usage
 
 ```bash
 $ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress \
@@ -120,7 +120,7 @@ The ``--whitelist`` option will only process the files listed in the file specif
 The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
 **By default it analyses conditions, return statements, and switch cases.**
 
-Choose from the list of available extensions:
+#### Extensions
 
 * **argument**
 ```php
