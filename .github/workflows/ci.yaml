@@ -16,7 +16,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v1
         with:
-          path: ~/.composer/cache/files
+          path: /tmp/composer-cache
           key: dependencies-composer-${{ hashFiles('composer.json') }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
