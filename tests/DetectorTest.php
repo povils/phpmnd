@@ -176,7 +176,7 @@ class DetectorTest extends TestCase
         $fileReport = $detector->detect(FileReportTest::getTestFile('test_1'));
 
         foreach ($fileReport->getEntries() as $entry) {
-            $this->assertFalse(in_array($entry['value'], $ignoreNumbers, true));
+            $this->assertNotContains($entry['value'], $ignoreNumbers);
         }
     }
 
