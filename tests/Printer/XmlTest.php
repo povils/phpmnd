@@ -25,11 +25,13 @@ class XmlTest extends TestCase
         $xmlPrinter = new Xml($outputPath);
         $xmlPrinter->printData(new NullOutput(), new FileReportList(), new HintList());
 
-        $this->assertXml(<<<'XML'
+        $this->assertXml(
+            <<<'XML'
 <?xml version="1.0"?>
 <phpmnd version="%%PHPMND_VERSION%%" fileCount="0" errorCount="0"><files/></phpmnd>
 XML,
-            $outputPath);
+            $outputPath
+        );
     }
 
     public function testPrintData() : void
@@ -56,7 +58,8 @@ XML,
         $xmlPrinter = new Xml($outputPath);
         $xmlPrinter->printData(new NullOutput(), $fileReportList, $hintList);
 
-        $this->assertXml(<<<'XML'
+        $this->assertXml(
+            <<<'XML'
 <?xml version="1.0"?>
 <phpmnd errorCount="1" fileCount="1" version="%%PHPMND_VERSION%%">
     <files>
@@ -71,7 +74,8 @@ XML,
     </files>
 </phpmnd>
 XML,
-        $outputPath);
+            $outputPath
+        );
     }
 
     private function assertXml(string $expected, string $actualFile, string $message = '') : void
@@ -79,5 +83,4 @@ XML,
         $expectedXml = str_replace('%%PHPMND_VERSION%%', Application::VERSION, $expected);
         $this->assertXmlStringEqualsXmlString($expectedXml, file_get_contents($actualFile), $message);
     }
-
 }
