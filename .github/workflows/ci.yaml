@@ -25,5 +25,7 @@ jobs:
           tools: composer:v2
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
+      - name: Execute phpmnd
+        run: bin/phpmnd --extensions=all --non-zero-exit-on-violation src
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
