@@ -29,7 +29,8 @@ class XmlTest extends TestCase
             <<<'XML'
 <?xml version="1.0"?>
 <phpmnd version="%%PHPMND_VERSION%%" fileCount="0" errorCount="0"><files/></phpmnd>
-XML,
+XML
+	,
             $outputPath
         );
     }
@@ -73,7 +74,8 @@ XML,
         </file>
     </files>
 </phpmnd>
-XML,
+XML
+	,
             $outputPath
         );
     }
