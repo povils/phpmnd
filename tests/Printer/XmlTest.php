@@ -20,7 +20,7 @@ class XmlTest extends TestCase
 {
     public function testEmpty() : void
     {
-        $outputPath = tempnam(sys_get_temp_dir(), rawurlencode(__CLASS__));
+        $outputPath = tempnam(sys_get_temp_dir(), 'phpmnd_');
 
         $xmlPrinter = new Xml($outputPath);
         $xmlPrinter->printData(new NullOutput(), new FileReportList(), new HintList());
@@ -54,7 +54,7 @@ XML,
         $hintList = new HintList();
         $hintList->addClassCont($testMagicNumber, __CLASS__, 'WELL_KNOWN_MAGIC');
 
-        $outputPath = tempnam(sys_get_temp_dir(), rawurlencode(__CLASS__));
+        $outputPath = tempnam(sys_get_temp_dir(), 'phpmnd_');
         $xmlPrinter = new Xml($outputPath);
         $xmlPrinter->printData(new NullOutput(), $fileReportList, $hintList);
 
