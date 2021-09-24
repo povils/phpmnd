@@ -1,5 +1,4 @@
 {
-    "chmod": "0755",
     "directories": [
         "src"
     ],
@@ -48,9 +47,7 @@
         }
     ],
     "git-version": "package_version",
-    "main": "bin/phpmnd",
     "output": "build/phpmnd.phar",
-    "stub": true,
-    "compactors": "Herrera\\Box\\Compactor\\Php",
+    "compactors": "KevinGH\\Box\\Compactor\\Php",
     "compression": "GZ"
 }
