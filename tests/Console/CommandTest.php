@@ -34,14 +34,20 @@ class CommandTest extends TestCase
 
     public function testExecuteWithHintOption(): void
     {
+        $found = false;
         $input = $this->createInput('assign', null, true, true);
         $output = $this->createOutput();
         $output
-            ->expects($this->at(9))
             ->method('writeln')
-            ->with('Suggestions:');
+            ->willReturnCallback(function ($args) use (&$found) {
+                if ($args === "Suggestions:") {
+                    $found = true;
+                }
+                return null;
+            });
 
         $this->execute([$input, $output]);
+        $this->assertTrue($found);
     }
 
     private function execute(array $args): int
@@ -63,28 +69,24 @@ class CommandTest extends TestCase
         $input = $this->createMock(InputInterface::class);
         $input
             ->method('getOption')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['extensions', $extensions],
-                        ['exclude', []],
-                        ['exclude-path', []],
-                        ['exclude-file', []],
-                        ['suffixes', $suffix],
-                        ['non-zero-exit-on-violation', $exitOnViolation],
-                        ['hint', $hint],
-                    ]
-                )
+            ->willReturnMap(
+                [
+                    ['extensions', $extensions],
+                    ['exclude', []],
+                    ['exclude-path', []],
+                    ['exclude-file', []],
+                    ['suffixes', $suffix],
+                    ['non-zero-exit-on-violation', $exitOnViolation],
+                    ['hint', $hint],
+                ]
             );
 
         $input
             ->method('getArgument')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['directories', ['tests/files']],
-                    ]
-                )
+            ->willReturnMap(
+                [
+                    ['directories', ['tests/files']],
+                ]
             );
         return $input;
     }

@@ -21,7 +21,6 @@ class XmlTest extends TestCase
     public function testEmpty() : void
     {
         $outputPath = tempnam(sys_get_temp_dir(), 'phpmnd_');
-
         $xmlPrinter = new Xml($outputPath);
         $xmlPrinter->printData(new NullOutput(), new FileReportList(), new HintList());
 
