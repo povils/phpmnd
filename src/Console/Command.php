@@ -230,6 +230,11 @@ class Command extends BaseCommand
     private function getCSVOption(InputInterface $input, string $option): array
     {
         $result = $input->getOption($option);
+
+        if (null === $result) {
+            return [];
+        }
+
         if (false === is_array($result)) {
             return array_filter(
                 explode(',', $result),
@@ -239,9 +244,6 @@ class Command extends BaseCommand
             );
         }
 
-        if (null === $result) {
-            return [];
-        }
 
         return $result;
     }
@@ -270,7 +272,7 @@ class Command extends BaseCommand
     {
         $filename = $this->convertFileDescriptorLink($filename);
 
-        if (file_exists($filename)) {
+        if (is_string($filename) && file_exists($filename)) {
             return array_map('trim', file($filename));
         }
 
@@ -279,7 +281,7 @@ class Command extends BaseCommand
 
     private function convertFileDescriptorLink($path)
     {
-        if (strpos($path, '/dev/fd') === 0) {
+        if (is_string($path) && strpos($path, '/dev/fd') === 0) {
             return str_replace('/dev/fd', 'php://fd', $path);
         }
 
