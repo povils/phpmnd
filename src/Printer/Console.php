@@ -15,12 +15,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Console implements Printer
 {
-    const LINE_LENGTH = 80;
-    const TAB = 4;
+    const DEFAULT_LINE_LENGTH = 80;
 
     public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
     {
-        $separator = str_repeat('-', self::LINE_LENGTH);
+        $length = (int) (`tput cols` ?: self::DEFAULT_LINE_LENGTH);
+        $separator = str_repeat('-', $length);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
         $total = 0;
@@ -45,7 +45,7 @@ class Console implements Printer
                     if (false === empty($hints)) {
                         $output->writeln('Suggestions:');
                         foreach ($hints as $hint) {
-                            $output->writeln(str_repeat(' ', 2 * self::TAB) . $hint);
+                            $output->writeln("\t\t" . $hint);
                         }
                         $output->write(PHP_EOL);
                     }
