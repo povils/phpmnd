@@ -1,14 +1,13 @@
 * text=auto eol=lf
 
 # Do not include the following files when creating repo artifacts, e.g. the zip
-.editorconfig export-ignore
-.gitattributes export-ignore
-.gitignore export-ignore
-CHANGELOG.md export-ignore
-CONTRIBUTING.md export-ignore
-LICENSE export-ignore
-phpunit.xml.dist export-ignore
-README.md export-ignore
-tests/ export-ignore
-box.json.dist export-ignore
-build/ export-ignore
+/.* export-ignore
+/tests/ export-ignore
+/build/ export-ignore
+/box.json.dist export-ignore
+/CHANGELOG.md export-ignore
+/CONTRIBUTING.md export-ignore
+/LICENSE export-ignore
+/phpunit.xml.dist export-ignore
+/README.md export-ignore
+/demo.gif export-ignore
