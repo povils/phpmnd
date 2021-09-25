@@ -23,7 +23,7 @@ abstract class Util
 
         $lineContent = array_slice($lines, $line-1, 1);
         $lineContent = reset($lineContent);
-        $start = strpos($lineContent, $text.'');
+        $start = strpos($lineContent, (string) $text);
 
         return [
             'snippet' => $lineContent,
