@@ -42,7 +42,7 @@ class Xml implements Printer
 
             $total += count($entries);
             foreach ($entries as $entry) {
-                $snippet = $this->getSnippet($fileReport->getFile()->getContents(), $entry['line'], $entry['value']);
+                $snippet = Util::getSnippet($fileReport->getFile()->getContents(), $entry['line'], $entry['value']);
                 $entryNode = $dom->createElement('entry');
                 $entryNode->setAttribute('line', $entry['line']);
                 $entryNode->setAttribute('start', $snippet['col']);
@@ -79,30 +79,5 @@ class Xml implements Printer
         $dom->save($this->outputPath);
 
         $output->writeln('XML generated at '.$this->outputPath);
-    }
-
-    /**
-     * Get the snippet and information about it
-     *
-     * @param string $content
-     * @param int $line
-     * @param int|string $text
-     * @return array
-     */
-    private function getSnippet(string $content, int $line, $text): array
-    {
-        $content = str_replace(array("\r\n", "\r"), "\n", $content);
-        $lines = explode("\n", $content);
-
-        $lineContent = array_slice($lines, $line-1, 1);
-        $lineContent = reset($lineContent);
-        $start = strpos($lineContent, $text.'');
-
-        return [
-            'snippet' => $lineContent,
-            'line' => $line,
-            'magic' => $text,
-            'col' => $start
-        ];
     }
 }

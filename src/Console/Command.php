@@ -138,6 +138,12 @@ class Command extends BaseCommand
                 'Generate an XML output to the specified path'
             )
             ->addOption(
+                'checkstyle-output',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Generate an checkstyle output to the specified path'
+            )
+            ->addOption(
                 'whitelist',
                 null,
                 InputOption::VALUE_REQUIRED,
@@ -196,6 +202,11 @@ class Command extends BaseCommand
         if ($input->getOption('xml-output')) {
             $xmlOutput = new Printer\Xml($input->getOption('xml-output'));
             $xmlOutput->printData($output, $fileReportList, $hintList);
+        }
+
+        if ($input->getOption('checkstyle-output')) {
+            $checkStyleOutput = new Printer\CheckStyle($input->getOption('checkstyle-output'));
+            $checkStyleOutput->printData($output, $fileReportList, $hintList);
         }
 
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
