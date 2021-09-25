@@ -18,7 +18,7 @@ abstract class Util
      */
     final public static function getSnippet(string $content, int $line, $text): array
     {
-        $content = str_replace(array("\r\n", "\r"), "\n", $content);
+        $content = str_replace(["\r\n", "\r"], "\n", $content);
         $lines = explode("\n", $content);
 
         $lineContent = array_slice($lines, $line-1, 1);
