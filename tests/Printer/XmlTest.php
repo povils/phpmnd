@@ -30,7 +30,7 @@ class XmlTest extends TestCase
 <?xml version="1.0"?>
 <phpmnd version="%%PHPMND_VERSION%%" fileCount="0" errorCount="0"><files/></phpmnd>
 XML
-	,
+            ,
             $outputPath
         );
     }
@@ -45,7 +45,10 @@ XML
             ->willReturn('Foo/Bar.php');
         $splFileInfo
             ->method('getContents')
-            ->willReturn(sprintf('$rootNode->setAttribute(\'fileCount\', count($fileReportList->getFileReports()) + %d);', $testMagicNumber));
+            ->willReturn(sprintf(
+                '$rootNode->setAttribute(\'fileCount\', count($fileReportList->getFileReports()) + %d);',
+                $testMagicNumber
+            ));
 
         $fileReport = new FileReport($splFileInfo);
         $fileReport->addEntry(1, $testMagicNumber);
@@ -66,7 +69,9 @@ XML
     <files>
         <file errors="1" path="Foo/Bar.php">
             <entry end="82" line="1" start="80">
-                <snippet><![CDATA[$rootNode->setAttribute('fileCount', count($fileReportList->getFileReports()) + 12);]]></snippet>
+                <snippet>
+                    <![CDATA[$rootNode->setAttribute('fileCount', count($fileReportList->getFileReports()) + 12);]]>
+                </snippet>
                 <suggestions>
                     <suggestion>Povils\PHPMND\Tests\Printer\XmlTest::WELL_KNOWN_MAGIC</suggestion>
                 </suggestions>
@@ -75,7 +80,7 @@ XML
     </files>
 </phpmnd>
 XML
-	,
+            ,
             $outputPath
         );
     }
