@@ -55,6 +55,6 @@ class RunCommandTest extends TestCase
         ]);
 
         $this->assertSame(RunCommand::FAILURE, $this->commandTester->getStatusCode());
-        $this->assertStringContainsString('Suggestions:', $this->commandTester->getDisplay());
+        $this->assertTrue(strpos($this->commandTester->getDisplay(), 'Suggestions:') !== false);
     }
 }
