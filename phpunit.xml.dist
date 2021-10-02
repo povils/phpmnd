@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit bootstrap="./vendor/autoload.php">
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="./vendor/autoload.php"
+         colors="true"
+         executionOrder="random"
+         failOnRisky="true"
+         verbose="true"
+>
     <testsuites>
         <testsuite name="PHPMND Test Suite">
             <directory>tests/</directory>
+
+            <exclude>tests/Fixtures</exclude>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
             <directory>src/</directory>
+
             <exclude>
                 <directory>vendor/</directory>
             </exclude>
         </whitelist>
     </filter>
-
 </phpunit>

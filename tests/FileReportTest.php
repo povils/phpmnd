@@ -33,9 +33,9 @@ class FileReportTest extends TestCase
     public static function getTestFile(string $name): SplFileInfo
     {
         return new SplFileInfo(
-            __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . "$name.php",
-            'tests' . DIRECTORY_SEPARATOR . 'files',
-            'tests' . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . "$name.php"
+            __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR . "$name.php",
+            'tests' . DIRECTORY_SEPARATOR . 'Fixtures',
+            'tests' . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR . "$name.php"
         );
     }
 }
