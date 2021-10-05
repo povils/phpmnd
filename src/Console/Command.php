@@ -8,6 +8,7 @@ use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
+use SebastianBergmann\Timer\ResourceUsageFormatter;
 use SebastianBergmann\Timer\Timer;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -26,6 +27,11 @@ class Command extends BaseCommand
     const EXIT_CODE_SUCCESS = 0;
     const EXIT_CODE_FAILURE = 1;
 
+    /**
+     * @var Timer
+     */
+    private $timer;
+
     protected function configure(): void
     {
         $this
@@ -36,7 +42,7 @@ class Command extends BaseCommand
                         'directories',
                         InputArgument::REQUIRED + InputArgument::IS_ARRAY,
                         'One or more files and/or directories to analyze'
-                    )
+                    ),
                 ]
             )
             ->addOption(
@@ -143,6 +149,7 @@ class Command extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->startTimer();
         $finder = $this->createFinder($input);
 
         if (0 === $finder->count()) {
@@ -194,10 +201,7 @@ class Command extends BaseCommand
         if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
             $output->writeln('');
             $printer->printData($output, $fileReportList, $hintList);
-
-            $resourceUsage = class_exists(Timer::class) ? Timer::resourceUsage() : \PHP_Timer::resourceUsage();
-
-            $output->writeln('<info>' . $resourceUsage . '</info>');
+            $output->writeln('<info>' . $this->getResourceUsage() . '</info>');
         }
 
         if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
@@ -280,5 +284,24 @@ class Command extends BaseCommand
         }
 
         return $path;
+    }
+
+    private function startTimer()
+    {
+        if (class_exists(ResourceUsageFormatter::class)) {
+            $this->timer = new Timer();
+            $this->timer->start();
+        }
+    }
+
+    private function getResourceUsage()
+    {
+        // php-timer ^4.0||^5.0
+        if (class_exists(ResourceUsageFormatter::class)) {
+            return (new ResourceUsageFormatter)->resourceUsage($this->timer->stop());
+        }
+
+        // php-timer ^2.0||^3.0
+        return Timer::resourceUsage();
     }
 }

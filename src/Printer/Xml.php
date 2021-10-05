@@ -28,7 +28,7 @@ class Xml implements Printer
         $dom = new \DOMDocument();
         $rootNode = $dom->createElement('phpmnd');
         $rootNode->setAttribute('version', Application::VERSION);
-        $rootNode->setAttribute('fileCount', count($fileReportList->getFileReports()) + 12);
+        $rootNode->setAttribute('fileCount', count($fileReportList->getFileReports()));
 
         $filesNode = $dom->createElement('files');
 
