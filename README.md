@@ -96,8 +96,6 @@ The ``--exclude-path`` option will exclude a path, which must be relative to the
 
 The ``--exclude`` option will exclude a directory, which must be relative to the source, from the code analysis. Multiple values are allowed (e.g. --exclude=tests --exclude=examples).
 
-The ``--extensions`` option lets you extend the code analysis. The provided extensions must be comma separated.
-
 The ``--hint`` option will suggest replacements for magic numbers based on your codebase constants.
 
 The ``--ignore-funcs`` option will exclude a list of comma separated functions from the code analysis, when using the "argument" extension. Defaults to `intval`, `floatval`, `strval`.
@@ -119,6 +117,11 @@ The ``--suffixes`` option will configure a comma separated list of valid source 
 The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental analysis.
 
 The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
+
+The ``--checkstyle-output`` option will generate a report in checkstyle xml format to the path specified by the option.
+
+The ``--extensions`` option lets you extend the code analysis. The provided extensions must be comma separated.
+
 **By default it analyses conditions, return statements, and switch cases.**
 
 #### Extensions
