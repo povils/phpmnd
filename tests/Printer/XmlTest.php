@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Tests\Printer;
 
 use Povils\PHPMND\Console\Application;
@@ -11,11 +13,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * Class XmlTest
- *
- * @package Povils\PHPMND\Tests
- */
 class XmlTest extends TestCase
 {
     public function testEmpty() : void

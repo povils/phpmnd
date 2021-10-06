@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND;
 
 use PhpParser\Lexer;
@@ -12,11 +14,6 @@ use Povils\PHPMND\Visitor\ParentConnectorVisitor;
 use Symfony\Component\Finder\SplFileInfo;
 use const PHP_VERSION;
 
-/**
- * Class Detector
- *
- * @package Povils\PHPMND
- */
 class Detector
 {
     /**

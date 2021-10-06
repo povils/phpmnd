@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Extension\Extension;
 
-/**
- * @package Povils\PHPMND\Console
- */
 class Option
 {
     /**

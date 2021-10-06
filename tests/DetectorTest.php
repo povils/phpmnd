@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -10,18 +12,12 @@ use Povils\PHPMND\Extension\ArrayExtension;
 use Povils\PHPMND\Extension\AssignExtension;
 use Povils\PHPMND\Extension\ConditionExtension;
 use Povils\PHPMND\Extension\DefaultParameterExtension;
-use Povils\PHPMND\Extension\Extension;
 use Povils\PHPMND\Extension\OperationExtension;
 use Povils\PHPMND\Extension\PropertyExtension;
 use Povils\PHPMND\Extension\ReturnExtension;
 use Povils\PHPMND\Extension\SwitchCaseExtension;
 use Povils\PHPMND\HintList;
 
-/**
- * Class DetectorTest
- *
- * @package Povils\PHPMND\Tests
- */
 class DetectorTest extends TestCase
 {
     public function testDetectDefault(): void

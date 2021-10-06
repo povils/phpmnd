@@ -1,23 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Tests;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject as Mock;
 use Povils\PHPMND\FileReport;
 use Povils\PHPMND\FileReportList;
 
-/**
- * Class FileReportListTest
- *
- * @package Povils\PHPMND\Tests
- */
 class FileReportListTest extends TestCase
 {
     public function testAddFileReport(): void
     {
         $fileReportList = new FileReportList;
-        /** @var FileReport|Mock $fileReport */
+        /** @var FileReport&MockObject $fileReport */
         $fileReport = $this->createMock(FileReport::class);
         $fileReport
             ->method('hasMagicNumbers')

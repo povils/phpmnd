@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Printer;
 
 use Povils\PHPMND\Console\Application;
@@ -7,11 +9,6 @@ use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Xml
- *
- * @package Povils\PHPMND\Printer
- */
 class Xml implements Printer
 {
     /** @var string */
@@ -28,7 +25,7 @@ class Xml implements Printer
         $dom = new \DOMDocument();
         $rootNode = $dom->createElement('phpmnd');
         $rootNode->setAttribute('version', Application::VERSION);
-        $rootNode->setAttribute('fileCount', count($fileReportList->getFileReports()));
+        $rootNode->setAttribute('fileCount', (string) count($fileReportList->getFileReports()));
 
         $filesNode = $dom->createElement('files');
 
@@ -38,15 +35,15 @@ class Xml implements Printer
 
             $fileNode = $dom->createElement('file');
             $fileNode->setAttribute('path', $fileReport->getFile()->getRelativePathname());
-            $fileNode->setAttribute('errors', count($entries));
+            $fileNode->setAttribute('errors', (string) count($entries));
 
             $total += count($entries);
             foreach ($entries as $entry) {
                 $snippet = $this->getSnippet($fileReport->getFile()->getContents(), $entry['line'], $entry['value']);
                 $entryNode = $dom->createElement('entry');
-                $entryNode->setAttribute('line', $entry['line']);
-                $entryNode->setAttribute('start', $snippet['col']);
-                $entryNode->setAttribute('end', $snippet['col'] + strlen($entry['value']));
+                $entryNode->setAttribute('line', (string) $entry['line']);
+                $entryNode->setAttribute('start', (string) $snippet['col']);
+                $entryNode->setAttribute('end', (string) ($snippet['col'] + strlen((string) $entry['value'])));
 
                 $snippetNode = $dom->createElement('snippet');
                 $snippetNode->appendChild($dom->createCDATASection($snippet['snippet']));
@@ -72,7 +69,7 @@ class Xml implements Printer
         }
 
         $rootNode->appendChild($filesNode);
-        $rootNode->setAttribute('errorCount', $total);
+        $rootNode->setAttribute('errorCount', (string) $total);
 
         $dom->appendChild($rootNode);
 

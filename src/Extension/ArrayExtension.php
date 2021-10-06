@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
@@ -27,7 +29,7 @@ class ArrayExtension extends Extension
     private function ignoreArray(ArrayItem $node): bool
     {
         $arrayKey = $node->key;
-        
+
         return $this->option->allowArrayMapping() &&
         $arrayKey instanceof String_ &&
         false === ($this->option->includeNumericStrings() && is_numeric($arrayKey->value));

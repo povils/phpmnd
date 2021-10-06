@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Tests\Console;
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -8,11 +10,6 @@ use Povils\PHPMND\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class CommandTest
- *
- * @package Povils\PHPMND\Tests\Console
- */
 class CommandTest extends TestCase
 {
 
