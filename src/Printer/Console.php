@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Console implements Printer
 {
-    const DEFAULT_LINE_LENGTH = 80;
+    private const DEFAULT_LINE_LENGTH = 80;
 
     public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
     {
