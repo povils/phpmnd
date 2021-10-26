@@ -6,6 +6,7 @@ namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Return_;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
 
 class ReturnExtension extends Extension
 {
@@ -16,6 +17,6 @@ class ReturnExtension extends Extension
 
     public function extend(Node $node): bool
     {
-        return $node->getAttribute('parent') instanceof Return_;
+        return ParentConnector::findParent($node) instanceof Return_;
     }
 }

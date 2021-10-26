@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Povils\PHPMND\Visitor;
+namespace Povils\PHPMND\PhpParser\Visitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Const_;

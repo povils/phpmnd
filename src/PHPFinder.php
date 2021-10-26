@@ -7,11 +7,6 @@ namespace Povils\PHPMND;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * Class Finder
- *
- * @package Povils\PHPMND
- */
 class PHPFinder extends Finder
 {
     public function __construct(

@@ -7,6 +7,7 @@ namespace Povils\PHPMND\Tests\Command;
 use PHPUnit\Framework\TestCase;
 use Povils\PHPMND\Command\RunCommand;
 use Povils\PHPMND\Console\Application;
+use Povils\PHPMND\Container;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class RunCommandTest extends TestCase
@@ -18,7 +19,7 @@ class RunCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $application = new Application();
+        $application = new Application(Container::create());
         $command = new RunCommand();
         $application->add($command);
 
@@ -28,7 +29,7 @@ class RunCommandTest extends TestCase
     public function testExecuteNoFilesFound(): void
     {
         $this->commandTester->execute([
-            'directories' => ['tests/Fixtures'],
+            'directories' => ['tests/Fixtures/Files'],
             '--suffixes' => 'bad_suffix',
         ]);
 
@@ -38,7 +39,7 @@ class RunCommandTest extends TestCase
     public function testExecuteWithViolationOption(): void
     {
         $this->commandTester->execute([
-            'directories' => ['tests/Fixtures'],
+            'directories' => ['tests/Fixtures/Files'],
             '--non-zero-exit-on-violation' => true,
         ]);
 
@@ -48,7 +49,7 @@ class RunCommandTest extends TestCase
     public function testExecuteWithHintOption(): void
     {
         $this->commandTester->execute([
-            'directories' => ['tests/Fixtures'],
+            'directories' => ['tests/Fixtures/Files'],
             '--extensions' => 'assign',
             '--non-zero-exit-on-violation' => true,
             '--hint' => true,
@@ -56,5 +57,16 @@ class RunCommandTest extends TestCase
 
         $this->assertSame(RunCommand::FAILURE, $this->commandTester->getStatusCode());
         $this->assertTrue(strpos($this->commandTester->getDisplay(), 'Suggestions:') !== false);
+    }
+
+    public function testItDoesNotFailCommandWhenFileOnPathDoesNotExist(): void
+    {
+        $this->commandTester->execute([
+            'directories' => ['tests/Fixtures/Files/FILE_DOES_NOT_EXIST.php'],
+            '--extensions' => 'all',
+        ]);
+
+        $this->assertSame(RunCommand::SUCCESS, $this->commandTester->getStatusCode());
+        $this->assertRegExp('/No files found to scan/i', $this->commandTester->getDisplay());
     }
 }
