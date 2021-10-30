@@ -143,6 +143,13 @@ class RunCommand extends BaseCommand
                 'Link to a file containing filenames to search',
                 ''
             )
+            ->addOption(
+                'colour',
+                null,
+                InputOption::VALUE_NEGATABLE,
+                'Show colours in the output',
+                ''
+            )
         ;
     }
 
@@ -161,11 +168,20 @@ class RunCommand extends BaseCommand
             $progressBar = new ProgressBar($output, $finder->count());
             $progressBar->start();
         }
+        $colourRequested = $input->getOption('colour');
+        $outputDecorator = new Printer\Colour();
+
+        if ($colourRequested === false || ($colourRequested === '' && $this->shouldDefaultToPlain())) {
+            $outputDecorator = new Printer\Plain();
+        }
 
         $hintList = new HintList();
         $detector = new Detector($this->createOption($input), $hintList);
 
         $fileReportList = new FileReportList();
+
+        $printer = new Printer\Console($outputDecorator);
+
         $whitelist = $this->getFileOption($input->getOption('whitelist'));
 
         foreach ($finder as $file) {
@@ -303,5 +319,33 @@ class RunCommand extends BaseCommand
 
         // php-timer ^2.0||^3.0
         return Timer::resourceUsage();
+    }
+
+    /**
+     * Defaults on plain output when the output is not a tty OR
+     * running under CI.
+     */
+    private function shouldDefaultToPlain()
+    {
+        $ciChecks = [
+            'CI',
+            'BUILD_NUMBER',
+            'RUN_ID',
+        ];
+
+        foreach ($ciChecks as $check) {
+            if (getenv($check)) {
+                return true;
+            }
+        }
+
+        if (function_exists('stream_isatty') && !stream_isatty(STDOUT)) {
+            return true;
+        }
+        if (function_exists('posix_isatty') && !posix_isatty(STDOUT)) {
+            return true;
+        }
+
+        return false;
     }
 }

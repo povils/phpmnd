@@ -13,6 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Console implements Printer
 {
     private const DEFAULT_LINE_LENGTH = 80;
+    private $decorator;
+
+    public function __construct(Decorator $decorator)
+    {
+        $this->decorator = $decorator;
+    }
 
     public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
     {
@@ -21,9 +27,12 @@ class Console implements Printer
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
         $total = 0;
+
         foreach ($fileReportList->getFileReports() as $fileReport) {
             $entries = $fileReport->getEntries();
             $total += count($entries);
+            $contents = $fileReport->getFile()->getContents();
+            $contents = str_replace(["\r\n", "\r"], "\n", $contents);
             foreach ($entries as $entry) {
                 $output->writeln(sprintf(
                     '%s:%d  Magic number: %s',
@@ -32,9 +41,8 @@ class Console implements Printer
                     $entry['value']
                 ));
 
-                $highlighter = new Highlighter(new ConsoleColor());
                 $output->writeln(
-                    $highlighter->getCodeSnippet($fileReport->getFile()->getContents(), $entry['line'], 0, 0)
+                    $this->decorator->getLine($contents, $entry['line'])
                 );
 
                 if ($hintList->hasHints()) {

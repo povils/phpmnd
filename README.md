@@ -90,6 +90,8 @@ $ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=te
 
 The ``--allow-array-mapping`` option allow keys as strings when using "array" extension.
 
+The ``--colour`` option forces colour to be used in the output. ``--no-colour`` disables colour. The default is on unless output is not a TTY or running under CI
+
 The ``--exclude-file`` option will exclude a file from the code analysis. Multiple values are allowed.
 
 The ``--exclude-path`` option will exclude a path, which must be relative to the source, from the code analysis. Multiple values are allowed.
