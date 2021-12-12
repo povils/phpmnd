@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v2.5.0] - 2021-12-13
+- Update php-parallel-lint/php-console-highlighter to get rid of abandoned dependency
+- Run PHPMND against codebase
+- Improve GitHub Actions pipelines
+
+## [v2.4.0] - 2021-02-27
+- Add GA instead of TravisCI
+- Support PHP 8
+
 ## [v2.3.0] - 2020-04-15
 - Support PHP 7.3 and PHP 7.4
 - Update dependencies
