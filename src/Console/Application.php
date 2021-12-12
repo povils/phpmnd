@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Application extends BaseApplication
 {
-    public const VERSION = '2.4.0';
+    public const VERSION = '2.5.0';
     private const NAME = 'phpmnd';
 
     /**
