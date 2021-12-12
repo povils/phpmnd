@@ -12,26 +12,29 @@ on:
 jobs:
   tests:
     runs-on: ${{ matrix.operating-system }}
+    env:
+      SYMFONY_REQUIRE: ${{ matrix.symfony-require }}
 
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-version: ['7.4']
-        dependencies: ['']
+        php-version: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        symfony-require: ['^4', '^5', '^6']
+        exclude:
+          - symfony-require: "^5"
+            php-version: "7.1"
+          - symfony-require: "^6"
+            php-version: "7.1"
+          - symfony-require: "^6"
+            php-version: "7.2"
+          - symfony-require: "^6"
+            php-version: "7.3"
+          - symfony-require: "^6"
+            php-version: "7.4"
         include:
-          - { operating-system: 'ubuntu-latest', php-version: '7.1', dependencies: '--prefer-lowest' }
-          - { operating-system: 'ubuntu-latest', php-version: '7.1', dependencies: '' }
-          - { operating-system: 'ubuntu-latest', php-version: '7.2', dependencies: '--prefer-lowest' }
-          - { operating-system: 'ubuntu-latest', php-version: '7.2', dependencies: '' }
-          - { operating-system: 'ubuntu-latest', php-version: '7.3', dependencies: '--prefer-lowest' }
-          - { operating-system: 'ubuntu-latest', php-version: '7.3', dependencies: '' }
-          - { operating-system: 'ubuntu-latest', php-version: '7.4', dependencies: '--prefer-lowest' }
-          - { operating-system: 'ubuntu-latest', php-version: '7.4', dependencies: '' }
-          - { operating-system: 'ubuntu-latest', php-version: '8.0', dependencies: '--prefer-lowest' }
-          - { operating-system: 'ubuntu-latest', php-version: '8.0', dependencies: '' }
-          - { operating-system: 'windows-latest', php-version: '7.4', dependencies: '' }
+          - { operating-system: 'windows-latest', php-version: '7.4', symfony-require: '^5' }
 
-    name: CI on ${{ matrix.operating-system }} with PHP ${{ matrix.php-version }}, using ${{ matrix.dependencies }}
+    name: CI on ${{ matrix.operating-system }} with PHP ${{ matrix.php-version }}, with Symfony ${{ matrix.symfony-require }}
 
     steps:
       - name: Checkout code
@@ -58,8 +61,11 @@ jobs:
             composer-${{ runner.os }}-
             composer-
 
+      - name: Globally install symfony/flex
+        run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
+
       - name: Install dependencies
-        run: composer update --no-interaction --prefer-dist --no-progress ${{ matrix.dependencies }}
+        run: composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist
 
       - name: Run tests
         shell: bash
