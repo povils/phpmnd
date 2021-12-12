@@ -28,20 +28,11 @@ class DetectorTest extends TestCase
 {
     private const FIXTURES_DIR = __DIR__ . '/Fixtures/Files';
 
-    /**
-     * @var Option
-     */
-    private $option;
+    private Option $option;
 
-    /**
-     * @var Detector
-     */
-    private $detector;
+    private Detector $detector;
 
-    /**
-     * @var HintList
-     */
-    private $hintList;
+    private HintList $hintList;
 
     protected function setUp(): void
     {

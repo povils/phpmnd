@@ -30,10 +30,7 @@ class RunCommand extends BaseCommand
     public const SUCCESS = 0;
     public const FAILURE = 1;
 
-    /**
-     * @var Timer
-     */
-    private $timer;
+    private Timer $timer;
 
     protected function configure(): void
     {

@@ -14,20 +14,11 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class Detector
 {
-    /**
-     * @var Option
-     */
-    private $option;
+    private Option $option;
 
-    /**
-     * @var FileParser
-     */
-    private $parser;
+    private FileParser $parser;
 
-    /**
-     * @var HintList
-     */
-    private $hintList;
+    private HintList $hintList;
 
     public function __construct(FileParser $parser, Option $option, HintList $hintList)
     {

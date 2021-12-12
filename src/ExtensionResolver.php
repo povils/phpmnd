@@ -22,22 +22,22 @@ class ExtensionResolver
     /**
      * @var Extension[]
      */
-    private $allExtensions;
+    private array $allExtensions = [];
 
     /**
      * @var Extension[]
      */
-    private $defaultExtensions;
+    private array $defaultExtensions = [];
 
     /**
      * @var Extension[]
      */
-    private $resolvedExtensions = [];
+    private array $resolvedExtensions = [];
 
     public function resolve(array $extensionNames): array
     {
         $this->resolvedExtensions = $this->defaults();
-        if (($allKey = array_search(self::ALL_EXTENSIONS, $extensionNames)) !== false) {
+        if (($allKey = array_search(self::ALL_EXTENSIONS, $extensionNames, true)) !== false) {
             $this->resolvedExtensions = $this->all();
             unset($extensionNames[$allKey]);
         }
@@ -56,7 +56,7 @@ class ExtensionResolver
 
     public function defaults(): array
     {
-        if (null === $this->defaultExtensions) {
+        if ([] === $this->defaultExtensions) {
             $this->defaultExtensions = [
                 new ConditionExtension,
                 new ReturnExtension,
@@ -69,7 +69,7 @@ class ExtensionResolver
 
     public function all(): array
     {
-        if (null === $this->allExtensions) {
+        if ([] === $this->allExtensions) {
             $this->allExtensions = array_merge(
                 [
                     new ArgumentExtension,
@@ -95,7 +95,7 @@ class ExtensionResolver
 
                     return;
                 }
-            };
+            }
         }
     }
 

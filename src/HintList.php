@@ -6,10 +6,7 @@ namespace Povils\PHPMND;
 
 class HintList
 {
-    /**
-     * @var array
-     */
-    private $constants = [];
+    private array $constants = [];
 
     /**
      * @param mixed $magicNumber

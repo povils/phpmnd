@@ -13,10 +13,7 @@ class Console implements Printer
 {
     private const DEFAULT_LINE_LENGTH = 80;
 
-    /**
-     * @var Highlighter
-     */
-    private $highlighter;
+    private Highlighter $highlighter;
 
     public function __construct(Highlighter $highlighter)
     {

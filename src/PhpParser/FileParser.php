@@ -12,10 +12,7 @@ use Throwable;
 
 class FileParser
 {
-    /**
-     * @var Parser
-     */
-    private $parser;
+    private Parser $parser;
 
     public function __construct(Parser $parser)
     {

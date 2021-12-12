@@ -6,19 +6,17 @@ namespace Povils\PHPMND\PhpParser\Visitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
+use Povils\PHPMND\DetectionResult;
 use Povils\PHPMND\FileReportGenerator;
 
 class DetectionVisitor extends NodeVisitorAbstract
 {
-    /**
-     * @var FileReportGenerator
-     */
-    private $generator;
+    private FileReportGenerator $generator;
 
     /**
      * @var array<iterable<DetectionResult>
      */
-    private $reports = [];
+    private array $reports = [];
 
     public function __construct(FileReportGenerator $generator)
     {
