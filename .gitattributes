@@ -4,7 +4,6 @@
 /.* export-ignore
 /build/ export-ignore
 /tests/ export-ignore
-/box.json.dist export-ignore
 /CHANGELOG.md export-ignore
 /CONTRIBUTING.md export-ignore
 /phpunit.xml.dist export-ignore

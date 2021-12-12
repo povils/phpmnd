@@ -30,7 +30,7 @@ class HintList
 
     public function hasHints(): bool
     {
-        return false === empty($this->constants);
+        return $this->constants !== [];
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Command\RunCommand;
+use Povils\PHPMND\Container;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -16,11 +17,18 @@ class Application extends BaseApplication
     public const VERSION = '2.4.0';
     private const NAME = 'phpmnd';
 
-    public function __construct()
+    /**
+     * @var Container
+     */
+    private $container;
+
+    public function __construct(Container $container)
     {
         parent::__construct(self::NAME, self::VERSION);
 
         $this->setDefaultCommand('run', true);
+
+        $this->container = $container;
     }
 
     public function doRun(InputInterface $input, OutputInterface $output): int
@@ -46,6 +54,11 @@ class Application extends BaseApplication
             $this->getName(),
             $this->getVersion()
         ));
+    }
+
+    public function getContainer(): Container
+    {
+        return $this->container;
     }
 
     protected function getDefaultCommands(): array

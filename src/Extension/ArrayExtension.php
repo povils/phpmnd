@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Scalar\String_;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
 
 class ArrayExtension extends Extension
 {
@@ -18,7 +19,7 @@ class ArrayExtension extends Extension
 
     public function extend(Node $node): bool
     {
-        $parent = $node->getAttribute('parent');
+        $parent = ParentConnector::findParent($node);
 
         return (
             $parent instanceof ArrayItem  &&
@@ -30,8 +31,8 @@ class ArrayExtension extends Extension
     {
         $arrayKey = $node->key;
 
-        return $this->option->allowArrayMapping() &&
-        $arrayKey instanceof String_ &&
-        false === ($this->option->includeNumericStrings() && is_numeric($arrayKey->value));
+        return $this->option->allowArrayMapping()
+            && $arrayKey instanceof String_
+            && false === ($this->option->includeNumericStrings() && is_numeric($arrayKey->value));
     }
 }

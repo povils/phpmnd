@@ -17,7 +17,7 @@ use Povils\PHPMND\Extension\SwitchCaseExtension;
 
 class ExtensionResolver
 {
-    const ALL_EXTENSIONS = 'all';
+    private const ALL_EXTENSIONS = 'all';
 
     /**
      * @var Extension[]

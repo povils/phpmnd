@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
 
 class ArgumentExtension extends Extension
 {
@@ -18,13 +19,20 @@ class ArgumentExtension extends Extension
 
     public function extend(Node $node): bool
     {
-        return $node->getAttribute('parent') instanceof Arg && false === $this->ignoreFunc($node);
+        return ParentConnector::findParent($node) instanceof Arg && $this->ignoreFunc($node) === false;
     }
 
     private function ignoreFunc(Node $node): bool
     {
-        /** @var FuncCall $funcCallNode */
-        $funcCallNode = $node->getAttribute('parent')->getAttribute('parent');
+        /** @var Node|null $funcCallNode */
+        $parentNode = ParentConnector::findParent($node);
+
+        if ($parentNode === null) {
+            return false;
+        }
+
+        /** @var Node|null $funcCallNode */
+        $funcCallNode = ParentConnector::findParent($parentNode);
 
         return
             $funcCallNode instanceof FuncCall

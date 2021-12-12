@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Povils\PHPMND\Tests\Printer;
 
 use Povils\PHPMND\Console\Application;
-use Povils\PHPMND\FileReport;
-use Povils\PHPMND\FileReportList;
+use Povils\PHPMND\DetectionResult;
 use Povils\PHPMND\HintList;
 use Povils\PHPMND\Printer\Xml;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +19,7 @@ class XmlTest extends TestCase
         $outputPath = tempnam(sys_get_temp_dir(), 'phpmnd_');
 
         $xmlPrinter = new Xml($outputPath);
-        $xmlPrinter->printData(new NullOutput(), new FileReportList(), new HintList());
+        $xmlPrinter->printData(new NullOutput(), new HintList(), []);
 
         $this->assertXml(
             <<<'XML'
@@ -47,17 +46,14 @@ XML
                 $testMagicNumber
             ));
 
-        $fileReport = new FileReport($splFileInfo);
-        $fileReport->addEntry(1, $testMagicNumber);
-        $fileReportList = new FileReportList();
-        $fileReportList->addFileReport($fileReport);
+        $list[] = new DetectionResult($splFileInfo, 1, $testMagicNumber);
 
         $hintList = new HintList();
         $hintList->addClassCont($testMagicNumber, __CLASS__, 'WELL_KNOWN_MAGIC');
 
         $outputPath = tempnam(sys_get_temp_dir(), 'phpmnd_');
         $xmlPrinter = new Xml($outputPath);
-        $xmlPrinter->printData(new NullOutput(), $fileReportList, $hintList);
+        $xmlPrinter->printData(new NullOutput(), $hintList, $list);
 
         $this->assertXml(
             <<<'XML'
@@ -82,9 +78,9 @@ XML
         );
     }
 
-    private function assertXml(string $expected, string $actualFile, string $message = '') : void
+    private function assertXml(string $expected, string $actualFile) : void
     {
         $expectedXml = str_replace('%%PHPMND_VERSION%%', Application::VERSION, $expected);
-        $this->assertXmlStringEqualsXmlString($expectedXml, file_get_contents($actualFile), $message);
+        $this->assertXmlStringEqualsXmlString($expectedXml, file_get_contents($actualFile));
     }
 }

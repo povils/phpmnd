@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Povils\PHPMND\Visitor;
+namespace Povils\PHPMND\PhpParser\Visitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
@@ -10,7 +10,7 @@ use PhpParser\NodeVisitorAbstract;
 class ParentConnectorVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var array
+     * @var Node[]
      */
     private $stack;
 
@@ -21,9 +21,10 @@ class ParentConnectorVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node): void
     {
-        if (false === empty($this->stack)) {
-            $node->setAttribute('parent', $this->stack[count($this->stack) - 1]);
-        }
+        $stackCount = count($this->stack);
+
+        ParentConnector::setParent($node, $this->stack[$stackCount - 1] ?? null);
+
         $this->stack[] = $node;
     }
 
