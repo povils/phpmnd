@@ -23,11 +23,11 @@ class Xml implements Printer
     }
 
     /**
-     * @param array<int, DetectionResult> $list
+     * @param array<int, DetectionResult> $detections
      */
-    public function printData(OutputInterface $output, HintList $hintList, array $list): void
+    public function printData(OutputInterface $output, HintList $hintList, array $detections): void
     {
-        $groupedList = $this->groupDetectionResultPerFile($list);
+        $groupedList = $this->groupDetectionResultPerFile($detections);
 
         $output->writeln('Generate XML output...');
         $dom = new DOMDocument();

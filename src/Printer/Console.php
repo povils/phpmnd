@@ -23,13 +23,13 @@ class Console implements Printer
         $this->highlighter = $highlighter;
     }
 
-    public function printData(OutputInterface $output, HintList $hintList, array $list): void
+    public function printData(OutputInterface $output, HintList $hintList, array $detections): void
     {
         $length = (int) (`tput cols` ?: self::DEFAULT_LINE_LENGTH);
         $separator = str_repeat('-', $length);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
-        foreach ($this->groupDetectionResultPerFile($list) as $detectionResults) {
+        foreach ($this->groupDetectionResultPerFile($detections) as $detectionResults) {
             foreach ($detectionResults as $detection) {
                 $output->writeln(sprintf(
                     '%s:%d. Magic number: %s',
@@ -65,22 +65,22 @@ class Console implements Printer
             $output->writeln($separator . PHP_EOL);
         }
 
-        $output->writeln('<info>Total of Magic Numbers: ' . count($list) . '</info>');
+        $output->writeln('<info>Total of Magic Numbers: ' . count($detections) . '</info>');
     }
 
     /**
-     * @param array<int, DetectionResult> $list
+     * @param array<int, DetectionResult> $detections
      *
      * @return array<int, DetectionResult[]>
      */
-    private function groupDetectionResultPerFile(array $list): array
+    private function groupDetectionResultPerFile(array $detections): array
     {
-        $result = [];
+        $groupedResult = [];
 
-        foreach ($list as $detectionResult) {
-            $result[$detectionResult->getFile()->getRelativePathname()][] = $detectionResult;
+        foreach ($detections as $detection) {
+            $groupedResult[$detection->getFile()->getRelativePathname()][] = $detection;
         }
 
-        return $result;
+        return $groupedResult;
     }
 }

@@ -9,5 +9,5 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 interface Printer
 {
-    public function printData(OutputInterface $output, HintList $hintList, array $list): void;
+    public function printData(OutputInterface $output, HintList $hintList, array $detections): void;
 }
