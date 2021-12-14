@@ -67,6 +67,14 @@ class RunCommandTest extends TestCase
         ]);
 
         $this->assertSame(RunCommand::SUCCESS, $this->commandTester->getStatusCode());
-        $this->assertMatchesRegularExpression('/No files found to scan/i', $this->commandTester->getDisplay());
+        $output = $this->commandTester->getDisplay();
+
+        /* This should use assertStringContainsString but the lowest phpunit supported does not allow that */
+        $found = false;
+        if (strpos($output, 'No files found to scan') !== false) {
+            $found = true;
+        }
+
+        $this->assertTrue($found);
     }
 }
