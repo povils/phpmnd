@@ -449,7 +449,6 @@ class DetectorTest extends TestCase
     public function testDetectDifferentBase(): void
     {
 
-
         $this->option->setExtensions([new AssignExtension()]);
 
         $result = $this->detector->detect($this->createSplFileInfo(self::FIXTURES_DIR . '/test_different_base.php'));
@@ -470,5 +469,4 @@ class DetectorTest extends TestCase
             $numbers
         );
     }
-
 }

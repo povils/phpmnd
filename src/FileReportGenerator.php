@@ -73,7 +73,7 @@ class FileReportGenerator
                             '0%s%d',
                             $this->baseLookup[$scalar->getAttribute('kind')],
                             base_convert(
-                                $scalar->value,
+                                (string) $scalar->value,
                                 LNumber::KIND_DEC,
                                 $scalar->getAttribute('kind')
                             )
