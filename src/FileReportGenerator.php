@@ -1,60 +1,55 @@
 <?php
 
-namespace Povils\PHPMND\Visitor;
+declare(strict_types=1);
+
+namespace Povils\PHPMND;
 
 use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\UnaryMinus;
 use PhpParser\Node\Expr\UnaryPlus;
-use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitorAbstract;
 use Povils\PHPMND\Console\Option;
-use Povils\PHPMND\Extension\ArrayAwareExtension;
-use Povils\PHPMND\Extension\Extension;
-use Povils\PHPMND\Extension\FunctionAwareExtension;
-use Povils\PHPMND\FileReport;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
+use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * Class DetectorVisitor
- *
- * @package Povils\PHPMND
- */
-class DetectorVisitor extends NodeVisitorAbstract
+class FileReportGenerator
 {
     /**
-     * @var FileReport
+     * @var SplFileInfo
      */
-    private $fileReport;
+    private $file;
 
     /**
      * @var Option
      */
     private $option;
 
-    public function __construct(FileReport $fileReport, Option $option)
+    public function __construct(SplFileInfo $file, Option $option)
     {
-        $this->fileReport = $fileReport;
+        $this->file = $file;
         $this->option = $option;
     }
 
-    public function enterNode(Node $node): ?int
+    public function detect(Node $node): iterable
     {
-        if ($this->isIgnoreableConst($node)) {
-            return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+        if ($this->isIgnorableConst($node)) {
+            return;
         }
 
         /** @var LNumber|DNumber|String_ $scalar */
         $scalar = $node;
+
         if ($this->hasSign($node)) {
-            $node = $node->getAttribute('parent');
+            $node = ParentConnector::findParent($node);
+
             if ($this->isMinus($node)) {
                 if (!isset($scalar->value)) {
-                    return null;
+                    return;
                 }
+
                 $scalar->value = -$scalar->value;
             }
         }
@@ -62,18 +57,15 @@ class DetectorVisitor extends NodeVisitorAbstract
         if ($this->isNumber($scalar) || $this->isString($scalar)) {
             foreach ($this->option->getExtensions() as $extension) {
                 $extension->setOption($this->option);
-                if ($extension->extend($node)) {
-                    $this->fileReport->addEntry($scalar->getLine(), $scalar->value);
 
-                    return null;
+                if ($extension->extend($node)) {
+                    yield new DetectionResult($this->file, $scalar->getLine(), $scalar->value);
                 }
             }
         }
-
-        return null;
     }
 
-    private function isIgnoreableConst(Node $node): bool
+    private function isIgnorableConst(Node $node): bool
     {
         return $node instanceof Const_ &&
             ($this->isNumber($node->value) || $this->isString($node->value));
@@ -87,12 +79,12 @@ class DetectorVisitor extends NodeVisitorAbstract
             $this->isValidNumeric($node)
         );
 
-        return $isNumber && false === $this->ignoreNumber($node);
+        return $isNumber && $this->ignoreNumber($node) === false;
     }
 
     private function isString(Node $node): bool
     {
-        return $this->option->includeStrings() && $node instanceof String_ && false === $this->ignoreString($node);
+        return $this->option->includeStrings() && $node instanceof String_ && $this->ignoreString($node) === false;
     }
 
     private function ignoreNumber(Node $node): bool
@@ -107,8 +99,9 @@ class DetectorVisitor extends NodeVisitorAbstract
 
     private function hasSign(Node $node): bool
     {
-        return $node->getAttribute('parent') instanceof UnaryMinus
-            || $node->getAttribute('parent') instanceof UnaryPlus;
+        $parentNode = ParentConnector::findParent($node);
+
+        return $parentNode instanceof UnaryMinus || $parentNode instanceof UnaryPlus;
     }
 
     private function isMinus(Node $node): bool
@@ -118,9 +111,9 @@ class DetectorVisitor extends NodeVisitorAbstract
 
     private function isValidNumeric(Node $node): bool
     {
-        return $this->option->includeNumericStrings() &&
-        isset($node->value) &&
-        is_numeric($node->value) &&
-        false === $this->ignoreString($node);
+        return $this->option->includeNumericStrings()
+            && isset($node->value)
+            && is_numeric($node->value)
+            && $this->ignoreString($node) === false;
     }
 }

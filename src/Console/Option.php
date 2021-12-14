@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Console;
 
 use Povils\PHPMND\Extension\Extension;
 
-/**
- * @package Povils\PHPMND\Console
- */
 class Option
 {
     /**
@@ -53,7 +52,7 @@ class Option
      */
     private $allowArrayMapping = false;
 
-    public function setExtensions(array $extensions)
+    public function setExtensions(array $extensions): void
     {
         $this->extensions = $extensions;
     }
@@ -63,7 +62,7 @@ class Option
         return $this->extensions;
     }
 
-    public function setIgnoreNumbers(array $ignoreNumbers)
+    public function setIgnoreNumbers(array $ignoreNumbers): void
     {
         $this->ignoreNumbers = array_merge($this->ignoreNumbers, $ignoreNumbers);
     }
@@ -73,7 +72,7 @@ class Option
         return $this->ignoreNumbers;
     }
 
-    public function setIgnoreFuncs(array $ignoreFuncs)
+    public function setIgnoreFuncs(array $ignoreFuncs): void
     {
         $this->ignoreFuncs = $ignoreFuncs;
     }
@@ -88,7 +87,7 @@ class Option
         return $this->includeStrings;
     }
 
-    public function setIncludeStrings(?bool $includeStrings)
+    public function setIncludeStrings(?bool $includeStrings): void
     {
         $this->includeStrings = $includeStrings;
     }
@@ -98,7 +97,7 @@ class Option
         return $this->ignoreStrings;
     }
 
-    public function setIgnoreStrings(array $ignoreStrings)
+    public function setIgnoreStrings(array $ignoreStrings): void
     {
         $this->ignoreStrings = array_merge($this->ignoreStrings, $ignoreStrings);
     }
@@ -108,7 +107,7 @@ class Option
         return $this->giveHint;
     }
 
-    public function setGiveHint(bool $giveHint)
+    public function setGiveHint(bool $giveHint): void
     {
         $this->giveHint = $giveHint;
     }
@@ -118,7 +117,7 @@ class Option
         return $this->includeNumericStrings;
     }
 
-    public function setIncludeNumericStrings(?bool $includeNumericStrings)
+    public function setIncludeNumericStrings(?bool $includeNumericStrings): void
     {
         $this->includeNumericStrings = $includeNumericStrings;
     }
@@ -128,7 +127,7 @@ class Option
         return $this->allowArrayMapping;
     }
 
-    public function setAllowArrayMapping(?bool $allowArrayMapping)
+    public function setAllowArrayMapping(?bool $allowArrayMapping): void
     {
         $this->allowArrayMapping = $allowArrayMapping;
     }

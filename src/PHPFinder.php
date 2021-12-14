@@ -1,15 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * Class Finder
- *
- * @package Povils\PHPMND
- */
 class PHPFinder extends Finder
 {
     public function __construct(
@@ -21,7 +18,7 @@ class PHPFinder extends Finder
     ) {
         parent::__construct();
         $dirs = array_filter($directories, 'is_dir');
-        $files = array_diff($directories, $dirs);
+        $files = array_filter($directories, 'is_file');
 
         $this
             ->files()

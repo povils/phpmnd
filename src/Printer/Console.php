@@ -1,58 +1,86 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Printer;
 
-use JakubOnderka\PhpConsoleColor\ConsoleColor;
 use JakubOnderka\PhpConsoleHighlighter\Highlighter;
-use Povils\PHPMND\FileReportList;
+use Povils\PHPMND\DetectionResult;
 use Povils\PHPMND\HintList;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Console
- *
- * @package Povils\PHPMND\Printer
- */
 class Console implements Printer
 {
-    const LINE_LENGTH = 80;
-    const TAB = 4;
+    private const DEFAULT_LINE_LENGTH = 80;
 
-    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
+    /**
+     * @var Highlighter
+     */
+    private $highlighter;
+
+    public function __construct(Highlighter $highlighter)
     {
-        $separator = str_repeat('-', self::LINE_LENGTH);
+        $this->highlighter = $highlighter;
+    }
+
+    public function printData(OutputInterface $output, HintList $hintList, array $detections): void
+    {
+        $length = (int) (`tput cols` ?: self::DEFAULT_LINE_LENGTH);
+        $separator = str_repeat('-', $length);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
-        $total = 0;
-        foreach ($fileReportList->getFileReports() as $fileReport) {
-            $entries = $fileReport->getEntries();
-            $total += count($entries);
-            foreach ($entries as $entry) {
+        foreach ($this->groupDetectionResultPerFile($detections) as $detectionResults) {
+            foreach ($detectionResults as $detection) {
                 $output->writeln(sprintf(
-                    '%s:%d  Magic number: %s',
-                    $fileReport->getFile()->getRelativePathname(),
-                    $entry['line'],
-                    $entry['value']
+                    '%s:%d. Magic number: %s',
+                    $detection->getFile()->getRelativePathname(),
+                    $detection->getLine(),
+                    $detection->getValue()
                 ));
 
-                $highlighter = new Highlighter(new ConsoleColor());
                 $output->writeln(
-                    $highlighter->getCodeSnippet($fileReport->getFile()->getContents(), $entry['line'], 0, 0)
+                    $this->highlighter->getCodeSnippet(
+                        $detection->getFile()->getContents(),
+                        $detection->getLine(),
+                        0,
+                        0
+                    )
                 );
 
                 if ($hintList->hasHints()) {
-                    $hints = $hintList->getHintsByValue($entry['value']);
-                    if (false === empty($hints)) {
+                    $hints = $hintList->getHintsByValue($detection->getValue());
+
+                    if ($hints !== []) {
                         $output->writeln('Suggestions:');
+
                         foreach ($hints as $hint) {
-                            $output->writeln(str_repeat(' ', 2 * self::TAB) . $hint);
+                            $output->writeln("\t\t" . $hint);
                         }
+
                         $output->write(PHP_EOL);
                     }
                 }
             }
+
             $output->writeln($separator . PHP_EOL);
         }
-        $output->writeln('<info>Total of Magic Numbers: ' . $total . '</info>');
+
+        $output->writeln('<info>Total of Magic Numbers: ' . count($detections) . '</info>');
+    }
+
+    /**
+     * @param array<int, DetectionResult> $detections
+     *
+     * @return array<int, DetectionResult[]>
+     */
+    private function groupDetectionResultPerFile(array $detections): array
+    {
+        $groupedResult = [];
+
+        foreach ($detections as $detection) {
+            $groupedResult[$detection->getFile()->getRelativePathname()][] = $detection;
+        }
+
+        return $groupedResult;
     }
 }

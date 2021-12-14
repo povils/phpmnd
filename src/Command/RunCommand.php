@@ -1,10 +1,15 @@
 <?php
 
-namespace Povils\PHPMND\Console;
+declare(strict_types=1);
 
+namespace Povils\PHPMND\Command;
+
+use JakubOnderka\PhpConsoleColor\ConsoleColor;
+use JakubOnderka\PhpConsoleHighlighter\Highlighter;
+use Povils\PHPMND\Console\Application;
+use Povils\PHPMND\Console\Option;
 use Povils\PHPMND\Detector;
 use Povils\PHPMND\ExtensionResolver;
-use Povils\PHPMND\FileReportList;
 use Povils\PHPMND\HintList;
 use Povils\PHPMND\PHPFinder;
 use Povils\PHPMND\Printer;
@@ -18,14 +23,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class Command
- *
- * @package Povils\PHPMND\Console
+ * @method Application getApplication()
  */
-class Command extends BaseCommand
+class RunCommand extends BaseCommand
 {
-    const EXIT_CODE_SUCCESS = 0;
-    const EXIT_CODE_FAILURE = 1;
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
 
     /**
      * @var Timer
@@ -35,15 +38,11 @@ class Command extends BaseCommand
     protected function configure(): void
     {
         $this
-            ->setName('phpmnd')
-            ->setDefinition(
-                [
-                    new InputArgument(
-                        'directories',
-                        InputArgument::REQUIRED + InputArgument::IS_ARRAY,
-                        'One or more files and/or directories to analyze'
-                    ),
-                ]
+            ->setName('run')
+            ->addArgument(
+                'directories',
+                InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+                'One or more files and/or directories to analyze'
             )
             ->addOption(
                 'extensions',
@@ -152,39 +151,43 @@ class Command extends BaseCommand
         $this->startTimer();
         $finder = $this->createFinder($input);
 
-        if (0 === $finder->count()) {
+        $filesCount = $finder->count();
+
+        if ($filesCount === 0) {
             $output->writeln('No files found to scan');
-            return self::EXIT_CODE_SUCCESS;
+            return self::SUCCESS;
         }
 
         $progressBar = null;
-        if ($input->getOption('progress')) {
-            $progressBar = new ProgressBar($output, $finder->count());
+        $isProgressBarEnabled = $input->getOption('progress');
+
+        if ($isProgressBarEnabled) {
+            $progressBar = new ProgressBar($output, $filesCount);
             $progressBar->start();
         }
 
-        $hintList = new HintList;
-        $detector = new Detector($this->createOption($input), $hintList);
+        $hintList = new HintList();
 
-        $fileReportList = new FileReportList();
-        $printer = new Printer\Console();
+        $detector = new Detector(
+            $this->getApplication()->getContainer()->getFileParser(),
+            $this->createOption($input),
+            $hintList
+        );
+
         $whitelist = $this->getFileOption($input->getOption('whitelist'));
 
+        $detections = [];
+
         foreach ($finder as $file) {
-            if (count($whitelist) > 0 && !in_array($file->getRelativePathname(), $whitelist)) {
+            if ($whitelist !== [] && !in_array($file->getRelativePathname(), $whitelist, true)) {
                 continue;
             }
 
-            try {
-                $fileReport = $detector->detect($file);
-                if ($fileReport->hasMagicNumbers()) {
-                    $fileReportList->addFileReport($fileReport);
-                }
-            } catch (\Exception $e) {
-                $output->writeln($e->getMessage());
+            foreach ($detector->detect($file) as $detectionResult) {
+                $detections[] = $detectionResult;
             }
 
-            if ($input->getOption('progress')) {
+            if ($isProgressBarEnabled) {
                 $progressBar->advance();
             }
         }
@@ -195,24 +198,26 @@ class Command extends BaseCommand
 
         if ($input->getOption('xml-output')) {
             $xmlOutput = new Printer\Xml($input->getOption('xml-output'));
-            $xmlOutput->printData($output, $fileReportList, $hintList);
+            $xmlOutput->printData($output, $hintList, $detections);
         }
 
-        if ($output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
+        if (!$output->isQuiet()) {
             $output->writeln('');
-            $printer->printData($output, $fileReportList, $hintList);
+            $printer = new Printer\Console(new Highlighter(new ConsoleColor()));
+            $printer->printData($output, $hintList, $detections);
             $output->writeln('<info>' . $this->getResourceUsage() . '</info>');
         }
 
-        if ($input->getOption('non-zero-exit-on-violation') && $fileReportList->hasMagicNumbers()) {
-            return self::EXIT_CODE_FAILURE;
+        if ($detections !== [] && $input->getOption('non-zero-exit-on-violation')) {
+            return self::FAILURE;
         }
-        return self::EXIT_CODE_SUCCESS;
+
+        return self::SUCCESS;
     }
 
     private function createOption(InputInterface $input): Option
     {
-        $option = new Option;
+        $option = new Option();
         $option->setIgnoreNumbers(array_map([$this, 'castToNumber'], $this->getCSVOption($input, 'ignore-numbers')));
         $option->setIgnoreFuncs($this->getCSVOption($input, 'ignore-funcs'));
         $option->setIncludeStrings($input->getOption('strings'));
@@ -237,8 +242,8 @@ class Command extends BaseCommand
 
         if (false === is_array($result)) {
             return array_filter(
-                explode(',', $result),
-                function ($value) {
+                explode(',', (string) $result),
+                static function ($value) {
                     return false === empty($value);
                 }
             );
@@ -268,7 +273,7 @@ class Command extends BaseCommand
         return $value;
     }
 
-    private function getFileOption($filename)
+    private function getFileOption($filename): array
     {
         $filename = $this->convertFileDescriptorLink($filename);
 
@@ -288,7 +293,7 @@ class Command extends BaseCommand
         return $path;
     }
 
-    private function startTimer()
+    private function startTimer(): void
     {
         if (class_exists(ResourceUsageFormatter::class)) {
             $this->timer = new Timer();
@@ -296,7 +301,7 @@ class Command extends BaseCommand
         }
     }
 
-    private function getResourceUsage()
+    private function getResourceUsage(): string
     {
         // php-timer ^4.0||^5.0
         if (class_exists(ResourceUsageFormatter::class)) {

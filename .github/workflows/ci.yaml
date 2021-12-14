@@ -1,29 +1,72 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:braces
+
 name: CI
+
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - master
+
 jobs:
   tests:
     runs-on: ${{ matrix.operating-system }}
+    env:
+      SYMFONY_REQUIRE: ${{ matrix.symfony-require }}
+
     strategy:
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+        operating-system: [ ubuntu-latest ]
         php-version: ['7.1', '7.2', '7.3', '7.4', '8.0']
-    name: PHP ${{ matrix.php-version }} Test on ${{ matrix.operating-system }}
+        symfony-require: ['^4', '^5', '^6']
+        exclude:
+          - symfony-require: "^5"
+            php-version: "7.1"
+          - symfony-require: "^6"
+            php-version: "7.1"
+          - symfony-require: "^6"
+            php-version: "7.2"
+          - symfony-require: "^6"
+            php-version: "7.3"
+          - symfony-require: "^6"
+            php-version: "7.4"
+        include:
+          - { operating-system: 'windows-latest', php-version: '7.4', symfony-require: '^5' }
+
+    name: CI on ${{ matrix.operating-system }} with PHP ${{ matrix.php-version }}, with Symfony ${{ matrix.symfony-require }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: /tmp/composer-cache
-          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
           tools: composer:v2
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --no-suggest
-      - name: Execute tests
-        run: vendor/bin/phpunit --verbose
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ runner.os }}-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}-${{ matrix.dependencies }}
+          restore-keys: |
+            composer-${{ runner.os }}-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}-
+            composer-${{ runner.os }}-${{ matrix.php-version }}-
+            composer-${{ runner.os }}-
+            composer-
+
+      - name: Globally install symfony/flex
+        run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
+
+      - name: Install dependencies
+        run: composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist
+
+      - name: Run tests
+        shell: bash
+        run: composer run test

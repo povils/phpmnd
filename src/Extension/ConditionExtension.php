@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
@@ -18,6 +20,7 @@ use PhpParser\Node\Expr\BinaryOp\Smaller;
 use PhpParser\Node\Expr\BinaryOp\SmallerOrEqual;
 use PhpParser\Node\Expr\BinaryOp\Spaceship;
 use PhpParser\Node\Expr\ConstFetch;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
 
 class ConditionExtension extends Extension
 {
@@ -28,10 +31,9 @@ class ConditionExtension extends Extension
 
     public function extend(Node $node): bool
     {
-        return
-            $this->isCondition($node->getAttribute('parent'))
-            &&
-            false === $this->comparesToConst($node->getAttribute('parent'));
+        $parent = ParentConnector::findParent($node);
+
+        return $parent && $this->isCondition($parent) && !$this->isComparesToConst($parent);
     }
 
     private function isCondition(Node $node): bool
@@ -68,7 +70,7 @@ class ConditionExtension extends Extension
             );
     }
 
-    private function comparesToConst(BinaryOp $node): bool
+    private function isComparesToConst(BinaryOp $node): bool
     {
         return
             $node instanceof BinaryOp

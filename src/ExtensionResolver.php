@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND;
 
 use Povils\PHPMND\Extension\ArgumentExtension;
@@ -13,14 +15,9 @@ use Povils\PHPMND\Extension\PropertyExtension;
 use Povils\PHPMND\Extension\ReturnExtension;
 use Povils\PHPMND\Extension\SwitchCaseExtension;
 
-/**
- * Class ExtensionResolver
- *
- * @package Povils\PHPMND
- */
 class ExtensionResolver
 {
-    const ALL_EXTENSIONS = 'all';
+    private const ALL_EXTENSIONS = 'all';
 
     /**
      * @var Extension[]

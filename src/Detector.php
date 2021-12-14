@@ -1,22 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND;
 
-use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
-use PhpParser\ParserFactory;
 use Povils\PHPMND\Console\Option;
-use Povils\PHPMND\Visitor\DetectorVisitor;
-use Povils\PHPMND\Visitor\HintVisitor;
-use Povils\PHPMND\Visitor\ParentConnectorVisitor;
+use Povils\PHPMND\PhpParser\FileParser;
+use Povils\PHPMND\PhpParser\Visitor\DetectionVisitor;
+use Povils\PHPMND\PhpParser\Visitor\HintVisitor;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnectorVisitor;
 use Symfony\Component\Finder\SplFileInfo;
-use const PHP_VERSION;
 
-/**
- * Class Detector
- *
- * @package Povils\PHPMND
- */
 class Detector
 {
     /**
@@ -25,38 +20,45 @@ class Detector
     private $option;
 
     /**
+     * @var FileParser
+     */
+    private $parser;
+
+    /**
      * @var HintList
      */
     private $hintList;
 
-    public function __construct(Option $option, HintList $hintList)
+    public function __construct(FileParser $parser, Option $option, HintList $hintList)
     {
+        $this->parser = $parser;
         $this->option = $option;
         $this->hintList = $hintList;
     }
 
-    public function detect(SplFileInfo $file): FileReport
+    public function detect(SplFileInfo $file): iterable
     {
-        // For PHP < 8.0 we want to specify a lexer object.
-        // Otherwise the code creates a `Lexer\Emulative()` instance, which by default uses PHP 8 compatibility
-        // with e.g. longer list of reserved keywords
-        $lexer = version_compare('8.0', PHP_VERSION) > 0 ? new Lexer() : null;
+        $statements = $this->parser->parse($file);
 
-        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7, $lexer);
         $traverser = new NodeTraverser();
 
-        $fileReport = new FileReport($file);
+        $detectorVisitor = new DetectionVisitor(
+            new FileReportGenerator(
+                $file,
+                $this->option
+            )
+        );
 
         $traverser->addVisitor(new ParentConnectorVisitor());
-        $traverser->addVisitor(new DetectorVisitor($fileReport, $this->option));
+
         if ($this->option->giveHint()) {
             $traverser->addVisitor(new HintVisitor($this->hintList));
         }
 
+        $traverser->addVisitor($detectorVisitor);
 
-        $stmts = $parser->parse($file->getContents());
-        $traverser->traverse($stmts);
+        $traverser->traverse($statements);
 
-        return $fileReport;
+        yield from $detectorVisitor->getDetections();
     }
 }

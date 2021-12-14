@@ -1,6 +1,8 @@
 <?php
 
-namespace Povils\PHPMND\Visitor;
+declare(strict_types=1);
+
+namespace Povils\PHPMND\PhpParser\Visitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Const_;
@@ -11,11 +13,6 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Povils\PHPMND\HintList;
 
-/**
- * Class HintVisitor
- *
- * @package Povils\PHPMND\Visitor
- */
 class HintVisitor extends NodeVisitorAbstract
 {
     /**
@@ -40,7 +37,11 @@ class HintVisitor extends NodeVisitorAbstract
             if ($constParent instanceof ClassConst) {
                 $classConstParent = $constParent->getAttribute('parent');
                 if ($classConstParent instanceof Class_) {
-                    $this->hintList->addClassCont($constantValue, $classConstParent->name, $node->name);
+                    $this->hintList->addClassCont(
+                        $constantValue,
+                        (string) $classConstParent->name,
+                        (string) $node->name
+                    );
                 }
             }
         }
