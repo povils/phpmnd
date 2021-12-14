@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
 
 class AssignExtension extends Extension
 {
@@ -14,6 +17,6 @@ class AssignExtension extends Extension
 
     public function extend(Node $node): bool
     {
-        return $node->getAttribute('parent') instanceof Assign;
+        return ParentConnector::findParent($node) instanceof Assign;
     }
 }

@@ -1,9 +1,9 @@
 # PHP Magic Number Detector (PHPMND)
 
+[![Minimum PHP version: 7.1.0](https://img.shields.io/badge/php-7.1.0%2B-blue.svg)](https://packagist.org/packages/povils/phpmnd)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/povils/phpmnd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/povils/phpmnd/?branch=master)
 [![License](https://poser.pugx.org/povils/phpmnd/license)](https://packagist.org/packages/povils/phpmnd)
-[![Build Status](https://travis-ci.org/povils/phpmnd.svg?branch=master)](https://travis-ci.org/povils/phpmnd)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/povils/phpmnd?svg=true)](https://ci.appveyor.com/project/povils/phpmnd)
+[![CI](https://github.com/povils/phpmnd/workflows/CI/badge.svg?branch=master)](https://github.com/povils/phpmnd)
 
 `phpmnd` is a tool that aims to **help** you to detect magic numbers in your PHP code. By default 0 and 1 are not considered to be magic numbers.
 
@@ -38,7 +38,7 @@ class Foo
     }
 }
 ```
-This clearly improves the code readability and also reduces it's maintenance cost.
+This clearly improves the code readability and also reduces its maintenance cost.
 
 Of course not every literal number is a magic number.
 ```php
@@ -77,51 +77,51 @@ $ export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 ## Usage Example
 
-Demo:  
+#### Demo
+
 ![demo](./demo.gif)
 
-Basic usage:
+#### Basic usage
 
 ```bash
 $ phpmnd wordpress --ignore-numbers=2,-1 --ignore-funcs=round,sleep --exclude=tests --progress \
 --extensions=default_parameter,-return,argument
 ```
 
-The ``--ignore-numbers`` option will exclude a list of comma separated numbers from the code analysis.
-
-The ``--ignore-funcs`` option will exclude a list of comma separated functions from the code analysis, when using the "argument" extension.
-
-The ``--exclude`` option will exclude a directory, which must be relative to the source, from the code analysis. Multiple values are allowed (e.g. --exclude=tests --exclude=examples).
-
-The ``--exclude-path`` option will exclude a path, which must be relative to the source, from the code analysis. Multiple values are allowed.
+The ``--allow-array-mapping`` option allow keys as strings when using "array" extension.
 
 The ``--exclude-file`` option will exclude a file from the code analysis. Multiple values are allowed.
 
-The ``--suffixes`` option will configure a comma separated list of valid source code filename extensions.
+The ``--exclude-path`` option will exclude a path, which must be relative to the source, from the code analysis. Multiple values are allowed.
 
-The ``--progress`` option will display a progress bar.
-
-The ``--hint`` option will suggest replacements for magic numbers based on your codebase constants.
-
-The ``--non-zero-exit-on-violation`` option will return a non zero exit code, when there are any magic numbers in your codebase.
-
-The ``--strings`` option will include strings literal search in code analysis.
-
-The ``--ignore-strings`` option will exclude strings from the code analysis, when using the "strings" option.
+The ``--exclude`` option will exclude a directory, which must be relative to the source, from the code analysis. Multiple values are allowed (e.g. --exclude=tests --exclude=examples).
 
 The ``--extensions`` option lets you extend the code analysis. The provided extensions must be comma separated.
 
+The ``--hint`` option will suggest replacements for magic numbers based on your codebase constants.
+
+The ``--ignore-funcs`` option will exclude a list of comma separated functions from the code analysis, when using the "argument" extension. Defaults to `intval`, `floatval`, `strval`.
+
+The ``--ignore-numbers`` option will exclude a list of comma separated numbers from the code analysis.
+
+The ``--ignore-strings`` option will exclude strings from the code analysis, when using the "strings" option.
+
 The ``--include-numeric-string`` option forces numeric strings such as "1234" to also be treated as a number.
 
-The ``--allow-array-mapping`` option allow keys as strings when using "array" extension.
+The ``--non-zero-exit-on-violation`` option will return a non zero exit code, when there are any magic numbers in your codebase.
+
+The ``--progress`` option will display a progress bar.
+
+The ``--strings`` option will include strings literal search in code analysis.
+
+The ``--suffixes`` option will configure a comma separated list of valid source code filename extensions.
+
+The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental analysis.
 
 The ``--xml-output`` option will generate an report in an Xml format to the path specified by the option.
-
-The ``--whitelist`` option will only process the files listed in the file specified. This is useful for incremental anaysis.
-
 **By default it analyses conditions, return statements, and switch cases.**
 
-Choose from the list of available extensions:
+#### Extensions
 
 * **argument**
 ```php
@@ -163,6 +163,22 @@ case 3;
 To include all extensions.
 
 If extensions start with a minus, it means that these will be removed from the code analysis. I would recommend to clean up your code by using the default extension before using any of these extensions.
+
+## Ignoring a number from analysis
+
+Sometimes magic numbers are required. For example implementing a known mathematical formula, by default `intval`, `floatval` and `strval` mark a number as not magic.
+
+eg
+
+```
+$percent  = $number / 100;
+```
+would show 100 as a magic number
+
+```
+$percent = $number / intval(100);
+```
+would mark 100 as not magic.
 
 ## Contributing
 

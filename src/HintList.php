@@ -1,12 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND;
 
-/**
- * Class HintList
- *
- * @package Povils\PHPMND
- */
 class HintList
 {
     /**
@@ -33,7 +30,7 @@ class HintList
 
     public function hasHints(): bool
     {
-        return false === empty($this->constants);
+        return $this->constants !== [];
     }
 
     /**

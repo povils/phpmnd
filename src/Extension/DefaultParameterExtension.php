@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
 use PhpParser\Node\Param;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
 
 class DefaultParameterExtension extends Extension
 {
@@ -14,6 +17,6 @@ class DefaultParameterExtension extends Extension
 
     public function extend(Node $node): bool
     {
-        return $node->getAttribute('parent') instanceof Param;
+        return ParentConnector::findParent($node) instanceof Param;
     }
 }

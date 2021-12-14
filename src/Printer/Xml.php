@@ -1,20 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Printer;
 
+use DOMDocument;
 use Povils\PHPMND\Console\Application;
-use Povils\PHPMND\FileReportList;
+use Povils\PHPMND\DetectionResult;
 use Povils\PHPMND\HintList;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class Xml
- *
- * @package Povils\PHPMND\Printer
- */
 class Xml implements Printer
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $outputPath;
 
     public function __construct(string $outputPath)
@@ -22,43 +22,56 @@ class Xml implements Printer
         $this->outputPath = $outputPath;
     }
 
-    public function printData(OutputInterface $output, FileReportList $fileReportList, HintList $hintList): void
+    /**
+     * @param array<int, DetectionResult> $detections
+     */
+    public function printData(OutputInterface $output, HintList $hintList, array $detections): void
     {
+        $groupedList = $this->groupDetectionResultPerFile($detections);
+
         $output->writeln('Generate XML output...');
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $rootNode = $dom->createElement('phpmnd');
         $rootNode->setAttribute('version', Application::VERSION);
-        $rootNode->setAttribute('fileCount', count($fileReportList->getFileReports()) + 12);
+        $rootNode->setAttribute('fileCount', (string) count($groupedList));
 
         $filesNode = $dom->createElement('files');
 
         $total = 0;
-        foreach ($fileReportList->getFileReports() as $fileReport) {
-            $entries = $fileReport->getEntries();
+
+        foreach ($groupedList as $path => $detectionResults) {
+            $count = count($detectionResults);
+            $total += $count;
 
             $fileNode = $dom->createElement('file');
-            $fileNode->setAttribute('path', $fileReport->getFile()->getRelativePathname());
-            $fileNode->setAttribute('errors', count($entries));
+            $fileNode->setAttribute('path', $path);
+            $fileNode->setAttribute('errors', (string) $count);
 
-            $total += count($entries);
-            foreach ($entries as $entry) {
-                $snippet = $this->getSnippet($fileReport->getFile()->getContents(), $entry['line'], $entry['value']);
+            foreach ($detectionResults as $detectionResult) {
+                $snippet = $this->getSnippet(
+                    $detectionResult->getFile()->getContents(),
+                    $detectionResult->getLine(),
+                    $detectionResult->getValue()
+                );
                 $entryNode = $dom->createElement('entry');
-                $entryNode->setAttribute('line', $entry['line']);
-                $entryNode->setAttribute('start', $snippet['col']);
-                $entryNode->setAttribute('end', $snippet['col'] + strlen($entry['value']));
+                $entryNode->setAttribute('line', (string) $detectionResult->getLine());
+                $entryNode->setAttribute('start', (string) $snippet['col']);
+                $entryNode->setAttribute(
+                    'end',
+                    (string) ($snippet['col'] + strlen((string) $detectionResult->getValue()))
+                );
 
                 $snippetNode = $dom->createElement('snippet');
                 $snippetNode->appendChild($dom->createCDATASection($snippet['snippet']));
+
                 $suggestionsNode = $dom->createElement('suggestions');
 
                 if ($hintList->hasHints()) {
-                    $hints = $hintList->getHintsByValue($entry['value']);
-                    if (false === empty($hints)) {
-                        foreach ($hints as $hint) {
-                            $suggestionNode = $dom->createElement('suggestion', $hint);
-                            $suggestionsNode->appendChild($suggestionNode);
-                        }
+                    $hints = $hintList->getHintsByValue($detectionResult->getValue());
+
+                    foreach ($hints as $hint) {
+                        $suggestionNode = $dom->createElement('suggestion', $hint);
+                        $suggestionsNode->appendChild($suggestionNode);
                     }
                 }
 
@@ -72,37 +85,50 @@ class Xml implements Printer
         }
 
         $rootNode->appendChild($filesNode);
-        $rootNode->setAttribute('errorCount', $total);
+        $rootNode->setAttribute('errorCount', (string) $total);
 
         $dom->appendChild($rootNode);
 
         $dom->save($this->outputPath);
 
-        $output->writeln('XML generated at '.$this->outputPath);
+        $output->writeln('XML generated at ' . $this->outputPath);
+    }
+
+    /**
+     * @param array<int, DetectionResult> $list
+     *
+     * @return array<int, DetectionResult[]>
+     */
+    private function groupDetectionResultPerFile(array $list): array
+    {
+        $result = [];
+
+        foreach ($list as $detectionResult) {
+            $result[$detectionResult->getFile()->getRelativePathname()][] = $detectionResult;
+        }
+
+        return $result;
     }
 
     /**
      * Get the snippet and information about it
      *
-     * @param string $content
-     * @param int $line
      * @param int|string $text
-     * @return array
      */
     private function getSnippet(string $content, int $line, $text): array
     {
-        $content = str_replace(array("\r\n", "\r"), "\n", $content);
+        $content = str_replace(["\r\n", "\r"], "\n", $content);
         $lines = explode("\n", $content);
 
-        $lineContent = array_slice($lines, $line-1, 1);
+        $lineContent = array_slice($lines, $line - 1, 1);
         $lineContent = reset($lineContent);
-        $start = strpos($lineContent, $text.'');
+        $start = strpos($lineContent, $text . '');
 
         return [
             'snippet' => $lineContent,
             'line' => $line,
             'magic' => $text,
-            'col' => $start
+            'col' => $start,
         ];
     }
 }

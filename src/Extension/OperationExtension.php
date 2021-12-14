@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Povils\PHPMND\Extension;
 
 use PhpParser\Node;
@@ -11,6 +13,7 @@ use PhpParser\Node\Expr\BinaryOp\Plus;
 use PhpParser\Node\Expr\BinaryOp\Pow;
 use PhpParser\Node\Expr\BinaryOp\ShiftLeft;
 use PhpParser\Node\Expr\BinaryOp\ShiftRight;
+use Povils\PHPMND\PhpParser\Visitor\ParentConnector;
 
 class OperationExtension extends Extension
 {
@@ -21,7 +24,7 @@ class OperationExtension extends Extension
 
     public function extend(Node $node): bool
     {
-        $parentNode = $node->getAttribute('parent');
+        $parentNode = ParentConnector::findParent($node);
 
         return
             $parentNode instanceof Mul
