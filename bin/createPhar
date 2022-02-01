@@ -28,7 +28,10 @@ $phar->setStub(
     "#!/usr/bin/env php
     <?php
     Phar::mapPhar('$pharName');
-    require 'phar://$pharName/bin/phpmnd';
+    require_once \"phar://$pharName/vendor/autoload.php\";
+    use Povils\PHPMND\Console\Application;
+    use Povils\PHPMND\Container;
+    (new Application(Container::create()))->run();
     __HALT_COMPILER();"
 );
 
