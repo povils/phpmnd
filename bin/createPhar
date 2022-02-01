@@ -16,7 +16,6 @@ if (file_exists($pharFile)) {
     unlink($pharFile);
 }
 $phar = new Phar($pharFile, 0, $pharName);
-$phar->addFile('bin/phpmnd');
 $dirs = [
     'src',
     'vendor',
