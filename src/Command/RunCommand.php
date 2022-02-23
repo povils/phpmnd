@@ -235,6 +235,11 @@ class RunCommand extends BaseCommand
     private function getCSVOption(InputInterface $input, string $option): array
     {
         $result = $input->getOption($option);
+
+        if (null === $result) {
+            return [];
+        }
+
         if (false === is_array($result)) {
             return array_filter(
                 explode(',', (string) $result),
@@ -244,9 +249,6 @@ class RunCommand extends BaseCommand
             );
         }
 
-        if (null === $result) {
-            return [];
-        }
 
         return $result;
     }
