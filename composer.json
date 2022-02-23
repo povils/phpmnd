@@ -41,10 +41,5 @@
         "test": "phpunit",
         "cs-check": "phpcs -p --standard=PSR2 --runtime-set ignore_warnings_on_exit 1 src tests --ignore=tests/Fixtures/Files",
         "cs-fix": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests --ignore=tests/Fixtures/Files"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.5-dev"
-        }
     }
 }
