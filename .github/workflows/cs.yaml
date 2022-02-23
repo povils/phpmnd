@@ -44,8 +44,9 @@ jobs:
             composer-${{ runner.os }}-${{ matrix.php-version }}-
             composer-${{ runner.os }}-
             composer-
+
       - name: Install dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
 
-      - name: Run ${{ matrix.check }}
+      - name: Run Code Style Checker
         run: composer run cs-check
