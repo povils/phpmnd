@@ -108,8 +108,6 @@ The ``--ignore-strings`` option will exclude strings from the code analysis, whe
 
 The ``--include-numeric-string`` option forces numeric strings such as "1234" to also be treated as a number.
 
-The ``--non-zero-exit-on-violation`` option will return a non zero exit code, when there are any magic numbers in your codebase.
-
 The ``--progress`` option will display a progress bar.
 
 The ``--strings`` option will include strings literal search in code analysis.

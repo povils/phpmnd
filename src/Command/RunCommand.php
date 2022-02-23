@@ -101,12 +101,6 @@ class RunCommand extends BaseCommand
                 'Suggest replacements for magic numbers'
             )
             ->addOption(
-                'non-zero-exit-on-violation',
-                null,
-                InputOption::VALUE_NONE,
-                'Return a non zero exit code when there are magic numbers'
-            )
-            ->addOption(
                 'strings',
                 null,
                 InputOption::VALUE_NONE,
@@ -208,11 +202,7 @@ class RunCommand extends BaseCommand
             $output->writeln('<info>' . $this->getResourceUsage() . '</info>');
         }
 
-        if ($detections !== [] && $input->getOption('non-zero-exit-on-violation')) {
-            return self::FAILURE;
-        }
-
-        return self::SUCCESS;
+        return $detections === [] ? self::SUCCESS : self::FAILURE;
     }
 
     private function createOption(InputInterface $input): Option
