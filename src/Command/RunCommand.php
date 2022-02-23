@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Povils\PHPMND\Command;
 
-use JakubOnderka\PhpConsoleColor\ConsoleColor;
-use JakubOnderka\PhpConsoleHighlighter\Highlighter;
+use PHP_Parallel_Lint\PhpConsoleColor\ConsoleColor;
+use PHP_Parallel_Lint\PhpConsoleHighlighter\Highlighter;
 use Povils\PHPMND\Console\Application;
 use Povils\PHPMND\Console\Option;
 use Povils\PHPMND\Detector;
