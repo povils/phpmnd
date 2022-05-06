@@ -25,7 +25,7 @@ class Console implements Printer
 
     public function printData(OutputInterface $output, HintList $hintList, array $detections): void
     {
-        $length = (int) (`tput cols` ?: self::DEFAULT_LINE_LENGTH);
+        $length = (int) ($this->getCurrentShellWidth() ?: self::DEFAULT_LINE_LENGTH);
         $separator = str_repeat('-', $length);
         $output->writeln(PHP_EOL . $separator . PHP_EOL);
 
@@ -82,5 +82,17 @@ class Console implements Printer
         }
 
         return $groupedResult;
+    }
+
+    private function getCurrentShellWidth(): ?int
+    {
+        $shellOutput = '';
+        $returnCode = 0;
+        exec("tput cols 2>&1", $shellOutput, $returnCode);
+        if (empty($shellOutput)) {
+            return null;
+        }
+
+        return (int) current($shellOutput);
     }
 }
