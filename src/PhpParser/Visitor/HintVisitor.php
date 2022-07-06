@@ -15,10 +15,7 @@ use Povils\PHPMND\HintList;
 
 class HintVisitor extends NodeVisitorAbstract
 {
-    /**
-     * @var HintList
-     */
-    private $hintList;
+    private HintList $hintList;
 
     public function __construct(HintList $hintList)
     {

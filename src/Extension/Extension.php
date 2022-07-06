@@ -9,10 +9,7 @@ use Povils\PHPMND\Console\Option;
 
 abstract class Extension
 {
-    /**
-     * @var Option
-     */
-    protected $option;
+    protected Option $option;
 
     abstract public function extend(Node $node): bool;
 

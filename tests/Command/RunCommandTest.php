@@ -12,10 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class RunCommandTest extends TestCase
 {
-    /**
-     * @var CommandTester
-     */
-    private $commandTester;
+    private CommandTester $commandTester;
 
     protected function setUp(): void
     {
@@ -54,7 +51,7 @@ class RunCommandTest extends TestCase
         ]);
 
         $this->assertSame(RunCommand::FAILURE, $this->commandTester->getStatusCode());
-        $this->assertTrue(strpos($this->commandTester->getDisplay(), 'Suggestions:') !== false);
+        $this->assertStringContainsString('Suggestions:', $this->commandTester->getDisplay());
     }
 
     public function testItDoesNotFailCommandWhenFileOnPathDoesNotExist(): void
@@ -65,14 +62,6 @@ class RunCommandTest extends TestCase
         ]);
 
         $this->assertSame(RunCommand::SUCCESS, $this->commandTester->getStatusCode());
-        $output = $this->commandTester->getDisplay();
-
-        /* This should use assertStringContainsString but the lowest phpunit supported does not allow that */
-        $found = false;
-        if (strpos($output, 'No files found to scan') !== false) {
-            $found = true;
-        }
-
-        $this->assertTrue($found);
+        $this->assertStringContainsString('No files found to scan', $this->commandTester->getDisplay());
     }
 }

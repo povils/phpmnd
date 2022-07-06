@@ -18,21 +18,13 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-version: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        php-version: ['7.4', '8.0', '8.1']
         symfony-require: ['^4', '^5', '^6']
         exclude:
-          - symfony-require: "^5"
-            php-version: "7.1"
-          - symfony-require: "^6"
-            php-version: "7.1"
-          - symfony-require: "^6"
-            php-version: "7.2"
-          - symfony-require: "^6"
-            php-version: "7.3"
           - symfony-require: "^6"
             php-version: "7.4"
         include:
-          - { operating-system: 'windows-latest', php-version: '7.4', symfony-require: '^5' }
+          - { operating-system: 'windows-latest', php-version: '8.0', symfony-require: '^5' }
 
     name: CI on ${{ matrix.operating-system }} with PHP ${{ matrix.php-version }}, with Symfony ${{ matrix.symfony-require }}
 

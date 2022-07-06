@@ -11,17 +11,17 @@ class Option
     /**
      * @var Extension[]
      */
-    private $extensions = [];
+    private array $extensions = [];
 
     /**
      * @var array
      */
-    private $ignoreNumbers = [0, 0., 1];
+    private array $ignoreNumbers = [0, 0., 1];
 
     /**
      * @var array
      */
-    private $ignoreFuncs = [
+    private array $ignoreFuncs = [
         'intval',
         'floatval',
         'strval',
@@ -30,27 +30,15 @@ class Option
     /**
      * @var array
      */
-    private $ignoreStrings = ['', '0', '1'];
+    private array $ignoreStrings = ['', '0', '1'];
 
-    /**
-     * @var bool
-     */
-    private $includeStrings = false;
+    private bool $includeStrings = false;
 
-    /**
-     * @var bool
-     */
-    private $giveHint = false;
+    private bool $giveHint = false;
 
-    /**
-     * @var bool
-     */
-    private $includeNumericStrings = false;
+    private bool $includeNumericStrings = false;
 
-    /**
-     * @var bool
-     */
-    private $allowArrayMapping = false;
+    private bool $allowArrayMapping = false;
 
     public function setExtensions(array $extensions): void
     {
@@ -82,12 +70,12 @@ class Option
         return $this->ignoreFuncs;
     }
 
-    public function includeStrings(): ?bool
+    public function includeStrings(): bool
     {
         return $this->includeStrings;
     }
 
-    public function setIncludeStrings(?bool $includeStrings): void
+    public function setIncludeStrings(bool $includeStrings): void
     {
         $this->includeStrings = $includeStrings;
     }
@@ -112,22 +100,22 @@ class Option
         $this->giveHint = $giveHint;
     }
 
-    public function includeNumericStrings(): ?bool
+    public function includeNumericStrings(): bool
     {
         return $this->includeNumericStrings;
     }
 
-    public function setIncludeNumericStrings(?bool $includeNumericStrings): void
+    public function setIncludeNumericStrings(bool $includeNumericStrings): void
     {
         $this->includeNumericStrings = $includeNumericStrings;
     }
 
-    public function allowArrayMapping(): ?bool
+    public function allowArrayMapping(): bool
     {
         return $this->allowArrayMapping;
     }
 
-    public function setAllowArrayMapping(?bool $allowArrayMapping): void
+    public function setAllowArrayMapping(bool $allowArrayMapping): void
     {
         $this->allowArrayMapping = $allowArrayMapping;
     }

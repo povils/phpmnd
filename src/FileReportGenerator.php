@@ -17,15 +17,9 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class FileReportGenerator
 {
-    /**
-     * @var SplFileInfo
-     */
-    private $file;
+    private SplFileInfo $file;
 
-    /**
-     * @var Option
-     */
-    private $option;
+    private Option $option;
 
     public function __construct(SplFileInfo $file, Option $option)
     {

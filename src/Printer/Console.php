@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Povils\PHPMND\Printer;
 
-use JakubOnderka\PhpConsoleHighlighter\Highlighter;
+use PHP_Parallel_Lint\PhpConsoleHighlighter\Highlighter;
 use Povils\PHPMND\DetectionResult;
 use Povils\PHPMND\HintList;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,10 +13,7 @@ class Console implements Printer
 {
     private const DEFAULT_LINE_LENGTH = 80;
 
-    /**
-     * @var Highlighter
-     */
-    private $highlighter;
+    private Highlighter $highlighter;
 
     public function __construct(Highlighter $highlighter)
     {

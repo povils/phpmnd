@@ -10,11 +10,11 @@ if (\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) === false) {
     exit(1);
 }
 
-if (\version_compare('7.1.0', \PHP_VERSION, '>')) {
+if (\version_compare('7.4.0', \PHP_VERSION, '>')) {
     \fwrite(
         \STDERR,
         \sprintf(
-            'This version of PHPMND is supported on PHP 7.1.' . \PHP_EOL .
+            'This version of PHPMND is supported on PHP 7.4.' . \PHP_EOL .
             'You are using PHP %s%s.' . \PHP_EOL,
             \PHP_VERSION,
             \defined('PHP_BINARY') ? ' (' . \PHP_BINARY . ')' : ''

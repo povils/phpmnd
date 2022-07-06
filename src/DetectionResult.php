@@ -8,15 +8,9 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class DetectionResult
 {
-    /**
-     * @var SplFileInfo
-     */
-    private $file;
+    private SplFileInfo $file;
 
-    /**
-     * @var int
-     */
-    private $line;
+    private int $line;
 
     /**
      * @var float|int|string

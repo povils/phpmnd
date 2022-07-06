@@ -17,10 +17,7 @@ class Application extends BaseApplication
     public const VERSION = '2.5.0';
     private const NAME = 'phpmnd';
 
-    /**
-     * @var Container
-     */
-    private $container;
+    private Container $container;
 
     public function __construct(Container $container)
     {

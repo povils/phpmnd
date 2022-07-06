@@ -20,9 +20,9 @@ use function version_compare;
 
 class Container
 {
-    private $keys = [];
-    private $factories = [];
-    private $values = [];
+    private array $keys = [];
+    private array $factories = [];
+    private array $values = [];
 
     private function __construct(array $values)
     {

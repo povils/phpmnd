@@ -12,10 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Xml implements Printer
 {
-    /**
-     * @var string
-     */
-    private $outputPath;
+    private string $outputPath;
 
     public function __construct(string $outputPath)
     {
