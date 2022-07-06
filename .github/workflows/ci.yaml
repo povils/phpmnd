@@ -36,7 +36,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          tools: composer:v2
+          tools: flex, composer:v2
 
       - name: Get composer cache directory
         id: composer-cache
@@ -53,8 +53,8 @@ jobs:
             composer-${{ runner.os }}-
             composer-
 
-      - name: Globally install symfony/flex
-        run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
+      - name: Configure Symfony Flex
+        run: composer config extra.symfony.require ${{ matrix.symfony-require }}
 
       - name: Install dependencies
         run: composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist
