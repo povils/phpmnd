@@ -46,7 +46,7 @@ class Xml implements Printer
 
             foreach ($detectionResults as $detectionResult) {
                 $snippet = $this->getSnippet(
-                    $detectionResult->getFile()->getContents(),
+                    $detectionResult->getSource(),
                     $detectionResult->getLine(),
                     $detectionResult->getValue()
                 );
@@ -101,7 +101,7 @@ class Xml implements Printer
         $result = [];
 
         foreach ($list as $detectionResult) {
-            $result[$detectionResult->getFile()->getRelativePathname()][] = $detectionResult;
+            $result[$detectionResult->getFilePath()][] = $detectionResult;
         }
 
         return $result;

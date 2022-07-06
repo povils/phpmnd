@@ -19,7 +19,7 @@ class DetectionResultTest extends TestCase
 
         $result = new DetectionResult($file, $line, $value);
 
-        $this->assertSame($file, $result->getFile());
+        $this->assertSame($file->getRealPath(), $result->getFilePath());
         $this->assertSame($line, $result->getLine());
         $this->assertSame($value, $result->getValue());
     }

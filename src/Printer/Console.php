@@ -11,8 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Console implements Printer
 {
-    private const DEFAULT_LINE_LENGTH = 80;
-
     private Highlighter $highlighter;
 
     public function __construct(Highlighter $highlighter)
@@ -22,47 +20,61 @@ class Console implements Printer
 
     public function printData(OutputInterface $output, HintList $hintList, array $detections): void
     {
-        $length = (int) (`tput cols` ?: self::DEFAULT_LINE_LENGTH);
-        $separator = str_repeat('-', $length);
-        $output->writeln(PHP_EOL . $separator . PHP_EOL);
+        $index = 0;
+
+        $lines = [];
 
         foreach ($this->groupDetectionResultPerFile($detections) as $detectionResults) {
             foreach ($detectionResults as $detection) {
-                $output->writeln(sprintf(
-                    '%s:%d. Magic number: %s',
-                    $detection->getFile()->getRelativePathname(),
-                    $detection->getLine(),
-                    $detection->getValue()
-                ));
+                ++$index;
 
-                $output->writeln(
-                    $this->highlighter->getCodeSnippet(
-                        $detection->getFile()->getContents(),
-                        $detection->getLine(),
-                        0,
-                        0
-                    )
-                );
+                $lines[] = $this->getDetectionLine($index, $detection);
+                $lines[] = '';
+                $lines[] = $this->getSnippetLine($detection);
+                $lines[] = '';
 
                 if ($hintList->hasHints()) {
                     $hints = $hintList->getHintsByValue($detection->getValue());
 
                     if ($hints !== []) {
-                        $output->writeln('Suggestions:');
+                        $lines[] = 'Suggestions:';
 
                         foreach ($hints as $hint) {
-                            $output->writeln("\t\t" . $hint);
+                            $lines[] = "\t\t" . $hint;
                         }
 
-                        $output->write(PHP_EOL);
+                        $lines[] = PHP_EOL;
                     }
                 }
             }
-
-            $output->writeln($separator . PHP_EOL);
         }
 
-        $output->writeln('<info>Total of Magic Numbers: ' . count($detections) . '</info>');
+        $lines[] = '';
+        $lines[] = '';
+        $lines[] = '<info>Total of Magic Numbers: ' . count($detections) . '</info>';
+
+        $output->writeln($lines);
+    }
+
+    private function getDetectionLine(int $index, DetectionResult $detection): string
+    {
+        return sprintf(
+            '%d) %s:%d    Magic number: %s',
+            $index,
+            $detection->getFilePath(),
+            $detection->getLine(),
+            $detection->getValue()
+        );
+    }
+
+    private function getSnippetLine(DetectionResult $detection): string
+    {
+        return $this->highlighter->getCodeSnippet(
+            $detection->getSource(),
+            $detection->getLine(),
+            0,
+            0
+        );
     }
 
     /**
@@ -75,7 +87,7 @@ class Console implements Printer
         $groupedResult = [];
 
         foreach ($detections as $detection) {
-            $groupedResult[$detection->getFile()->getRelativePathname()][] = $detection;
+            $groupedResult[$detection->getFilePath()][] = $detection;
         }
 
         return $groupedResult;
