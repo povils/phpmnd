@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v3.0.1]
+- Fix version number
+
+## [v3.0.0]
+- Support symfony 6
+- PHP 8.1 support
+- Remove --non-zero-exit-on-violation option
+- Drop php <7.4 support, symfony <4.4, add php 8.1 to pipeline
+
 ## [v2.5.0] - 2021-12-13
 - Update php-parallel-lint/php-console-highlighter to get rid of abandoned dependency
 - Run PHPMND against codebase
