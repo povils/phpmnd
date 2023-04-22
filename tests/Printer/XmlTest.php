@@ -38,6 +38,11 @@ XML
         $splFileInfo
             ->method('getRelativePathname')
             ->willReturn('Foo/Bar.php');
+
+        $splFileInfo
+            ->method('getRealPath')
+            ->willReturn('Foo/Bar.php');
+
         $splFileInfo
             ->method('getContents')
             ->willReturn(sprintf(

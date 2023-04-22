@@ -71,10 +71,7 @@ class Container
         unset($this->values[$id]);
     }
 
-    /**
-     * @return object
-     */
-    private function get(string $id)
+    private function get(string $id): object
     {
         if (!isset($this->keys[$id])) {
             throw new InvalidArgumentException(sprintf('Unknown service "%s"', $id));

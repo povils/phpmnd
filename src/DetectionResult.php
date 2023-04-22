@@ -27,9 +27,14 @@ class DetectionResult
         $this->value = $value;
     }
 
-    public function getFile(): SplFileInfo
+    public function getSource(): string
     {
-        return $this->file;
+        return $this->file->getContents();
+    }
+
+    public function getFilePath(): string
+    {
+        return $this->file->getRealPath();
     }
 
     public function getLine(): int
