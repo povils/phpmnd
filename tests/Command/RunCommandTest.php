@@ -64,4 +64,16 @@ class RunCommandTest extends TestCase
         $this->assertSame(RunCommand::SUCCESS, $this->commandTester->getStatusCode());
         $this->assertStringContainsString('No files found to scan', $this->commandTester->getDisplay());
     }
+
+    public function testFilterBySuffixes(): void
+    {
+        $this->commandTester->execute([
+            'directories' => ['tests/Fixtures/Files'],
+            '--extensions' => 'all',
+            '--suffixes' => 'php5',
+        ]);
+
+        $this->assertSame(RunCommand::FAILURE, $this->commandTester->getStatusCode());
+        $this->assertStringContainsString('Total of Magic Numbers: 1', $this->commandTester->getDisplay());
+    }
 }

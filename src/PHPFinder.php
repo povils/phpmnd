@@ -26,25 +26,19 @@ class PHPFinder extends Finder
             ->exclude(array_merge(['vendor'], $exclude))
             ->ignoreDotFiles(true)
             ->ignoreVCS(true)
+            ->notPath($excludePaths)
+            ->notName($excludeFiles)
+            ->name(
+                array_map(
+                    static fn (string $suffix) => '*.' . $suffix,
+                    $suffixes
+                )
+            )
             ->append(
                 array_map(
-                    function (string $file) {
-                        return new SplFileInfo(realpath($file), dirname($file), $file);
-                    },
+                    static fn (string $file) => new SplFileInfo(realpath($file), dirname($file), $file),
                     $files
                 )
             );
-
-        foreach ($suffixes as $suffix) {
-            $this->name('*.' . $suffix);
-        }
-
-        foreach ($excludePaths as $notPath) {
-            $this->notPath($notPath);
-        }
-
-        foreach ($excludeFiles as $notName) {
-            $this->notName($notName);
-        }
     }
 }
