@@ -227,15 +227,9 @@ class RunCommand extends BaseCommand
             return [];
         }
 
-        if (false === is_array($result)) {
-            return array_filter(
-                explode(',', (string) $result),
-                static function ($value) {
-                    return false === empty($value);
-                }
-            );
+        if (!is_array($result)) {
+            return array_filter(explode(',', (string) $result));
         }
-
 
         return $result;
     }
