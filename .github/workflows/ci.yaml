@@ -20,6 +20,7 @@ jobs:
         operating-system: [ ubuntu-latest ]
         php-version: ['7.4', '8.0', '8.1', '8.2', '8.3']
         symfony-require: ['^4', '^5', '^6', '^7']
+        composer-flags: [ '' ]
         exclude:
           - symfony-require: "^6"
             php-version: "7.4"
@@ -30,9 +31,10 @@ jobs:
           - symfony-require: "^7"
             php-version: "8.1"
         include:
+          - { operating-system: 'ubuntu-latest', php-version: '7.4', symfony-require: '^5', composer-flags: '--prefer-lowest' }
           - { operating-system: 'windows-latest', php-version: '8.0', symfony-require: '^5' }
 
-    name: CI on ${{ matrix.operating-system }} with PHP ${{ matrix.php-version }}, with Symfony ${{ matrix.symfony-require }}
+    name: CI on ${{ matrix.operating-system }} with PHP ${{ matrix.php-version }}, with Symfony ${{ matrix.symfony-require }} ${{ matrix.composer-flags }}
 
     steps:
       - name: Checkout code
@@ -67,7 +69,7 @@ jobs:
         run: composer config minimum-stability dev
 
       - name: Install dependencies
-        run: composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist
+        run: composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist ${{ matrix.composer-flags }}
 
       - name: Run tests
         shell: bash
