@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v3.3.0]
+- Test against PHP 8.3
+- Add Symfony 7 support
+- Micro optimization to reduce array_merge calls
+
+## [v3.2.0]
+- Test against PHP 8.2
+- Fix for missing tput binary by
+
+## [v3.1.0]
+- Allow `phpunit/php-timer`
+
 ## [v3.0.1]
 - Fix version number
 
