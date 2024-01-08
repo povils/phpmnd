@@ -46,7 +46,7 @@ class DetectorTest extends TestCase
         $this->hintList = new HintList();
 
         $this->detector = new Detector(
-            new FileParser((new ParserFactory())->create(ParserFactory::PREFER_PHP7)),
+            new FileParser((new ParserFactory())->createForHostVersion()),
             $this->option,
             $this->hintList
         );
