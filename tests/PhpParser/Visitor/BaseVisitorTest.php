@@ -17,7 +17,7 @@ abstract class BaseVisitorTest extends TestCase
      */
     final protected function parseCode(string $code): array
     {
-        return (array) (new ParserFactory())->create(ParserFactory::PREFER_PHP7)->parse($code);
+        return (array) (new ParserFactory())->createForHostVersion()->parse($code);
     }
 
     /**

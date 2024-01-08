@@ -45,7 +45,7 @@ class FileParserTest extends TestCase
      */
     public function testItCanParseFile(SplFileInfo $fileInfo, string $expectedPrintedParsedContents): void
     {
-        $statements = (new FileParser((new ParserFactory())->create(ParserFactory::PREFER_PHP7)))->parse($fileInfo);
+        $statements = (new FileParser((new ParserFactory())->createForHostVersion()))->parse($fileInfo);
 
         foreach ($statements as $statement) {
             $this->assertInstanceOf(Node::class, $statement);
@@ -61,7 +61,7 @@ class FileParserTest extends TestCase
 
     public function testItThrowsUponFailure(): void
     {
-        $parser = new FileParser((new ParserFactory())->create(ParserFactory::PREFER_PHP7));
+        $parser = new FileParser((new ParserFactory())->createForHostVersion());
 
         try {
             $parser->parse(self::createFileInfo('/unknown', '<?php use foo as self;'));
@@ -144,13 +144,5 @@ AST
                 return $this->contents;
             }
         };
-    }
-
-    private function normalizeString(string $string): string
-    {
-        return implode(
-            "\n",
-            array_map('rtrim', explode("\n", $string))
-        );
     }
 }
