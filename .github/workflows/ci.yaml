@@ -74,7 +74,7 @@ jobs:
       - name: Run tests
         if: github.ref_type == 'branch'
         shell: bash
-        run: composer run test --exclude-group tags
+        run: vendor/bin/phpunit --exclude-group tags
 
       - name: Run release tests
         if: github.ref_type == 'tag'
