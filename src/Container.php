@@ -31,12 +31,8 @@ class Container
     public static function create(): self
     {
         return new self([
-            Parser::class => static function (self $container): Parser {
-                return (new ParserFactory())->createForHostVersion();
-            },
-            FileParser::class => static function (self $container): FileParser {
-                return new FileParser($container->getParser());
-            },
+            Parser::class => static fn (): Parser => (new ParserFactory())->createForHostVersion(),
+            FileParser::class => static fn (self $container): FileParser => new FileParser($container->getParser()),
         ]);
     }
 
@@ -57,10 +53,7 @@ class Container
         unset($this->values[$id]);
     }
 
-    /**
-     * @return object
-     */
-    private function get(string $id)
+    private function get(string $id): object
     {
         if (!isset($this->keys[$id])) {
             throw new InvalidArgumentException(sprintf('Unknown service "%s"', $id));
