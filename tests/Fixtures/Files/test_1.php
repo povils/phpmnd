@@ -12,7 +12,7 @@ class TEST_1
 
    public function test($input = 4) {
       if ($input > 2) {
-         return 15;
+         return 015;
       }
 
       for ($i = 3; $i <= 10; $i++) {

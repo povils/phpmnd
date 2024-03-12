@@ -64,7 +64,7 @@ class DetectorTest extends TestCase
                 ],
                 [
                     'line' => 15,
-                    'value' => 15,
+                    'value' => '0o15',
                 ],
                 [
                     'line' => 18,
@@ -434,6 +434,30 @@ class DetectorTest extends TestCase
                 ];
             },
             iterator_to_array($result, false)
+        );
+    }
+
+    public function testDetectDifferentBase(): void
+    {
+
+        $this->option->setExtensions([new AssignExtension()]);
+
+        $result = $this->detector->detect($this->createSplFileInfo(self::FIXTURES_DIR . '/test_different_base.php'));
+        $numbers = $this->getActualResult($result);
+        $this->assertContains(
+            [
+                'line' => 5,
+                'value' => '0x25',
+            ],
+            $numbers
+        );
+
+        $this->assertContains(
+            [
+                'line' => 6,
+                'value' => '0b1111',
+            ],
+            $numbers
         );
     }
 }
