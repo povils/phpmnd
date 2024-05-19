@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v3.5.0]
+- Support `phpunit/php-timer` 7.0
+
 ## [v3.4.1]
 - Add test to verify that `Application::VERSION` match the latest git tag
 
