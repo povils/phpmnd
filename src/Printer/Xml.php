@@ -29,7 +29,7 @@ class Xml implements Printer
         $output->writeln('Generate XML output...');
         $dom = new DOMDocument();
         $rootNode = $dom->createElement('phpmnd');
-        $rootNode->setAttribute('version', Application::VERSION);
+        $rootNode->setAttribute('version', Application::getPrettyVersion());
         $rootNode->setAttribute('fileCount', (string) count($groupedList));
 
         $filesNode = $dom->createElement('files');

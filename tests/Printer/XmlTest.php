@@ -79,7 +79,7 @@ XML
 
     private function assertXml(string $expected, string $actualFile) : void
     {
-        $expectedXml = str_replace('%%PHPMND_VERSION%%', Application::VERSION, $expected);
+        $expectedXml = str_replace('%%PHPMND_VERSION%%', Application::getPrettyVersion(), $expected);
         $this->assertXmlStringEqualsXmlString($expectedXml, file_get_contents($actualFile));
     }
 }
