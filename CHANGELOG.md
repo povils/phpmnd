@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [v3.5.0]
 - Support `phpunit/php-timer` 7.0
+- Add `composer-runtime-api:"^2.0"` dependency to be able to get application version automatically
 
 ## [v3.4.1]
 - Add test to verify that `Application::VERSION` match the latest git tag
