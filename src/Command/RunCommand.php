@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\StreamOutput;
 
 /**
  * @method Application getApplication()
@@ -122,10 +123,18 @@ class RunCommand extends BaseCommand
                 'Allow array mapping (key as strings) when using "array" extension.'
             )
             ->addOption(
-                'xml-output',
+                'output',
+                'o',
+                InputOption::VALUE_REQUIRED,
+                'Generate an output to the specified path',
+                'php://stdout'
+            )
+            ->addOption(
+                'format',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Generate an XML output to the specified path'
+                'Format of the report',
+                'console'
             )
             ->addOption(
                 'whitelist',
@@ -187,15 +196,30 @@ class RunCommand extends BaseCommand
             $progressBar->finish();
         }
 
-        if ($input->getOption('xml-output')) {
-            $xmlOutput = new Printer\Xml($input->getOption('xml-output'));
-            $xmlOutput->printData($output, $hintList, $detections);
+        $outputPath = $input->getOption('output');
+        $format = $input->getOption('format');
+
+        switch (strtolower($format)) {
+            case 'xml':
+                $printer = new Printer\Xml();
+                break;
+            case 'console':
+                $printer = new Printer\Console(new Highlighter(new ConsoleColor()));
+                break;
+            default:
+                $printer = new Printer\Custom($format);
+                break;
         }
 
+        $streamOutput = new StreamOutput(fopen($outputPath, 'w'));
+        $printer->printData($streamOutput, $hintList, $detections);
+        fclose($streamOutput->getStream());
+
         if (!$output->isQuiet()) {
+            if ('php://stdout' !== $outputPath) {
+                $output->writeln(strtoupper($format) . ' generated at ' . $outputPath);
+            }
             $output->writeln('');
-            $printer = new Printer\Console(new Highlighter(new ConsoleColor()));
-            $printer->printData($output, $hintList, $detections);
             $output->writeln('<info>' . $this->getResourceUsage() . '</info>');
         }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Povils\PHPMND\Printer;
 
 use DOMDocument;
+use DOMException;
 use Povils\PHPMND\Console\Application;
 use Povils\PHPMND\DetectionResult;
 use Povils\PHPMND\HintList;
@@ -12,21 +13,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Xml implements Printer
 {
-    private string $outputPath;
-
-    public function __construct(string $outputPath)
-    {
-        $this->outputPath = $outputPath;
-    }
-
     /**
      * @param array<int, DetectionResult> $detections
+     * @throws DOMException
      */
     public function printData(OutputInterface $output, HintList $hintList, array $detections): void
     {
         $groupedList = $this->groupDetectionResultPerFile($detections);
 
-        $output->writeln('Generate XML output...');
         $dom = new DOMDocument();
         $rootNode = $dom->createElement('phpmnd');
         $rootNode->setAttribute('version', Application::getPrettyVersion());
@@ -86,9 +80,10 @@ class Xml implements Printer
 
         $dom->appendChild($rootNode);
 
-        $dom->save($this->outputPath);
-
-        $output->writeln('XML generated at ' . $this->outputPath);
+        $xmlString = $dom->saveXML();
+        if (is_string($xmlString)) {
+            $output->write($xmlString);
+        }
     }
 
     /**
