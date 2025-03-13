@@ -12,6 +12,7 @@
     "support": {
         "issues": "https://github.com/povils/phpmnd/issues"
     },
+    "replace": { "phpmnd/phpmnd": "*" },
     "require": {
         "php": "^7.4 || ^8.0",
         "composer-runtime-api": "^2.0",
