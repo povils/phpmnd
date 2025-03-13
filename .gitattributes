@@ -2,13 +2,14 @@
 
 # Do not include the following files when creating repo artifacts, e.g. the zip
 /.* export-ignore
-/bin/build-phar.sh export-ignore
-/bin/phpmnd.src export-ignore
 /build/ export-ignore
 /src/ export-ignore
 /tests/ export-ignore
 /CHANGELOG.md export-ignore
 /CONTRIBUTING.md export-ignore
 /phpunit.xml.dist export-ignore
+/box.json export-ignore
 /composer.build.json export-ignore
 /composer.release.json export-ignore
+/bin/build-phar.sh export-ignore
+/bin/phpmnd.src export-ignore
