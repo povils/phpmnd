@@ -10,3 +10,5 @@
 /CHANGELOG.md export-ignore
 /CONTRIBUTING.md export-ignore
 /phpunit.xml.dist export-ignore
+/composer.build.json export-ignore
+/composer.release.json export-ignore

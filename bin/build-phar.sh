@@ -28,8 +28,15 @@ echo "Running a fresh \`composer install --no-dev\` to insure the latest depende
 echo "Removing vendor/ and composer.lock ..."
 rm -v composer.lock
 rm -rf vendor
+git checkout composer.json
+mv composer.json composer.release.json
+cp composer.build.json composer.json
 composer install --no-dev
+
 
 # Build the phar
 echo "Building phpmnd.phar..."
 box compile
+
+mv composer.release.json composer.json
+rm -rf vendor
