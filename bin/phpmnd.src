@@ -1,0 +1,61 @@
+#!/usr/bin/env php
+<?php
+
+use Povils\PHPMND\Console\Application;
+use Povils\PHPMND\Container;
+
+if (\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) === false) {
+    echo \PHP_EOL . 'PHPMND may only be invoked from a command line, got "' . \PHP_SAPI . '"' . \PHP_EOL;
+
+    exit(1);
+}
+
+if (\version_compare('7.4.0', \PHP_VERSION, '>')) {
+    \fwrite(
+        \STDERR,
+        \sprintf(
+            'This version of PHPMND is supported on PHP 7.4.' . \PHP_EOL .
+            'You are using PHP %s%s.' . \PHP_EOL,
+            \PHP_VERSION,
+            \defined('PHP_BINARY') ? ' (' . \PHP_BINARY . ')' : ''
+        )
+    );
+    exit(1);
+}
+
+// PHPMND autoloading
+(static function (): void {
+    if (\file_exists($autoload = __DIR__ . '/../../../autoload.php')) {
+        // Is installed via Composer
+        include_once $autoload;
+
+        return;
+    }
+
+    if (\file_exists($autoload = __DIR__ . '/../vendor/autoload.php')) {
+        // Is installed locally
+        include_once $autoload;
+
+        return;
+    }
+
+    \fwrite(
+        \STDERR,
+        <<<'ERROR'
+You need to set up the project dependencies using Composer:
+    $ composer install
+You can learn all about Composer on https://getcomposer.org/.
+ERROR
+    );
+
+    throw new RuntimeException('Unable to find the Composer autoloader.');
+})();
+
+// Project (third-party) autoloading
+(static function (): void {
+    if (\file_exists($autoload = \getcwd() . '/vendor/autoload.php')) {
+        include_once $autoload;
+    }
+})();
+
+(new Application(Container::create()))->run();

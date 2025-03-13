@@ -39,7 +39,8 @@
         "sort-packages": true
     },
     "bin": [
-        "bin/phpmnd"
+        "bin/phpmnd",
+        "bin/phpmnd.phar"
     ],
     "scripts": {
         "test": "phpunit",
