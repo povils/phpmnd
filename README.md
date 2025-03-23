@@ -74,6 +74,23 @@ Afterwards make sure you have the global Composer binaries directory in your ``P
 ```bash
 $ export PATH="$PATH:$HOME/.composer/vendor/bin"
 ```
+### For Development
+
+Because this repo is now a phar-first repo, you need to manually use the dev composer.json:
+
+```
+mv composer.json composer.release.json
+cp composer.build.json composer.json
+composer install
+```
+
+If you wish to build the phar:
+
+```
+./bin/build-phar.sh
+```
+
+If you wish to test the phar file, it will not work if there is an existing vendor directory.
 
 ## Usage Example
 
@@ -177,6 +194,11 @@ would show 100 as a magic number
 $percent = $number / intval(100);
 ```
 would mark 100 as not magic.
+
+## Installation
+
+
+
 
 ## Contributing
 
