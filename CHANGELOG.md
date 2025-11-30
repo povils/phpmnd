@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v3.7.0]
+- Support Symfony 8
+
+## [v3.6.0]
+- Test against PHP 8.4
+- Support phpunit/php-timer 8
+
 ## [v3.5.0]
 - Support `phpunit/php-timer` 7.0
 - Add `composer-runtime-api:"^2.0"` dependency to be able to get application version automatically

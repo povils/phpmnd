@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Povils\PHPMND\Tests\Command;
 
+use Composer\InstalledVersions;
 use PHPUnit\Framework\TestCase;
 use Povils\PHPMND\Command\RunCommand;
 use Povils\PHPMND\Console\Application;
@@ -18,7 +19,12 @@ class RunCommandTest extends TestCase
     {
         $application = new Application(Container::create());
         $command = new RunCommand();
-        $application->add($command);
+
+        if (version_compare((string)InstalledVersions::getPrettyVersion('symfony/console'), 'v7.4', '<')) {
+            $application->add($command);
+        } else {
+            $application->addCommand($command);
+        }
 
         $this->commandTester = new CommandTester($application->find($command->getName()));
     }

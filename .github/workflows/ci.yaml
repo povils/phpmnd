@@ -19,7 +19,7 @@ jobs:
       matrix:
         operating-system: [ ubuntu-latest ]
         php-version: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
-        symfony-require: ['^4', '^5', '^6', '^7']
+        symfony-require: ['^4', '^5', '^6', '^7', '^8']
         composer-flags: [ '' ]
         exclude:
           - symfony-require: "^6"
@@ -30,6 +30,17 @@ jobs:
             php-version: "8.0"
           - symfony-require: "^7"
             php-version: "8.1"
+          - symfony-require: '^8'
+            php-version: '7.4'
+          - symfony-require: '^8'
+            php-version: '8.0'
+          - symfony-require: '^8'
+            php-version: '8.1'
+          - symfony-require: '^8'
+            php-version: '8.2'
+          - symfony-require: '^8'
+            php-version: '8.3'
+
         include:
           - { operating-system: 'ubuntu-latest', php-version: '7.4', symfony-require: '^5', composer-flags: '--prefer-lowest' }
           - { operating-system: 'windows-latest', php-version: '8.0', symfony-require: '^5' }
@@ -38,7 +49,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -51,7 +62,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: composer-${{ runner.os }}-${{ matrix.php-version }}-${{ hashFiles('composer.*') }}-${{ matrix.dependencies }}
@@ -63,10 +74,6 @@ jobs:
 
       - name: Configure Symfony Flex
         run: composer config extra.symfony.require ${{ matrix.symfony-require }}
-
-      - name: Set minimum-stability dev
-        if: matrix.symfony-require == '^7'
-        run: composer config minimum-stability dev
 
       - name: Install dependencies
         run: composer update --optimize-autoloader --no-interaction --no-progress --prefer-dist ${{ matrix.composer-flags }}
