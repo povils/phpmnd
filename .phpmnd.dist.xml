@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    PHPMND Configuration File Template
+    
+    This is a template configuration file for PHP Magic Number Detector.
+    Copy this file to your project root as .phpmnd.xml and customize it
+    according to your project's needs.
+    
+    For more information, visit: https://github.com/povils/phpmnd
+-->
+<config>
+    <!-- Directories to scan for magic numbers -->
+    <directories>
+        <!-- Include your source code directories -->
+        <directory>src</directory>
+        <directory>app</directory>
+        <!-- Add more directories as needed -->
+    </directories>
+    
+    <!-- Extensions to use for detection -->
+    <!-- Extensions provide rules for detecting magic numbers in different contexts -->
+    <extensions>
+        <!-- Built-in extensions -->
+        <extension>Povils\PHPMND\Extension\ArgumentExtension</extension>
+        <extension>Povils\PHPMND\Extension\ArrayExtension</extension>
+        <extension>Povils\PHPMND\Extension\AssignExtension</extension>
+        <extension>Povils\PHPMND\Extension\ConditionExtension</extension>
+        <extension>Povils\PHPMND\Extension\DefaultParameterExtension</extension>
+        <extension>Povils\PHPMND\Extension\OperationExtension</extension>
+        <extension>Povils\PHPMND\Extension\PropertyExtension</extension>
+        <extension>Povils\PHPMND\Extension\ReturnExtension</extension>
+        <extension>Povils\PHPMND\Extension\SwitchCaseExtension</extension>
+        
+        <!-- Add custom extensions here -->
+        <!-- <extension>Your\Custom\Extension</extension> -->
+    </extensions>
+    
+    <!-- Directories to exclude from scanning -->
+    <exclude-directories>
+        <!-- Exclude vendor and test directories by default -->
+        <directory>vendor</directory>
+        <directory>tests</directory>
+        <directory>test</directory>
+        
+        <!-- Add more directories to exclude as needed -->
+        <!-- <directory>bootstrap</directory> -->
+        <!-- <directory>resources</directory> -->
+    </exclude-directories>
+    
+    <!-- Whether to detect magic strings -->
+    <!-- Set to true to include string literals in detection -->
+    <strings>false</strings>
+    
+    <!-- Magic numbers to ignore (whitelist) -->
+    <!-- Common excluded numbers that are typically intentional -->
+    <allowed-numbers>
+        <!-- Mathematical constants -->
+        <number>0</number>
+        <number>1</number>
+        <number>2</number>
+        
+        <!-- Add more numbers that should be ignored -->
+        <!-- <number>10</number> -->
+        <!-- <number>100</number> -->
+    </allowed-numbers>
+    
+    <!-- File patterns to exclude from scanning -->
+    <exclude-files>
+        <!-- Exclude specific files or patterns -->
+        <!-- <file>*.proto</file> -->
+        <!-- <file>routes/*</file> -->
+    </exclude-files>
+</config>
