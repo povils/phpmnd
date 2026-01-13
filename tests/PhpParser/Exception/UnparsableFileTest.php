@@ -16,12 +16,26 @@ class UnparsableFileTest extends TestCase
 
         $exception = UnparsableFile::fromInvalidFile('/path/to/file', $previous);
 
-        $this->assertSame(
-            'Could not parse the file "/path/to/file". Check if it is a valid PHP file',
-            $exception->getMessage()
-        );
-
+        $this->assertStringContainsString('Could not parse the file "/path/to/file"', $exception->getMessage());
+        $this->assertStringContainsString('Unintentional thing', $exception->getMessage());
         $this->assertSame(0, $exception->getCode());
         $this->assertSame($previous, $exception->getPrevious());
+    }
+
+    public function testFromSyntaxErrorIncludesLineNumber(): void
+    {
+        $exception = UnparsableFile::fromSyntaxError('/path/to/file.php', 42, 'unexpected token');
+
+        $this->assertStringContainsString('Syntax error', $exception->getMessage());
+        $this->assertStringContainsString('line 42', $exception->getMessage());
+        $this->assertStringContainsString('unexpected token', $exception->getMessage());
+    }
+
+    public function testFileNotFoundIndicatesFileDoesNotExist(): void
+    {
+        $exception = UnparsableFile::fileNotFound('/missing/file.php');
+
+        $this->assertStringContainsString('Could not find file', $exception->getMessage());
+        $this->assertStringContainsString('/missing/file.php', $exception->getMessage());
     }
 }

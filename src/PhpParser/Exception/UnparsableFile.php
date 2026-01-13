@@ -14,11 +14,34 @@ final class UnparsableFile extends RuntimeException
     {
         return new self(
             sprintf(
-                'Could not parse the file "%s". Check if it is a valid PHP file',
-                $filePath
+                'Could not parse the file "%s". %s',
+                $filePath,
+                $original->getMessage()
             ),
             0,
             $original
+        );
+    }
+
+    public static function fromSyntaxError(string $filePath, int $line, string $error): self
+    {
+        return new self(
+            sprintf(
+                'Syntax error in file "%s" at line %d: %s',
+                $filePath,
+                $line,
+                $error
+            )
+        );
+    }
+
+    public static function fileNotFound(string $filePath): self
+    {
+        return new self(
+            sprintf(
+                'Could not find file "%s". Verify the file path exists and is readable',
+                $filePath
+            )
         );
     }
 }
