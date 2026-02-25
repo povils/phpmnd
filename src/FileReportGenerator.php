@@ -21,6 +21,12 @@ class FileReportGenerator
 
     private Option $option;
 
+    private $baseLookup = [
+        2 => 'b',
+        8 => 'o',
+        16 => 'x',
+    ];
+
     public function __construct(SplFileInfo $file, Option $option)
     {
         $this->file = $file;
@@ -53,6 +59,21 @@ class FileReportGenerator
                 $extension->setOption($this->option);
 
                 if ($extension->extend($node)) {
+                    if ((
+                        $scalar instanceof LNumber &&
+                        $scalar->getAttribute('kind') !== LNumber::KIND_DEC
+                    )) {
+                        $scalar->value = sprintf(
+                            '0%s%d',
+                            $this->baseLookup[$scalar->getAttribute('kind')],
+                            base_convert(
+                                (string) $scalar->value,
+                                LNumber::KIND_DEC,
+                                $scalar->getAttribute('kind')
+                            )
+                        );
+                    }
+
                     yield new DetectionResult($this->file, $scalar->getLine(), $scalar->value);
                 }
             }
